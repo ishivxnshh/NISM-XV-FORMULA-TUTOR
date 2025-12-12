@@ -11,6 +11,7 @@ A comprehensive MVP web application for practicing NISM Research Analyst (XV) ex
 - **Instant Grading**: Real-time evaluation with step-by-step solutions
 - **Session Tracking**: Track attempts across your practice session
 - **Readiness Report**: AI-powered recommendation on exam readiness
+- **No Authentication Required**: Use the application immediately without signing up or logging in
 
 ### Recommendation Engine
 - **Book Exam**: Score ≥ 75% & Confidence ≥ 70%
@@ -22,7 +23,6 @@ A comprehensive MVP web application for practicing NISM Research Analyst (XV) ex
 - **Frontend**: React 18 + TypeScript + Tailwind CSS + Vite
 - **Backend**: Supabase Edge Functions (TypeScript/Deno)
 - **Database**: Supabase Postgres
-- **Authentication**: Supabase Auth (Email/Password)
 - **Icons**: Lucide React
 
 ## Database Schema
@@ -110,16 +110,15 @@ npm run preview
 
 ### Getting Started
 
-1. **Sign Up/Sign In**: Create an account or sign in with email/password
-2. **Select Category**: Browse categories in the left panel
-3. **Choose Formula**: Click on a formula to start practicing
-4. **Solve Problem**:
+1. **Select Category**: Browse categories in the left panel
+2. **Choose Formula**: Click on a formula to start practicing
+3. **Solve Problem**:
    - Auto-generate values or enter custom inputs
    - Calculate the answer
    - Request hints if needed (with score penalties)
    - Submit your answer
-5. **Review Results**: See instant feedback with step-by-step solution
-6. **Generate Report**: After 3+ attempts, generate readiness assessment
+4. **Review Results**: See instant feedback with step-by-step solution
+5. **Generate Report**: After 3+ attempts, generate readiness assessment
 
 ### Hints System
 
@@ -166,7 +165,7 @@ Already configured in Supabase - no additional setup needed.
 ## Testing
 
 ### Manual Testing Checklist
-- [ ] User can sign up and sign in
+- [ ] Application loads without authentication
 - [ ] Categories load correctly
 - [ ] Formulas can be selected
 - [ ] Values can be auto-generated
@@ -182,14 +181,13 @@ Already configured in Supabase - no additional setup needed.
 /
 ├── src/
 │   ├── components/
-│   │   ├── Auth.tsx              # Authentication UI
 │   │   ├── Dashboard.tsx         # Main dashboard
 │   │   ├── CategoryList.tsx      # Formula categories
 │   │   ├── ProblemSolver.tsx     # Problem input & solving
 │   │   ├── ResultsPanel.tsx      # Results & step-by-step
 │   │   └── SessionManager.tsx    # Readiness report
 │   ├── contexts/
-│   │   └── AuthContext.tsx       # Auth state management
+│   │   └── AuthContext.tsx       # (Legacy - no longer used)
 │   ├── lib/
 │   │   └── supabase.ts           # Supabase client
 │   ├── types/
@@ -222,10 +220,8 @@ Already configured in Supabase - no additional setup needed.
 - Provides actionable improvements
 
 ### Security
-- Row Level Security (RLS) enabled on all tables
-- Users can only access their own data
 - Formulas and problems are publicly readable
-- JWT-based authentication
+- Anonymous user sessions for practice
 
 ## Support
 
