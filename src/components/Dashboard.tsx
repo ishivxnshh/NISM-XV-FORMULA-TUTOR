@@ -1,14 +1,12 @@
-import { useState, useEffect } from 'react';
-import { useAuth } from '../contexts/AuthContext';
+import { useState } from 'react';
 import { CategoryList } from './CategoryList';
 import { ProblemSolver } from './ProblemSolver';
 import { ResultsPanel } from './ResultsPanel';
 import { SessionManager } from './SessionManager';
 import { Formula, GradeResponse } from '../types';
-import { LogOut, BookOpen } from 'lucide-react';
+import { BookOpen } from 'lucide-react';
 
 export function Dashboard() {
-  const { user, signOut } = useAuth();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedFormula, setSelectedFormula] = useState<Formula | null>(null);
   const [gradeResult, setGradeResult] = useState<GradeResponse | null>(null);
@@ -47,18 +45,10 @@ export function Dashboard() {
 
           <div className="flex items-center gap-4">
             <div className="text-right">
-              <p className="text-sm font-medium text-gray-900">{user?.email}</p>
               <p className="text-xs text-gray-500">
                 Session: {sessionAttempts.length} attempts
               </p>
             </div>
-            <button
-              onClick={() => signOut()}
-              className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
-            >
-              <LogOut className="w-4 h-4" />
-              Sign Out
-            </button>
           </div>
         </div>
       </header>
@@ -66,7 +56,7 @@ export function Dashboard() {
       <div className="max-w-full mx-auto p-6">
         {showSessionReport ? (
           <SessionManager
-            userId={user?.id || ''}
+            userId="anonymous"
             attemptIds={sessionAttempts}
             onClose={() => setShowSessionReport(false)}
           />
@@ -84,7 +74,7 @@ export function Dashboard() {
               {selectedFormula ? (
                 <ProblemSolver
                   formula={selectedFormula}
-                  userId={user?.id || ''}
+                  userId="anonymous"
                   onGradeComplete={handleGradeComplete}
                   onNewProblem={handleNewProblem}
                 />
