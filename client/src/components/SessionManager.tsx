@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { SessionReport } from '../types';
-import { API_URL } from '../lib/supabase';
+import { API_URL } from '../lib/api';
 import {
   X,
   CheckCircle,

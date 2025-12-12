@@ -35,7 +35,7 @@ export function ResultsPanel({
               <button
                 onClick={onGenerateReport}
                 disabled={sessionAttempts.length < 3}
-                className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
+                className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-t from-[rgb(90,103,197)] to-[rgb(0,184,201)] text-white rounded-lg hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium shadow-md"
               >
                 <FileText className="w-4 h-4" />
                 Generate Readiness Report
@@ -119,13 +119,13 @@ export function ResultsPanel({
         <div className="space-y-4">
           {stepByStep.map((step) => (
             <div key={step.step} className="flex gap-3">
-              <div className="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-bold">
+              <div className="flex-shrink-0 w-6 h-6 bg-gradient-to-t from-[rgb(90,103,197)] to-[rgb(0,184,201)] text-white rounded-full flex items-center justify-center text-xs font-bold">
                 {step.step}
               </div>
               <div className="flex-1">
                 <p className="text-sm text-gray-700">{step.description}</p>
                 {step.value !== undefined && (
-                  <p className="text-sm font-mono text-blue-600 mt-1">
+                  <p className="text-sm font-mono text-[rgb(0,184,201)] mt-1">
                     = {step.value.toFixed(4)}
                   </p>
                 )}

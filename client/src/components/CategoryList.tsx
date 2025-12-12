@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Formula, CategoryInfo } from '../types';
-import { API_URL } from '../lib/supabase';
+import { API_URL } from '../lib/api';
 import { ChevronRight, Folder } from 'lucide-react';
 
 interface CategoryListProps {
@@ -78,22 +78,22 @@ export function CategoryList({
                   selectedCategory === cat.category ? '' : cat.category
                 )
               }
-              className={`w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors ${
-                selectedCategory === cat.category ? 'bg-blue-50' : ''
+              className={`w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-all ${
+                selectedCategory === cat.category ? 'bg-gradient-to-t from-[rgb(90,103,197)] to-[rgb(0,184,201)] text-white shadow-md' : ''
               }`}
             >
               <div className="flex items-center gap-3">
                 <Folder
                   className={`w-5 h-5 ${
                     selectedCategory === cat.category
-                      ? 'text-blue-600'
+                      ? 'text-white'
                       : 'text-gray-400'
                   }`}
                 />
                 <span
                   className={`font-medium ${
                     selectedCategory === cat.category
-                      ? 'text-blue-900'
+                      ? 'text-white'
                       : 'text-gray-700'
                   }`}
                 >
@@ -118,7 +118,7 @@ export function CategoryList({
                   <button
                     key={formula.id}
                     onClick={() => onFormulaSelect(formula)}
-                    className="w-full px-6 py-3 text-left hover:bg-blue-50 transition-colors"
+                    className="w-full px-6 py-3 text-left hover:bg-blue-50 hover:border-l-4 hover:border-blue-500 transition-all"
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex-1">

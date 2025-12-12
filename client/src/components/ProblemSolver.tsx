@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Formula, GradeResponse } from '../types';
-import { API_URL } from '../lib/supabase';
+import { API_URL } from '../lib/api';
 import { Shuffle, Calculator, Lightbulb } from 'lucide-react';
 
 interface ProblemSolverProps {
@@ -153,15 +153,15 @@ export function ProblemSolver({
             <p className="text-gray-600 mt-2">{formula.description}</p>
           </div>
           <div className="flex items-center gap-2 ml-4">
-            <span className="text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-medium">
+            <span className="text-xs bg-primary-100 text-primary-700 px-3 py-1 rounded-full font-medium">
               Difficulty {formula.difficulty}/5
             </span>
           </div>
         </div>
 
-        <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+        <div className="mt-4 p-4 bg-accent-50 rounded-lg border border-accent-200">
           <p className="text-sm font-medium text-gray-700 mb-2">Formula:</p>
-          <code className="text-blue-600 font-mono text-sm">
+          <code className="text-accent-700 font-mono text-sm font-semibold">
             {formula.expression}
           </code>
         </div>
@@ -174,7 +174,7 @@ export function ProblemSolver({
             <button
               type="button"
               onClick={autoGenerateValues}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium"
+              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-t from-[rgb(90,103,197)] to-[rgb(0,184,201)] text-white rounded-lg hover:shadow-lg transition-all text-sm font-medium shadow-md"
             >
               <Shuffle className="w-4 h-4" />
               Auto-Generate
@@ -193,7 +193,7 @@ export function ProblemSolver({
                   step="any"
                   value={inputs[varName] || ''}
                   onChange={(e) => handleInputChange(varName, e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent"
                   required
                 />
               </div>
@@ -211,14 +211,14 @@ export function ProblemSolver({
               step="any"
               value={userAnswer}
               onChange={(e) => setUserAnswer(e.target.value)}
-              className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
+              className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent text-lg"
               placeholder="Enter your calculated result"
               required
             />
             <button
               type="button"
               onClick={() => setShowCalculator(!showCalculator)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-600 transition-colors"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-accent-600 transition-colors"
             >
               <Calculator className="w-5 h-5" />
             </button>
@@ -293,7 +293,7 @@ export function ProblemSolver({
             <button
               type="submit"
               disabled={loading}
-              className="px-8 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+              className="px-8 py-2.5 bg-gradient-to-t from-[rgb(90,103,197)] to-[rgb(0,184,201)] text-white rounded-lg hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed font-medium shadow-md"
             >
               {loading ? 'Grading...' : 'Submit'}
             </button>

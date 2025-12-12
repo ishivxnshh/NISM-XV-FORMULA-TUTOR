@@ -42,7 +42,7 @@ The **NISM Formula Tutor** is an interactive learning platform designed specific
 - ✅ **Instant Feedback**: Real-time grading with detailed step-by-step solutions
 - ✅ **Adaptive Learning**: Progressive hints system with smart penalty calculations
 - ✅ **Readiness Assessment**: AI-powered recommendations on exam preparedness
-- ✅ **No Barriers**: Free to use, no authentication required, start practicing immediately
+- ✅ **No Setup Hassle**: Zero authentication required, start practicing immediately
 
 ---
 
