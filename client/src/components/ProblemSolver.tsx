@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Formula, GradeResponse } from '../types';
-import { EDGE_FUNCTIONS_URL } from '../lib/supabase';
-import { Shuffle, Calculator, Lightbulb, Clock } from 'lucide-react';
+import { API_URL } from '../lib/supabase';
+import { Shuffle, Calculator, Lightbulb } from 'lucide-react';
 
 interface ProblemSolverProps {
   formula: Formula;
@@ -37,6 +37,8 @@ export function ProblemSolver({
   const [visibleHints, setVisibleHints] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
   const [startTime, setStartTime] = useState<number>(Date.now());
+  const [showCalculator, setShowCalculator] = useState(false);
+  const [calcDisplay, setCalcDisplay] = useState('0');
 
   useEffect(() => {
     initializeInputs();
@@ -44,27 +46,24 @@ export function ProblemSolver({
     setHintsUsed(0);
     setVisibleHints([]);
     setStartTime(Date.now());
+    setShowCalculator(false);
+    setCalcDisplay('0');
   }, [formula]);
 
   const initializeInputs = () => {
     const initialInputs: Record<string, number> = {};
-    formula.inputs.forEach((input) => {
-      initialInputs[input.name] = 0;
+    Object.keys(formula.variables).forEach((varName) => {
+      initialInputs[varName] = 0;
     });
     setInputs(initialInputs);
   };
 
   const autoGenerateValues = () => {
     const generatedInputs: Record<string, number> = {};
-    formula.inputs.forEach((input) => {
-      const range = formula.example_ranges[input.name];
-      if (range) {
-        const randomValue =
-          Math.random() * (range.max - range.min) + range.min;
-        generatedInputs[input.name] = parseFloat(randomValue.toFixed(2));
-      } else {
-        generatedInputs[input.name] = Math.random() * 100;
-      }
+    Object.entries(formula.variables).forEach(([varName, varDef]) => {
+      const randomValue =
+        Math.random() * (varDef.max - varDef.min) + varDef.min;
+      generatedInputs[varName] = parseFloat(randomValue.toFixed(2));
     });
     setInputs(generatedInputs);
   };
@@ -92,7 +91,7 @@ export function ProblemSolver({
     const timeSpentMs = Date.now() - startTime;
 
     try {
-      const response = await fetch(`${EDGE_FUNCTIONS_URL}/grade-attempt`, {
+      const response = await fetch(`${API_URL}/grade-attempt`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -120,7 +119,29 @@ export function ProblemSolver({
     setHintsUsed(0);
     setVisibleHints([]);
     setStartTime(Date.now());
+    setShowCalculator(false);
+    setCalcDisplay('0');
     onNewProblem();
+  };
+
+  const handleCalcButton = (value: string) => {
+    if (value === 'C') {
+      setCalcDisplay('0');
+    } else if (value === '=') {
+      try {
+        const result = eval(calcDisplay.replace(/×/g, '*').replace(/÷/g, '/'));
+        setCalcDisplay(String(result));
+      } catch {
+        setCalcDisplay('Error');
+      }
+    } else if (value === '←') {
+      setCalcDisplay(calcDisplay.length > 1 ? calcDisplay.slice(0, -1) : '0');
+    } else if (value === 'Use') {
+      setUserAnswer(calcDisplay);
+      setShowCalculator(false);
+    } else {
+      setCalcDisplay(calcDisplay === '0' && value !== '.' ? value : calcDisplay + value);
+    }
   };
 
   return (
@@ -129,7 +150,7 @@ export function ProblemSolver({
         <div className="flex items-start justify-between">
           <div className="flex-1">
             <h2 className="text-2xl font-bold text-gray-900">{formula.title}</h2>
-            <p className="text-gray-600 mt-2">{formula.explanation}</p>
+            <p className="text-gray-600 mt-2">{formula.description}</p>
           </div>
           <div className="flex items-center gap-2 ml-4">
             <span className="text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-medium">
@@ -161,17 +182,17 @@ export function ProblemSolver({
           </div>
 
           <div className="grid grid-cols-1 gap-4">
-            {formula.inputs.map((input) => (
-              <div key={input.name}>
+            {Object.entries(formula.variables).map(([varName, varDef]) => (
+              <div key={varName}>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  {input.label}
-                  <span className="text-gray-500 ml-1">({input.unit})</span>
+                  {varDef.label}
+                  <span className="text-gray-500 ml-1">({varDef.unit})</span>
                 </label>
                 <input
                   type="number"
                   step="any"
-                  value={inputs[input.name] || ''}
-                  onChange={(e) => handleInputChange(input.name, e.target.value)}
+                  value={inputs[varName] || ''}
+                  onChange={(e) => handleInputChange(varName, e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   required
                 />
@@ -194,8 +215,55 @@ export function ProblemSolver({
               placeholder="Enter your calculated result"
               required
             />
-            <Calculator className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <button
+              type="button"
+              onClick={() => setShowCalculator(!showCalculator)}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-600 transition-colors"
+            >
+              <Calculator className="w-5 h-5" />
+            </button>
           </div>
+
+          {showCalculator && (
+            <div className="mt-4 p-4 bg-white border border-gray-300 rounded-lg shadow-lg">
+              <div className="mb-3 p-3 bg-gray-100 rounded text-right font-mono text-xl">
+                {calcDisplay}
+              </div>
+              <div className="grid grid-cols-4 gap-2">
+                {['7', '8', '9', '÷', '4', '5', '6', '×', '1', '2', '3', '-', '0', '.', '=', '+'].map((btn) => (
+                  <button
+                    key={btn}
+                    type="button"
+                    onClick={() => handleCalcButton(btn)}
+                    className="px-4 py-3 bg-gray-100 hover:bg-gray-200 rounded font-semibold text-gray-700 transition-colors"
+                  >
+                    {btn}
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => handleCalcButton('C')}
+                  className="col-span-2 px-4 py-3 bg-red-100 hover:bg-red-200 rounded font-semibold text-red-700 transition-colors"
+                >
+                  Clear
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleCalcButton('←')}
+                  className="px-4 py-3 bg-yellow-100 hover:bg-yellow-200 rounded font-semibold text-yellow-700 transition-colors"
+                >
+                  ←
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleCalcButton('Use')}
+                  className="px-4 py-3 bg-green-100 hover:bg-green-200 rounded font-semibold text-green-700 transition-colors"
+                >
+                  Use
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="flex items-center justify-between gap-4">

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { SessionReport } from '../types';
-import { EDGE_FUNCTIONS_URL } from '../lib/supabase';
+import { API_URL } from '../lib/supabase';
 import {
   X,
   CheckCircle,
@@ -32,7 +32,7 @@ export function SessionManager({
 
   const generateReport = async () => {
     try {
-      const response = await fetch(`${EDGE_FUNCTIONS_URL}/session-report`, {
+      const response = await fetch(`${API_URL}/session-report`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -183,7 +183,7 @@ export function SessionManager({
               Top 3 Improvements
             </h3>
             <div className="space-y-3">
-              {report.topImprovements.map((improvement, index) => (
+              {report.improvements.map((improvement, index) => (
                 <div
                   key={index}
                   className="flex gap-3 p-4 bg-blue-50 border border-blue-200 rounded-lg"

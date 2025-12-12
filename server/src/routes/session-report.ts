@@ -177,19 +177,26 @@ router.get('/', async (req, res) => {
       return res.status(400).json({ error: 'userId is required' });
     }
     
-    let query = supabase.from('sessions').select('*').eq('user_id', userId);
-    
     if (sessionId) {
-      query = query.eq('id', sessionId).single();
+      const { data, error } = await supabase
+        .from('sessions')
+        .select('*')
+        .eq('user_id', userId)
+        .eq('id', sessionId)
+        .single();
+      
+      if (error) throw error;
+      res.json(data);
     } else {
-      query = query.order('created_at', { ascending: false });
+      const { data, error } = await supabase
+        .from('sessions')
+        .select('*')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false });
+      
+      if (error) throw error;
+      res.json(data);
     }
-    
-    const { data, error } = await query;
-    
-    if (error) throw error;
-    
-    res.json(data);
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }

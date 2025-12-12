@@ -3,20 +3,28 @@ export interface Formula {
   title: string;
   category: string;
   expression: string;
-  inputs: FormulaInput[];
+  variables: Record<string, VariableDefinition>;
   tolerance_type: 'absolute' | 'relative';
   tolerance_value: number;
   difficulty: number;
-  explanation: string;
-  example_ranges: Record<string, { min: number; max: number }>;
+  description: string;
+  hints: string[];
   created_at: string;
+}
+
+export interface VariableDefinition {
+  label: string;
+  min: number;
+  max: number;
+  unit: string;
 }
 
 export interface FormulaInput {
   name: string;
   label: string;
   unit: string;
-  type: string;
+  min: number;
+  max: number;
 }
 
 export interface Problem {
@@ -94,9 +102,10 @@ export interface SessionReport {
   confidenceLevel: number;
   recommendation: string;
   rationale: string;
-  topImprovements: string[];
+  improvements: string[];
   categoryPerformance: CategoryPerformance[];
-  weakCategories: CategoryPerformance[];
+  avgHintsUsed: number;
+  avgTimeSpent: number;
 }
 
 export interface CategoryPerformance {

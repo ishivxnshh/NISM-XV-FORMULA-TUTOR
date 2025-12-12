@@ -72,10 +72,12 @@ export function ResultsPanel({
           <p className={`font-semibold ${isCorrect ? 'text-green-900' : 'text-red-900'}`}>
             {isCorrect ? 'Correct!' : 'Incorrect'}
           </p>
-          <p className={`text-sm mt-1 ${isCorrect ? 'text-green-700' : 'text-red-700'}`}>
-            Your answer: {userAnswer.toFixed(4)}
-          </p>
-          {!isCorrect && (
+          {userAnswer !== undefined && (
+            <p className={`text-sm mt-1 ${isCorrect ? 'text-green-700' : 'text-red-700'}`}>
+              Your answer: {userAnswer.toFixed(4)}
+            </p>
+          )}
+          {!isCorrect && correctAnswer !== undefined && (
             <p className="text-sm text-red-700 mt-1">
               Correct answer: {correctAnswer.toFixed(4)}
             </p>
@@ -86,7 +88,7 @@ export function ResultsPanel({
           <div className="flex justify-between items-center">
             <span className="text-sm text-gray-600">Score</span>
             <span className="text-lg font-bold text-gray-900">
-              {finalScore.toFixed(1)}/100
+              {finalScore !== undefined ? finalScore.toFixed(1) : '0.0'}/100
             </span>
           </div>
 
@@ -99,12 +101,14 @@ export function ResultsPanel({
             </div>
           )}
 
-          <div className="flex justify-between items-center">
-            <span className="text-sm text-gray-600">Error</span>
-            <span className="text-sm font-medium text-gray-900">
-              {percentageError.toFixed(2)}%
-            </span>
-          </div>
+          {percentageError !== undefined && (
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-gray-600">Error</span>
+              <span className="text-sm font-medium text-gray-900">
+                {percentageError.toFixed(2)}%
+              </span>
+            </div>
+          )}
         </div>
       </div>
 

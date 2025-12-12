@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Formula, CategoryInfo } from '../types';
-import { EDGE_FUNCTIONS_URL } from '../lib/supabase';
+import { API_URL } from '../lib/supabase';
 import { ChevronRight, Folder } from 'lucide-react';
 
 interface CategoryListProps {
@@ -30,7 +30,7 @@ export function CategoryList({
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch(`${EDGE_FUNCTIONS_URL}/formulas/categories`);
+      const response = await fetch(`${API_URL}/formulas/categories`);
       const data = await response.json();
       setCategories(data.categories);
       setLoading(false);
@@ -43,7 +43,7 @@ export function CategoryList({
   const fetchFormulas = async (category: string) => {
     try {
       const response = await fetch(
-        `${EDGE_FUNCTIONS_URL}/formulas?category=${encodeURIComponent(category)}`
+        `${API_URL}/formulas?category=${encodeURIComponent(category)}`
       );
       const data = await response.json();
       setFormulas(data.formulas);
