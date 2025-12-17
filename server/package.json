@@ -5,8 +5,9 @@
   "scripts": {
     "dev": "nodemon --exec tsx src/index.ts",
     "dev:tsx": "tsx watch src/index.ts",
-    "build": "tsc",
-    "start": "node dist/index.js"
+    "build": "tsc && echo Build completed successfully",
+    "start": "node dist/index.js",
+    "postbuild": "ls -la dist || dir dist"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.57.4",

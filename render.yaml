@@ -5,14 +5,14 @@
 services:
   # Backend API Service
   - type: web
-    name: nism-formula-tutor-api
+    name: nism-xv-formula-tutor
     runtime: node
     region: singapore
     plan: free
     branch: main
     rootDir: server
-    buildCommand: npm install && npm run build
-    startCommand: npm start
+    buildCommand: npm ci && npm run build
+    startCommand: node dist/index.js
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
@@ -24,12 +24,3 @@ services:
       - key: SUPABASE_ANON_KEY
         sync: false  # Set manually in Render dashboard
     autoDeploy: true
-    
-    # Auto-deploy settings
-    autoDeployBranch: main
-    
-    # Resource limits (free tier)
-    disk:
-      name: data
-      mountPath: /var/data
-      sizeGB: 1
