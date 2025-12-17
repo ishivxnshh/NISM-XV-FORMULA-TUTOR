@@ -38,17 +38,18 @@ export function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50">
       {/* Top Banner matching PSKA website */}
-      <div className="bg-gradient-pska py-3 px-6 text-center">
-        <p className="text-white text-sm font-medium">
+      <div className="bg-gradient-pska py-3 px-6 text-center relative overflow-hidden">
+        <div className="absolute inset-0 bg-white/5 animate-pulse"></div>
+        <p className="text-white text-sm font-medium relative z-10 pulse-subtle">
           Prof. Sheetal Kunder Academy programs are entirely updated as per the latest NISM curriculum (June 2025). 
           We ensure all the updates regarding SEBI compliance & NISM are touched based regularly
         </p>
       </div>
 
       {/* Main Header */}
-      <header className="bg-white border-b border-gray-200 shadow-sm">
+      <header className="bg-white/80 backdrop-blur-md border-b border-gray-200 shadow-lg sticky top-0 z-50">
         <div className="max-w-full mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-6">
             {/* Logo - Clickable to main website */}
@@ -107,12 +108,16 @@ export function Dashboard() {
       )}
 
       {/* Title Section */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-full mx-auto px-6 py-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            NISM Research Analyst (XV) Formula Tutor
-          </h1>
-          <p className="text-gray-600">
+      <div className="bg-white/80 backdrop-blur-sm border-b border-gray-200 shadow-sm">
+        <div className="max-w-full mx-auto px-6 py-8">
+          <div className="flex items-center justify-center gap-4 mb-3">
+            <div className="h-1 w-12 bg-gradient-pska rounded-full"></div>
+            <h1 className="text-4xl font-extrabold text-gradient text-center">
+              NISM Research Analyst (XV) Formula Tutor
+            </h1>
+            <div className="h-1 w-12 bg-gradient-pska rounded-full"></div>
+          </div>
+          <p className="text-gray-600 text-lg text-center">
             Practice, Learn, and Assess Your Readiness | Powered by Prof. Sheetal Kunder Academy
           </p>
         </div>
@@ -144,14 +149,22 @@ export function Dashboard() {
                   onNewProblem={handleNewProblem}
                 />
               ) : (
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
-                  <BookOpen className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                    Select a Formula to Begin
+                <div className="bg-gradient-to-br from-white to-blue-50/30 rounded-2xl shadow-xl border-2 border-blue-100 p-12 text-center card-hover fade-in">
+                  <div className="relative inline-block">
+                    <div className="absolute inset-0 bg-gradient-pska rounded-full blur-xl opacity-20 animate-pulse"></div>
+                    <BookOpen className="w-20 h-20 text-blue-400 mx-auto mb-6 bounce-soft relative z-10" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gradient mb-3">
+                    Ready to Master NISM Formulas?
                   </h3>
-                  <p className="text-gray-600">
-                    Choose a category and formula from the left panel to start practicing
+                  <p className="text-gray-600 text-lg mb-4">
+                    Choose a category and formula from the left panel to start your journey!
                   </p>
+                  <div className="flex items-center justify-center gap-3 text-sm text-gray-500">
+                    <span className="px-4 py-2 bg-blue-100 rounded-full font-semibold">50+ Formulas</span>
+                    <span className="px-4 py-2 bg-cyan-100 rounded-full font-semibold">Smart Hints</span>
+                    <span className="px-4 py-2 bg-purple-100 rounded-full font-semibold">Progress Tracking</span>
+                  </div>
                 </div>
               )}
             </div>

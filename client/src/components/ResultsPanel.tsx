@@ -14,35 +14,38 @@ export function ResultsPanel({
 }: ResultsPanelProps) {
   if (!gradeResult) {
     return (
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
-          Session Progress
-        </h3>
-        <div className="text-center py-8">
-          <TrendingUp className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-          <p className="text-gray-500 text-sm">
+      <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border-2 border-blue-100 p-6 fade-in">
+        <h3 className="text-lg font-bold text-gradient mb-4">Session Progress</h3>
+        <div className="text-center py-8 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl border-2 border-blue-100">
+          <div className="relative inline-block mb-4">
+            <div className="absolute inset-0 bg-gradient-pska rounded-full blur-lg opacity-20 animate-pulse"></div>
+            <TrendingUp className="w-16 h-16 text-blue-400 mx-auto bounce-soft relative z-10" />
+          </div>
+          <p className="text-gray-700 text-sm font-medium px-4">
             Submit answers to see results and step-by-step solutions
           </p>
         </div>
 
         {sessionAttempts.length > 0 && (
-          <div className="mt-6 pt-6 border-t border-gray-200">
+          <div className="mt-6 pt-6 border-t-2 border-blue-100">
             <div className="text-center">
-              <p className="text-sm text-gray-600 mb-3">
-                Current Session: {sessionAttempts.length} attempt
-                {sessionAttempts.length !== 1 ? 's' : ''}
-              </p>
+              <div className="bg-gradient-pska text-white rounded-xl p-4 mb-4">
+                <p className="text-3xl font-bold">{sessionAttempts.length}</p>
+                <p className="text-sm opacity-90">
+                  Attempt{sessionAttempts.length !== 1 ? 's' : ''} Completed
+                </p>
+              </div>
               <button
                 onClick={onGenerateReport}
                 disabled={sessionAttempts.length < 3}
-                className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-t from-[rgb(90,103,197)] to-[rgb(0,184,201)] text-white rounded-lg hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium shadow-md"
+                className="w-full flex items-center justify-center gap-2 px-5 py-3 bg-gradient-pska text-white rounded-xl hover:shadow-lg glow-effect transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm font-bold transform hover:scale-105"
               >
-                <FileText className="w-4 h-4" />
+                <FileText className="w-5 h-5" />
                 Generate Readiness Report
               </button>
               {sessionAttempts.length < 3 && (
-                <p className="text-xs text-gray-500 mt-2">
-                  Complete at least 3 attempts to generate report
+                <p className="text-xs text-gray-600 mt-3 bg-yellow-50 border border-yellow-200 rounded-lg p-2 font-medium">
+                  Complete at least {3 - sessionAttempts.length} more attempt{3 - sessionAttempts.length !== 1 ? 's' : ''} to generate report
                 </p>
               )}
             </div>

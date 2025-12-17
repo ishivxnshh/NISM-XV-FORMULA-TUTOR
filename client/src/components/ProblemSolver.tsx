@@ -145,23 +145,35 @@ export function ProblemSolver({
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-      <div className="p-6 border-b border-gray-200">
+    <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl border-2 border-blue-100 overflow-hidden fade-in">
+      <div className="p-6 bg-gradient-to-r from-blue-50 via-cyan-50 to-blue-50 border-b-2 border-blue-200">
         <div className="flex items-start justify-between">
           <div className="flex-1">
-            <h2 className="text-2xl font-bold text-gray-900">{formula.title}</h2>
-            <p className="text-gray-600 mt-2">{formula.description}</p>
+            <h2 className="text-2xl font-bold text-gradient mb-2">{formula.title}</h2>
+            <p className="text-gray-700">{formula.description}</p>
           </div>
           <div className="flex items-center gap-2 ml-4">
-            <span className="text-xs bg-primary-100 text-primary-700 px-3 py-1 rounded-full font-medium">
-              Difficulty {formula.difficulty}/5
-            </span>
+            {formula.difficulty === 1 && (
+              <span className="text-xs bg-green-100 text-green-700 px-4 py-2 rounded-full font-bold border-2 border-green-200">
+                Easy
+              </span>
+            )}
+            {formula.difficulty === 2 && (
+              <span className="text-xs bg-yellow-100 text-yellow-700 px-4 py-2 rounded-full font-bold border-2 border-yellow-200">
+                Medium
+              </span>
+            )}
+            {formula.difficulty === 3 && (
+              <span className="text-xs bg-red-100 text-red-700 px-4 py-2 rounded-full font-bold border-2 border-red-200">
+                Hard
+              </span>
+            )}
           </div>
         </div>
 
-        <div className="mt-4 p-4 bg-accent-50 rounded-lg border border-accent-200">
-          <p className="text-sm font-medium text-gray-700 mb-2">Formula:</p>
-          <code className="text-accent-700 font-mono text-sm font-semibold">
+        <div className="mt-5 p-5 bg-white rounded-xl border-2 border-blue-200 shadow-md">
+          <p className="text-sm font-bold text-blue-600 mb-2">Formula:</p>
+          <code className="text-blue-700 font-mono text-base font-bold bg-blue-50 px-3 py-2 rounded-lg block">
             {formula.expression}
           </code>
         </div>
@@ -170,11 +182,11 @@ export function ProblemSolver({
       <form onSubmit={handleSubmit} className="p-6 space-y-6">
         <div>
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">Input Values</h3>
+            <h3 className="text-lg font-bold text-gray-800">Input Values</h3>
             <button
               type="button"
               onClick={autoGenerateValues}
-              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-t from-[rgb(90,103,197)] to-[rgb(0,184,201)] text-white rounded-lg hover:shadow-lg transition-all text-sm font-medium shadow-md"
+              className="flex items-center gap-2 px-5 py-2.5 bg-gradient-pska text-white rounded-xl hover:shadow-lg glow-effect transition-all text-sm font-bold transform hover:scale-105"
             >
               <Shuffle className="w-4 h-4" />
               Auto-Generate
@@ -183,17 +195,17 @@ export function ProblemSolver({
 
           <div className="grid grid-cols-1 gap-4">
             {Object.entries(formula.variables).map(([varName, varDef]) => (
-              <div key={varName}>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+              <div key={varName} className="group">
+                <label className="block text-sm font-bold text-gray-700 mb-2">
                   {varDef.label}
-                  <span className="text-gray-500 ml-1">({varDef.unit})</span>
+                  <span className="text-gray-500 text-xs font-normal bg-gray-100 px-2 py-0.5 rounded-full ml-2">({varDef.unit})</span>
                 </label>
                 <input
                   type="number"
                   step="any"
                   value={inputs[varName] || ''}
                   onChange={(e) => handleInputChange(varName, e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all font-semibold text-gray-800 group-hover:border-blue-300"
                   required
                 />
               </div>

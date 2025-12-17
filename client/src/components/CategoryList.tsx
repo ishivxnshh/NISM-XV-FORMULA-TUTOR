@@ -61,11 +61,11 @@ export function CategoryList({
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-      <div className="p-4 border-b border-gray-200">
-        <h2 className="text-lg font-semibold text-gray-900">Formula Categories</h2>
-        <p className="text-sm text-gray-600 mt-1">
-          {categories.length} categories available
+    <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border-2 border-blue-100 overflow-hidden fade-in">
+      <div className="p-5 bg-gradient-pska">
+        <h2 className="text-xl font-bold text-white">Formula Categories</h2>
+        <p className="text-white/90 text-sm mt-2">
+          <span className="bg-white/20 px-2 py-0.5 rounded-full font-semibold">{categories.length}</span> categories available
         </p>
       </div>
 
@@ -78,8 +78,10 @@ export function CategoryList({
                   selectedCategory === cat.category ? '' : cat.category
                 )
               }
-              className={`w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-all ${
-                selectedCategory === cat.category ? 'bg-gradient-to-t from-[rgb(90,103,197)] to-[rgb(0,184,201)] text-white shadow-md' : ''
+              className={`w-full px-5 py-4 flex items-center justify-between transition-all duration-300 group ${
+                selectedCategory === cat.category 
+                  ? 'bg-gradient-pska text-white shadow-lg glow-effect transform scale-[1.02]' 
+                  : 'hover:bg-gradient-to-r hover:from-blue-50 hover:to-cyan-50 hover:shadow-md'
               }`}
             >
               <div className="flex items-center gap-3">
@@ -113,21 +115,31 @@ export function CategoryList({
             </button>
 
             {selectedCategory === cat.category && (
-              <div className="bg-gray-50 divide-y divide-gray-100">
+              <div className="bg-gradient-to-br from-blue-50 to-cyan-50 divide-y divide-white/50 p-3 slide-in-right">
                 {formulas.map((formula) => (
                   <button
                     key={formula.id}
                     onClick={() => onFormulaSelect(formula)}
-                    className="w-full px-6 py-3 text-left hover:bg-blue-50 hover:border-l-4 hover:border-blue-500 transition-all"
+                    className="w-full px-4 py-3 text-left bg-white rounded-xl hover:bg-gradient-to-r hover:from-white hover:to-blue-50 transition-all border-2 border-transparent hover:border-blue-200 hover:shadow-lg card-hover mb-2 last:mb-0"
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
-                        <p className="font-medium text-gray-900 text-sm">
-                          {formula.title}
-                        </p>
-                        <p className="text-xs text-gray-500 mt-1">
-                          Difficulty: {formula.difficulty}/5
-                        </p>
+                        <div className="flex items-center gap-2 mb-1">
+                          <p className="font-semibold text-gray-900 text-sm group-hover:text-blue-600">
+                            {formula.title}
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          {formula.difficulty === 1 && (
+                            <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-semibold">Easy</span>
+                          )}
+                          {formula.difficulty === 2 && (
+                            <span className="text-xs bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full font-semibold">Medium</span>
+                          )}
+                          {formula.difficulty === 3 && (
+                            <span className="text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-semibold">Hard</span>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </button>
