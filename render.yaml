@@ -1,0 +1,35 @@
+# Render Blueprint for NISM Formula Tutor Backend
+# This file enables one-click deployment to Render
+# https://render.com/docs/blueprint-spec
+
+services:
+  # Backend API Service
+  - type: web
+    name: nism-formula-tutor-api
+    runtime: node
+    region: singapore
+    plan: free
+    branch: main
+    rootDir: server
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: SUPABASE_URL
+        sync: false  # Set manually in Render dashboard
+      - key: SUPABASE_ANON_KEY
+        sync: false  # Set manually in Render dashboard
+    autoDeploy: true
+    
+    # Auto-deploy settings
+    autoDeployBranch: main
+    
+    # Resource limits (free tier)
+    disk:
+      name: data
+      mountPath: /var/data
+      sizeGB: 1
