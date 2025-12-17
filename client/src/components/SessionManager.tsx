@@ -66,13 +66,13 @@ export function SessionManager({
   const getRecommendationColor = (recommendation: string) => {
     switch (recommendation) {
       case 'book_exam':
-        return 'bg-green-50 border-green-200 text-green-900';
+        return 'bg-green-50 dark:bg-green-900/30 border-green-200 dark:border-green-700 text-green-900 dark:text-green-300';
       case 'borderline':
-        return 'bg-yellow-50 border-yellow-200 text-yellow-900';
+        return 'bg-yellow-50 dark:bg-yellow-900/30 border-yellow-200 dark:border-yellow-700 text-yellow-900 dark:text-yellow-300';
       case 'not_ready':
-        return 'bg-red-50 border-red-200 text-red-900';
+        return 'bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-700 text-red-900 dark:text-red-300';
       default:
-        return 'bg-gray-50 border-gray-200 text-gray-900';
+        return 'bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-300';
     }
   };
 
@@ -91,10 +91,10 @@ export function SessionManager({
 
   if (loading) {
     return (
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-12 transition-colors duration-300">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Generating your readiness report...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 dark:border-cyan-400 mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-400">Generating your readiness report...</p>
         </div>
       </div>
     );
@@ -102,24 +102,24 @@ export function SessionManager({
 
   if (!report) {
     return (
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12">
-        <p className="text-red-600 text-center">Failed to generate report</p>
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-12 transition-colors duration-300">
+        <p className="text-red-600 dark:text-red-400 text-center">Failed to generate report</p>
       </div>
     );
   }
 
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-        <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-gray-900">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+        <div className="p-6 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
             NISM Readiness Assessment Report
           </h2>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
           >
-            <X className="w-5 h-5 text-gray-500" />
+            <X className="w-5 h-5 text-gray-500 dark:text-gray-400" />
           </button>
         </div>
 
@@ -137,61 +137,61 @@ export function SessionManager({
           </div>
 
           <div className="grid grid-cols-4 gap-4 mb-8">
-            <div className="bg-blue-50 rounded-xl p-4 border border-blue-200">
-              <div className="flex items-center gap-2 text-blue-600 mb-2">
+            <div className="bg-blue-50 dark:bg-blue-900/30 rounded-xl p-4 border border-blue-200 dark:border-blue-700 transition-colors duration-300">
+              <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 mb-2">
                 <Target className="w-5 h-5" />
                 <span className="text-xs font-medium">Attempts</span>
               </div>
-              <p className="text-2xl font-bold text-blue-900">
+              <p className="text-2xl font-bold text-blue-900 dark:text-blue-300">
                 {report.totalAttempts}
               </p>
             </div>
 
-            <div className="bg-green-50 rounded-xl p-4 border border-green-200">
-              <div className="flex items-center gap-2 text-green-600 mb-2">
+            <div className="bg-green-50 dark:bg-green-900/30 rounded-xl p-4 border border-green-200 dark:border-green-700 transition-colors duration-300">
+              <div className="flex items-center gap-2 text-green-600 dark:text-green-400 mb-2">
                 <CheckCircle className="w-5 h-5" />
                 <span className="text-xs font-medium">Correct</span>
               </div>
-              <p className="text-2xl font-bold text-green-900">
+              <p className="text-2xl font-bold text-green-900 dark:text-green-300">
                 {report.correctAttempts}
               </p>
             </div>
 
-            <div className="bg-purple-50 rounded-xl p-4 border border-purple-200">
-              <div className="flex items-center gap-2 text-purple-600 mb-2">
+            <div className="bg-purple-50 dark:bg-purple-900/30 rounded-xl p-4 border border-purple-200 dark:border-purple-700 transition-colors duration-300">
+              <div className="flex items-center gap-2 text-purple-600 dark:text-purple-400 mb-2">
                 <Award className="w-5 h-5" />
                 <span className="text-xs font-medium">Score</span>
               </div>
-              <p className="text-2xl font-bold text-purple-900">
+              <p className="text-2xl font-bold text-purple-900 dark:text-purple-300">
                 {report.aggregatedScore.toFixed(1)}
               </p>
             </div>
 
-            <div className="bg-orange-50 rounded-xl p-4 border border-orange-200">
-              <div className="flex items-center gap-2 text-orange-600 mb-2">
+            <div className="bg-orange-50 dark:bg-orange-900/30 rounded-xl p-4 border border-orange-200 dark:border-orange-700 transition-colors duration-300">
+              <div className="flex items-center gap-2 text-orange-600 dark:text-orange-400 mb-2">
                 <TrendingUp className="w-5 h-5" />
                 <span className="text-xs font-medium">Confidence</span>
               </div>
-              <p className="text-2xl font-bold text-orange-900">
+              <p className="text-2xl font-bold text-orange-900 dark:text-orange-300">
                 {report.confidenceLevel.toFixed(1)}%
               </p>
             </div>
           </div>
 
           <div className="mb-8">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
               Top 3 Improvements
             </h3>
             <div className="space-y-3">
               {report.improvements.map((improvement, index) => (
                 <div
                   key={index}
-                  className="flex gap-3 p-4 bg-blue-50 border border-blue-200 rounded-lg"
+                  className="flex gap-3 p-4 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-700 rounded-lg transition-colors duration-300"
                 >
-                  <div className="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                  <div className="flex-shrink-0 w-6 h-6 bg-blue-600 dark:bg-blue-700 text-white rounded-full flex items-center justify-center text-sm font-bold">
                     {index + 1}
                   </div>
-                  <p className="text-sm text-blue-900">{improvement}</p>
+                  <p className="text-sm text-blue-900 dark:text-blue-300">{improvement}</p>
                 </div>
               ))}
             </div>
@@ -199,45 +199,45 @@ export function SessionManager({
 
           {report.categoryPerformance.length > 0 && (
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
                 Performance by Category
               </h3>
               <div className="space-y-3">
                 {report.categoryPerformance.map((cat) => (
                   <div
                     key={cat.category}
-                    className="p-4 border border-gray-200 rounded-lg"
+                    className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg transition-colors duration-300"
                   >
                     <div className="flex items-center justify-between mb-2">
-                      <h4 className="font-medium text-gray-900">
+                      <h4 className="font-medium text-gray-900 dark:text-gray-100">
                         {cat.category}
                       </h4>
-                      <span className="text-sm text-gray-600">
+                      <span className="text-sm text-gray-600 dark:text-gray-400">
                         {cat.attempts} attempt{cat.attempts !== 1 ? 's' : ''}
                       </span>
                     </div>
                     <div className="grid grid-cols-3 gap-4 text-sm">
                       <div>
-                        <span className="text-gray-600">Accuracy:</span>
+                        <span className="text-gray-600 dark:text-gray-400">Accuracy:</span>
                         <span className={`ml-2 font-semibold ${
                           cat.accuracy >= 70
-                            ? 'text-green-600'
+                            ? 'text-green-600 dark:text-green-400'
                             : cat.accuracy >= 50
-                            ? 'text-yellow-600'
-                            : 'text-red-600'
+                            ? 'text-yellow-600 dark:text-yellow-400'
+                            : 'text-red-600 dark:text-red-400'
                         }`}>
                           {cat.accuracy.toFixed(1)}%
                         </span>
                       </div>
                       <div>
-                        <span className="text-gray-600">Avg Score:</span>
-                        <span className="ml-2 font-semibold text-gray-900">
+                        <span className="text-gray-600 dark:text-gray-400">Avg Score:</span>
+                        <span className="ml-2 font-semibold text-gray-900 dark:text-gray-100">
                           {cat.avgScore.toFixed(1)}
                         </span>
                       </div>
                       <div>
-                        <span className="text-gray-600">Avg Time:</span>
-                        <span className="ml-2 font-semibold text-gray-900">
+                        <span className="text-gray-600 dark:text-gray-400">Avg Time:</span>
+                        <span className="ml-2 font-semibold text-gray-900 dark:text-gray-100">
                           {(cat.avgTime / 1000).toFixed(1)}s
                         </span>
                       </div>

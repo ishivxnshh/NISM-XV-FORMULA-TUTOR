@@ -4,9 +4,11 @@ import { ProblemSolver } from './ProblemSolver';
 import { ResultsPanel } from './ResultsPanel';
 import { SessionManager } from './SessionManager';
 import { Formula, GradeResponse } from '../types';
-import { BookOpen, AlertCircle } from 'lucide-react';
+import { BookOpen, AlertCircle, Sun, Moon } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 
 export function Dashboard() {
+  const { theme, toggleTheme } = useTheme();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedFormula, setSelectedFormula] = useState<Formula | null>(null);
   const [gradeResult, setGradeResult] = useState<GradeResponse | null>(null);
@@ -38,7 +40,7 @@ export function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900 transition-colors duration-300">
       {/* Top Banner matching PSKA website */}
       <div className="bg-gradient-pska py-3 px-6 text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-white/5 animate-pulse"></div>
@@ -49,9 +51,9 @@ export function Dashboard() {
       </div>
 
       {/* Main Header */}
-      <header className="bg-white/80 backdrop-blur-md border-b border-gray-200 shadow-lg sticky top-0 z-50">
-        <div className="max-w-full mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-6">
+      <header className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 shadow-lg sticky top-0 z-50 transition-colors duration-300">
+        <div className="max-w-full mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3 sm:gap-6">
             {/* Logo - Clickable to main website */}
             <a 
               href="https://www.profsheetalkunderacademy.com" 
@@ -62,29 +64,41 @@ export function Dashboard() {
               <img 
                 src="/logo.png" 
                 alt="Prof. Sheetal Kunder Academy" 
-                className="w-14 h-14"
+                className="w-10 h-10 sm:w-14 sm:h-14"
               />
             </a>
             
             {/* Navigation */}
-            <nav className="flex items-center gap-3">
-              <button className="px-5 py-2 bg-gradient-to-t from-[rgb(90,103,197)] to-[rgb(0,184,201)] text-white rounded-full text-sm font-medium shadow-md hover:shadow-lg transition-all">
+            <nav className="hidden sm:flex items-center gap-3">
+              <button className="px-4 sm:px-5 py-1.5 sm:py-2 bg-gradient-pska text-white rounded-full text-xs sm:text-sm font-medium shadow-md hover:shadow-lg transition-all">
                 Formula Tutor
               </button>
             </nav>
           </div>
 
-          <div className="flex items-center gap-4">
-            <div className="text-right">
-              <p className="text-xs text-gray-500">
+          <div className="flex items-center gap-2 sm:gap-4">
+            <div className="hidden sm:block text-right">
+              <p className="text-xs text-gray-500 dark:text-gray-400">
                 Session: {sessionAttempts.length} attempts
               </p>
             </div>
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+              aria-label="Toggle theme"
+            >
+              {theme === 'light' ? (
+                <Moon className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+              ) : (
+                <Sun className="w-5 h-5 text-yellow-500" />
+              )}
+            </button>
             <button 
               onClick={handleGenerateReport}
-              className="px-6 py-2.5 bg-gradient-to-t from-[rgb(90,103,197)] to-[rgb(0,184,201)] text-white rounded-lg text-sm font-medium shadow-md hover:shadow-lg transition-all"
+              className="px-3 sm:px-6 py-2 sm:py-2.5 bg-gradient-pska text-white rounded-lg text-xs sm:text-sm font-medium shadow-md hover:shadow-lg glow-effect transition-all transform hover:scale-105"
             >
-              Generate Report
+              <span className="hidden sm:inline">Generate Report</span>
+              <span className="sm:hidden">Report</span>
             </button>
           </div>
         </div>
@@ -92,14 +106,14 @@ export function Dashboard() {
 
       {/* Warning Banner */}
       {showWarning && (
-        <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mx-6 mt-4 rounded-r-lg shadow-sm animate-pulse">
+        <div className="bg-yellow-50 dark:bg-yellow-900/30 border-l-4 border-yellow-400 dark:border-yellow-600 p-4 mx-6 mt-4 rounded-r-lg shadow-sm animate-pulse">
           <div className="flex items-center">
-            <AlertCircle className="w-5 h-5 text-yellow-600 mr-3" />
+            <AlertCircle className="w-5 h-5 text-yellow-600 dark:text-yellow-400 mr-3" />
             <div>
-              <p className="text-sm font-medium text-yellow-800">
+              <p className="text-sm font-medium text-yellow-800 dark:text-yellow-200">
                 Insufficient Attempts
               </p>
-              <p className="text-xs text-yellow-700 mt-1">
+              <p className="text-xs text-yellow-700 dark:text-yellow-300 mt-1">
                 You need at least 3 attempts to generate a readiness report. Current attempts: {sessionAttempts.length}
               </p>
             </div>
@@ -108,22 +122,22 @@ export function Dashboard() {
       )}
 
       {/* Title Section */}
-      <div className="bg-white/80 backdrop-blur-sm border-b border-gray-200 shadow-sm">
-        <div className="max-w-full mx-auto px-6 py-8">
-          <div className="flex items-center justify-center gap-4 mb-3">
-            <div className="h-1 w-12 bg-gradient-pska rounded-full"></div>
-            <h1 className="text-4xl font-extrabold text-gradient text-center">
+      <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700 shadow-sm transition-colors duration-300">
+        <div className="max-w-full mx-auto px-4 sm:px-6 py-6 sm:py-8">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-3">
+            <div className="hidden sm:block h-1 w-8 sm:w-12 bg-gradient-pska rounded-full"></div>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gradient text-center px-4 sm:px-0">
               NISM Research Analyst (XV) Formula Tutor
             </h1>
-            <div className="h-1 w-12 bg-gradient-pska rounded-full"></div>
+            <div className="hidden sm:block h-1 w-8 sm:w-12 bg-gradient-pska rounded-full"></div>
           </div>
-          <p className="text-gray-600 text-lg text-center">
+          <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base md:text-lg text-center px-4 transition-colors duration-300">
             Practice, Learn, and Assess Your Readiness | Powered by Prof. Sheetal Kunder Academy
           </p>
         </div>
       </div>
 
-      <div className="max-w-full mx-auto p-6">
+      <div className="max-w-full mx-auto p-3 sm:p-4 md:p-6">
         {showSessionReport ? (
           <SessionManager
             userId="anonymous"
@@ -131,8 +145,8 @@ export function Dashboard() {
             onClose={() => setShowSessionReport(false)}
           />
         ) : (
-          <div className="grid grid-cols-12 gap-6">
-            <div className="col-span-3">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
+            <div className="lg:col-span-3 order-1">
               <CategoryList
                 selectedCategory={selectedCategory}
                 onCategorySelect={setSelectedCategory}
@@ -140,7 +154,7 @@ export function Dashboard() {
               />
             </div>
 
-            <div className="col-span-6">
+            <div className="lg:col-span-6 order-3 lg:order-2">
               {selectedFormula ? (
                 <ProblemSolver
                   formula={selectedFormula}
@@ -149,27 +163,27 @@ export function Dashboard() {
                   onNewProblem={handleNewProblem}
                 />
               ) : (
-                <div className="bg-gradient-to-br from-white to-blue-50/30 rounded-2xl shadow-xl border-2 border-blue-100 p-12 text-center card-hover fade-in">
+                <div className="bg-gradient-to-br from-white to-blue-50/30 dark:from-gray-800 dark:to-gray-700/30 rounded-2xl shadow-xl border-2 border-blue-100 dark:border-gray-600 p-8 sm:p-12 text-center card-hover fade-in transition-colors duration-300">
                   <div className="relative inline-block">
                     <div className="absolute inset-0 bg-gradient-pska rounded-full blur-xl opacity-20 animate-pulse"></div>
-                    <BookOpen className="w-20 h-20 text-blue-400 mx-auto mb-6 bounce-soft relative z-10" />
+                    <BookOpen className="w-16 h-16 sm:w-20 sm:h-20 text-blue-400 dark:text-cyan-400 mx-auto mb-4 sm:mb-6 bounce-soft relative z-10" />
                   </div>
-                  <h3 className="text-2xl font-bold text-gradient mb-3">
+                  <h3 className="text-xl sm:text-2xl font-bold text-gradient mb-2 sm:mb-3">
                     Ready to Master NISM Formulas?
                   </h3>
-                  <p className="text-gray-600 text-lg mb-4">
+                  <p className="text-gray-600 dark:text-gray-300 text-base sm:text-lg mb-3 sm:mb-4 px-2">
                     Choose a category and formula from the left panel to start your journey!
                   </p>
-                  <div className="flex items-center justify-center gap-3 text-sm text-gray-500">
-                    <span className="px-4 py-2 bg-blue-100 rounded-full font-semibold">50+ Formulas</span>
-                    <span className="px-4 py-2 bg-cyan-100 rounded-full font-semibold">Smart Hints</span>
-                    <span className="px-4 py-2 bg-purple-100 rounded-full font-semibold">Progress Tracking</span>
+                  <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-xs sm:text-sm text-gray-500">
+                    <span className="px-3 sm:px-4 py-1.5 sm:py-2 bg-blue-100 rounded-full font-semibold">50+ Formulas</span>
+                    <span className="px-3 sm:px-4 py-1.5 sm:py-2 bg-cyan-100 rounded-full font-semibold">Smart Hints</span>
+                    <span className="px-3 sm:px-4 py-1.5 sm:py-2 bg-purple-100 rounded-full font-semibold">Progress Tracking</span>
                   </div>
                 </div>
               )}
             </div>
 
-            <div className="col-span-3">
+            <div className="lg:col-span-3 order-2 lg:order-3">
               <ResultsPanel
                 gradeResult={gradeResult}
                 sessionAttempts={sessionAttempts}
