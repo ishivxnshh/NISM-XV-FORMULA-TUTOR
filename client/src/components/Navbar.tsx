@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { BookOpen, Brain, Sun, Moon } from 'lucide-react';
+import { BookOpen, Brain, Sun, Moon, Home } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
 export function Navbar() {
@@ -7,7 +7,8 @@ export function Navbar() {
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
 
-  const isFormulas = location.pathname === '/' || location.pathname === '/formulas';
+  const isHome = location.pathname === '/';
+  const isFormulas = location.pathname === '/formulas';
   const isQuiz = location.pathname === '/quiz';
 
   return (
@@ -17,8 +18,8 @@ export function Navbar() {
         <div className="absolute inset-0 bg-white/5 animate-pulse"></div>
         <div className="absolute inset-0 shimmer"></div>
         <p className="text-white text-sm font-medium relative z-10 pulse-subtle">
-          
-🎓 Prof. Sheetal Kunder Academy practice quiz and case studies are updated with Jan 2026 curriculum
+
+          🎓 Prof. Sheetal Kunder Academy practice quiz and case studies are updated with Jan 2026 curriculum
         </p>
       </div>
 
@@ -27,42 +28,51 @@ export function Navbar() {
         <div className="max-w-full mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
           <div className="flex items-center gap-3 sm:gap-6">
             {/* Logo */}
-            <a 
-              href="https://www.profsheetalkunderacademy.com" 
-              target="_blank" 
+            <a
+              href="https://www.profsheetalkunderacademy.com"
+              target="_blank"
               rel="noopener noreferrer"
               className="flex-shrink-0 hover:opacity-80 transition-all transform hover:scale-105"
               aria-label="Prof. Sheetal Kunder Academy"
             >
-              <img 
-                src="/logo.png" 
-                alt="Prof. Sheetal Kunder Academy" 
+              <img
+                src="/logo.png"
+                alt="Prof. Sheetal Kunder Academy"
                 className="w-10 h-10 sm:w-14 sm:h-14 rounded-lg shadow-md"
               />
             </a>
-            
+
             {/* Navigation */}
             <nav className="flex items-center gap-2 sm:gap-3" role="navigation" aria-label="Main Navigation">
-              <button 
+              <button
+                onClick={() => navigate('/')}
+                className={`px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium shadow-md hover:shadow-xl transition-all flex items-center gap-1.5 button-press ${isHome
+                  ? 'bg-gradient-pska text-white scale-105'
+                  : 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 border-2 border-blue-600 dark:border-blue-400 hover:scale-105'
+                  }`}
+                aria-current={isHome ? 'page' : undefined}
+              >
+                <Home className="w-4 h-4" />
+                <span className="hidden sm:inline">Home</span>
+              </button>
+              <button
                 onClick={() => navigate('/formulas')}
-                className={`px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium shadow-md hover:shadow-xl transition-all flex items-center gap-1.5 button-press ${
-                  isFormulas 
-                    ? 'bg-gradient-pska text-white scale-105' 
-                    : 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 border-2 border-blue-600 dark:border-blue-400 hover:scale-105'
-                }`}
+                className={`px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium shadow-md hover:shadow-xl transition-all flex items-center gap-1.5 button-press ${isFormulas
+                  ? 'bg-gradient-pska text-white scale-105'
+                  : 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 border-2 border-blue-600 dark:border-blue-400 hover:scale-105'
+                  }`}
                 aria-current={isFormulas ? 'page' : undefined}
               >
                 <BookOpen className="w-4 h-4" />
                 <span className="hidden sm:inline">Formula Tutor</span>
                 <span className="sm:hidden">Formulas</span>
               </button>
-              <button 
+              <button
                 onClick={() => navigate('/quiz')}
-                className={`px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium shadow-md hover:shadow-xl transition-all flex items-center gap-1.5 button-press ${
-                  isQuiz 
-                    ? 'bg-gradient-pska text-white scale-105' 
-                    : 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 border-2 border-blue-600 dark:border-blue-400 hover:scale-105'
-                }`}
+                className={`px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium shadow-md hover:shadow-xl transition-all flex items-center gap-1.5 button-press ${isQuiz
+                  ? 'bg-gradient-pska text-white scale-105'
+                  : 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 border-2 border-blue-600 dark:border-blue-400 hover:scale-105'
+                  }`}
                 aria-current={isQuiz ? 'page' : undefined}
               >
                 <Brain className="w-4 h-4" />

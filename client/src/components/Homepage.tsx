@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom';
-import { BookOpen, Trophy, Target, Users, Youtube, Facebook, Instagram, Linkedin, Mail, CheckCircle, Star, ArrowRight, Moon, Sun } from 'lucide-react';
+import { BookOpen, Trophy, Target, Star } from 'lucide-react';
 import { useRef } from 'react';
-import { useTheme } from '../context/ThemeContext';
+import { Navbar } from './Navbar';
+import { Footer } from './Footer';
 
 export function Homepage() {
   const navigate = useNavigate();
   const testimonialsRef = useRef<HTMLDivElement>(null);
-  const { theme, toggleTheme } = useTheme();
 
   const testimonials = [
     {
@@ -46,26 +46,11 @@ export function Homepage() {
     }
   ];
 
-  const youtubeVideos = [
-    {
-      title: "NISM XV Complete Guide",
-      thumbnail: "🎥",
-      link: "#"
-    },
-    {
-      title: "Formula Mastery Series",
-      thumbnail: "🎥",
-      link: "#"
-    },
-    {
-      title: "Case Study Solutions",
-      thumbnail: "🎥",
-      link: "#"
-    }
-  ];
+
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900 flex flex-col">
+      <Navbar />
 
       {/* Floating WhatsApp Chat Button */}
       <a
@@ -76,30 +61,9 @@ export function Homepage() {
         style={{ boxShadow: '0 4px 24px 0 rgba(37, 211, 102, 0.3)' }}
         aria-label="Chat on WhatsApp"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" className="w-7 h-7 mr-1"><path d="M16 3C9.373 3 4 8.373 4 15c0 2.385.832 4.584 2.236 6.393L4.062 28.25a1 1 0 0 0 1.312 1.312l6.857-2.174A11.96 11.96 0 0 0 16 27c6.627 0 12-5.373 12-12S22.627 3 16 3zm0 22c-1.74 0-3.41-.447-4.857-1.223a1 1 0 0 0-.765-.07l-5.13 1.627 1.627-5.13a1 1 0 0 0-.07-.765A9.963 9.963 0 0 1 6 15c0-5.514 4.486-10 10-10s10 4.486 10 10-4.486 10-10 10zm5.29-7.709c-.273-.137-1.617-.797-1.868-.888-.25-.092-.432-.137-.614.137-.182.273-.705.888-.865 1.07-.159.182-.318.205-.591.068-.273-.137-1.153-.425-2.197-1.354-.813-.724-1.362-1.617-1.523-1.89-.159-.273-.017-.42.12-.557.124-.123.273-.318.409-.477.137-.159.182-.273.273-.455.091-.182.045-.341-.023-.478-.068-.137-.614-1.482-.841-2.03-.222-.534-.448-.461-.614-.47-.159-.007-.341-.009-.523-.009a1.01 1.01 0 0 0-.727.341c-.25.273-.955.934-.955 2.277 0 1.343.978 2.64 1.114 2.823.137.182 1.926 2.943 4.67 4.013.653.282 1.162.45 1.56.576.655.209 1.25.18 1.72.109.525-.078 1.617-.661 1.846-1.299.227-.637.227-1.183.159-1.299-.068-.114-.25-.182-.523-.318z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" className="w-7 h-7 mr-1"><path d="M16 3C9.373 3 4 8.373 4 15c0 2.385.832 4.584 2.236 6.393L4.062 28.25a1 1 0 0 0 1.312 1.312l6.857-2.174A11.96 11.96 0 0 0 16 27c6.627 0 12-5.373 12-12S22.627 3 16 3zm0 22c-1.74 0-3.41-.447-4.857-1.223a1 1 0 0 0-.765-.07l-5.13 1.627 1.627-5.13a1 1 0 0 0-.07-.765A9.963 9.963 0 0 1 6 15c0-5.514 4.486-10 10-10s10 4.486 10 10-4.486 10-10 10zm5.29-7.709c-.273-.137-1.617-.797-1.868-.888-.25-.092-.432-.137-.614.137-.182.273-.705.888-.865 1.07-.159.182-.318.205-.591.068-.273-.137-1.153-.425-2.197-1.354-.813-.724-1.362-1.617-1.523-1.89-.159-.273-.017-.42.12-.557.124-.123.273-.318.409-.477.137-.159.182-.273.273-.455.091-.182.045-.341-.023-.478-.068-.137-.614-1.482-.841-2.03-.222-.534-.448-.461-.614-.47-.159-.007-.341-.009-.523-.009a1.01 1.01 0 0 0-.727.341c-.25.273-.955.934-.955 2.277 0 1.343.978 2.64 1.114 2.823.137.182 1.926 2.943 4.67 4.013.653.282 1.162.45 1.56.576.655.209 1.25.18 1.72.109.525-.078 1.617-.661 1.846-1.299.227-.637.227-1.183.159-1.299-.068-.114-.25-.182-.523-.318z" /></svg>
         Chat on WhatsApp
       </a>
-      {/* Theme Toggle Button - Fixed Position */}
-      <button
-        onClick={toggleTheme}
-        className="fixed top-4 right-4 z-50 p-3 bg-white dark:bg-gray-800 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 button-press border-2 border-gray-200 dark:border-gray-600"
-        aria-label="Toggle theme"
-      >
-        {theme === 'light' ? (
-          <Moon className="w-6 h-6 text-blue-600 dark:text-blue-400 rotate-in" />
-        ) : (
-          <Sun className="w-6 h-6 text-yellow-500 rotate-in" />
-        )}
-      </button>
-
-      {/* Header Banner */}
-      <div className="bg-gradient-pska py-3 px-6 text-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-white/5 animate-pulse"></div>
-        <div className="absolute inset-0 shimmer"></div>
-        <p className="text-white text-sm font-medium relative z-10">
-          🎓 Prof. Sheetal Kunder Academy practice quiz and case studies are updated with Jan 2026 curriculum
-        </p>
-      </div>
 
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-12 sm:py-20">
@@ -110,7 +74,7 @@ export function Homepage() {
               <Trophy className="w-16 h-16 text-blue-600 dark:text-blue-400" />
             </div>
           </div>
-          
+
           <h1 className="text-4xl sm:text-6xl font-extrabold mb-4 leading-tight">
             <span className="text-gradient">Clear NISM Series in 1st Attempt</span>
             <br />
@@ -118,7 +82,7 @@ export function Homepage() {
               Smart Preparation Starts Here 🎯
             </span>
           </h1>
-          
+
           <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-8">
             Join thousands of successful candidates who cleared NISM certifications with Prof. Sheetal Kunder Academy
           </p>
@@ -183,42 +147,42 @@ export function Homepage() {
 
       {/* About Prof. Sheetal Kunder */}
       <section className="bg-white dark:bg-gray-800 py-16">
-  <div className="container mx-auto px-4 flex flex-col items-center">
-    <img
-      src="/about.png"
-      alt="About Prof. Sheetal Kunder"
-      className="rounded-3xl shadow-2xl w-full max-w-4xl border-4 border-yellow-200 mb-8"
-    />
-    <div className="max-w-3xl w-full bg-white/80 dark:bg-gray-900/80 rounded-2xl shadow p-6 md:p-8 border border-yellow-200 text-gray-900 dark:text-gray-100 text-lg leading-relaxed">
-      <h2 className="text-2xl font-bold mb-2 text-gradient">About Prof. Sheetal Kunder (Program Director)</h2>
-      <p className="mb-2 font-semibold">With over 16 years of experience in the field of education.</p>
-      <p className="mb-2">As the Program Director of Prof. Sheetal Kunder Academy, a specialized virtual platform for capital market training, I have established a sustainable, real-world example-driven model to provide learners with hands-on experiences in the dynamic Indian securities market. My philosophy centers around connecting various subjects, including finance, statistics, taxation, and accounting, with the world of finance to demonstrate the diverse applications of financial knowledge.</p>
-      <p className="mb-2">My professional journey includes a significant tenure as a part of the teaching team at BSE Institute, where I shared my expertise on financial markets with both graduate and postgraduate students. Additionally, I facilitated capital market training programs for working professionals on weekends.</p>
-      <p className="mb-2">I take pride in spearheading workshops that foster nationwide awareness of the Indian Capital Market. My dedication extends to organizing Management Development Programs and Faculty Development Programs across India. Additionally, I am deeply engaged in Corporate Social Responsibility (CSR) initiatives, where I lead NISM MFD training programs to nurture the next generation of professionals for the mutual fund industry, addressing the evolving needs of the financial market.</p>
-      <p>Recognizing the vital role of SEBI's educational initiatives, exemplified by NISM, I am committed to guiding individuals in their pursuit of NISM Certification and elevating their expertise within the financial industry.</p>
-          <div className="flex flex-wrap gap-4 mt-6 justify-center">
-            <a
-              href="https://www.linkedin.com/in/sheetal-kunder-608870179/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all hover:shadow-lg button-press font-semibold"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" className="w-5 h-5"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.268c-.966 0-1.75-.784-1.75-1.75s.784-1.75 1.75-1.75 1.75.784 1.75 1.75-.784 1.75-1.75 1.75zm15.5 11.268h-3v-5.604c0-1.337-.025-3.063-1.868-3.063-1.868 0-2.154 1.459-2.154 2.967v5.7h-3v-10h2.881v1.367h.041c.401-.761 1.379-1.563 2.841-1.563 3.039 0 3.6 2.001 3.6 4.601v5.595z"/></svg>
-              LinkedIn
-            </a>
-            <a
-              href="https://www.youtube.com/@profsheetalkunderacademy"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-6 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-all hover:shadow-lg button-press font-semibold"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" className="w-5 h-5"><path d="M23.498 6.186a2.994 2.994 0 0 0-2.112-2.116c-1.868-.504-9.386-.504-9.386-.504s-7.518 0-9.386.504a2.994 2.994 0 0 0-2.112 2.116c-.504 1.868-.504 5.768-.504 5.768s0 3.9.504 5.768a2.994 2.994 0 0 0 2.112 2.116c1.868.504 9.386.504 9.386.504s7.518 0 9.386-.504a2.994 2.994 0 0 0 2.112-2.116c.504-1.868.504-5.768.504-5.768s0-3.9-.504-5.768zm-13.498 9.814v-8l8 4-8 4z"/></svg>
-              YouTube
-            </a>
+        <div className="container mx-auto px-4 flex flex-col items-center">
+          <img
+            src="/about.png"
+            alt="About Prof. Sheetal Kunder"
+            className="rounded-3xl shadow-2xl w-full max-w-4xl border-4 border-yellow-200 mb-8"
+          />
+          <div className="max-w-3xl w-full bg-white/80 dark:bg-gray-900/80 rounded-2xl shadow p-6 md:p-8 border border-yellow-200 text-gray-900 dark:text-gray-100 text-lg leading-relaxed">
+            <h2 className="text-2xl font-bold mb-2 text-gradient">About Prof. Sheetal Kunder (Program Director)</h2>
+            <p className="mb-2 font-semibold">With over 16 years of experience in the field of education.</p>
+            <p className="mb-2">As the Program Director of Prof. Sheetal Kunder Academy, a specialized virtual platform for capital market training, I have established a sustainable, real-world example-driven model to provide learners with hands-on experiences in the dynamic Indian securities market. My philosophy centers around connecting various subjects, including finance, statistics, taxation, and accounting, with the world of finance to demonstrate the diverse applications of financial knowledge.</p>
+            <p className="mb-2">My professional journey includes a significant tenure as a part of the teaching team at BSE Institute, where I shared my expertise on financial markets with both graduate and postgraduate students. Additionally, I facilitated capital market training programs for working professionals on weekends.</p>
+            <p className="mb-2">I take pride in spearheading workshops that foster nationwide awareness of the Indian Capital Market. My dedication extends to organizing Management Development Programs and Faculty Development Programs across India. Additionally, I am deeply engaged in Corporate Social Responsibility (CSR) initiatives, where I lead NISM MFD training programs to nurture the next generation of professionals for the mutual fund industry, addressing the evolving needs of the financial market.</p>
+            <p>Recognizing the vital role of SEBI's educational initiatives, exemplified by NISM, I am committed to guiding individuals in their pursuit of NISM Certification and elevating their expertise within the financial industry.</p>
+            <div className="flex flex-wrap gap-4 mt-6 justify-center">
+              <a
+                href="https://www.linkedin.com/in/sheetal-kunder-608870179/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all hover:shadow-lg button-press font-semibold"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" className="w-5 h-5"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.268c-.966 0-1.75-.784-1.75-1.75s.784-1.75 1.75-1.75 1.75.784 1.75 1.75-.784 1.75-1.75 1.75zm15.5 11.268h-3v-5.604c0-1.337-.025-3.063-1.868-3.063-1.868 0-2.154 1.459-2.154 2.967v5.7h-3v-10h2.881v1.367h.041c.401-.761 1.379-1.563 2.841-1.563 3.039 0 3.6 2.001 3.6 4.601v5.595z" /></svg>
+                LinkedIn
+              </a>
+              <a
+                href="https://www.youtube.com/@profsheetalkunderacademy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-6 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-all hover:shadow-lg button-press font-semibold"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" className="w-5 h-5"><path d="M23.498 6.186a2.994 2.994 0 0 0-2.112-2.116c-1.868-.504-9.386-.504-9.386-.504s-7.518 0-9.386.504a2.994 2.994 0 0 0-2.112 2.116c-.504 1.868-.504 5.768-.504 5.768s0 3.9.504 5.768a2.994 2.994 0 0 0 2.112 2.116c1.868.504 9.386.504 9.386.504s7.518 0 9.386-.504a2.994 2.994 0 0 0 2.112-2.116c.504-1.868.504-5.768.504-5.768s0-3.9-.504-5.768zm-13.498 9.814v-8l8 4-8 4z" /></svg>
+                YouTube
+              </a>
+            </div>
           </div>
-    </div>
-  </div>
-</section>
+        </div>
+      </section>
 
       {/* Testimonials Section */}
       <section className="py-16 bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900">
@@ -234,7 +198,7 @@ export function Homepage() {
           </div>
 
           {/* Horizontal Scrolling Testimonials */}
-          <div 
+          <div
             ref={testimonialsRef}
             className="flex gap-6 overflow-x-auto pb-6 snap-x snap-mandatory scroll-smooth"
             style={{ scrollbarWidth: 'thin' }}
@@ -296,24 +260,7 @@ export function Homepage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 dark:bg-black text-white py-8">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <Trophy className="w-8 h-8 text-cyan-400" />
-              <div>
-                <p className="font-bold text-lg">Prof. Sheetal Kunder Academy</p>
-                <p className="text-sm text-gray-400">Excellence in NISM Education</p>
-              </div>
-            </div>
-            <div className="text-center md:text-right">
-              <p className="text-gray-300">All Rights Reserved - Prof. Sheetal Kunder Academy 2026</p>
-              <p className="text-sm text-gray-400 mt-1">Making NISM Certification Easier</p>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

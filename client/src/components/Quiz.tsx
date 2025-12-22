@@ -136,38 +136,26 @@ export function Quiz() {
 
   if (!selectedTopic) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900 p-6">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <div className="relative inline-block mb-6">
-              <div className="absolute inset-0 bg-gradient-pska rounded-full blur-2xl opacity-30 animate-pulse"></div>
-              <div className="relative p-4 bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-blue-900 dark:to-cyan-900 rounded-full">
-                <BookOpen className="w-12 h-12 text-blue-600 dark:text-blue-400" />
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900 transition-colors duration-300">
+        {/* Title Section */}
+        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700 shadow-sm transition-colors duration-300">
+          <div className="max-w-full mx-auto px-4 sm:px-6 py-6 sm:py-8">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-3">
+              <div className="flex items-center gap-3 sm:gap-4 w-full justify-center">
+                <div className="hidden sm:block h-1 w-8 sm:w-12 bg-gradient-pska rounded-full"></div>
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gradient text-center">
+                  NISM Research Analyst (XV) Quiz Practice
+                </h1>
+                <div className="hidden sm:block h-1 w-8 sm:w-12 bg-gradient-pska rounded-full"></div>
               </div>
             </div>
-            <h1 className="text-4xl sm:text-5xl font-extrabold mb-3 leading-tight">
-              <span className="text-gradient">Clear NISM Series in 1st Attempt</span>
-              <br />
-              <span className="text-2xl sm:text-3xl font-bold text-gray-700 dark:text-gray-300">
-                Smart Preparation Starts Here 🎯
-              </span>
-            </h1>
-            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base md:text-lg text-center px-4 transition-colors duration-300">
               Test your knowledge with interactive fill-in-the-blank questions
             </p>
-            <div className="flex items-center justify-center gap-3 mt-4">
-              <span className="px-4 py-1.5 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded-full text-sm font-semibold">
-                ✓ Topic-wise Practice
-              </span>
-              <span className="px-4 py-1.5 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded-full text-sm font-semibold">
-                ✓ Instant Feedback
-              </span>
-              <span className="px-4 py-1.5 bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 rounded-full text-sm font-semibold">
-                ✓ Score Tracking
-              </span>
-            </div>
           </div>
+        </div>
 
+        <div className="max-w-7xl mx-auto p-3 sm:p-4 md:p-6">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {topics.map((topic, index) => (
               <button
@@ -230,8 +218,26 @@ export function Quiz() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900 p-6">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900 transition-colors duration-300">
+      {/* Title Section */}
+      <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700 shadow-sm transition-colors duration-300">
+        <div className="max-w-full mx-auto px-4 sm:px-6 py-6 sm:py-8">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-3">
+            <div className="flex items-center gap-3 sm:gap-4 w-full justify-center">
+              <div className="hidden sm:block h-1 w-8 sm:w-12 bg-gradient-pska rounded-full"></div>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gradient text-center">
+                NISM Research Analyst (XV) Quiz Practice
+              </h1>
+              <div className="hidden sm:block h-1 w-8 sm:w-12 bg-gradient-pska rounded-full"></div>
+            </div>
+          </div>
+          <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base md:text-lg text-center px-4 transition-colors duration-300">
+            Practice Mode • {selectedTopic}
+          </p>
+        </div>
+      </div>
+
+      <div className="max-w-4xl mx-auto p-3 sm:p-4 md:p-6">
         {/* Header */}
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6">
           <div className="flex items-center justify-between mb-4">
@@ -357,11 +363,10 @@ export function Quiz() {
           ) : (
             <div>
               {/* Result Display */}
-              <div className={`p-6 rounded-lg mb-6 ${
-                result.isCorrect 
-                  ? 'bg-green-50 dark:bg-green-900/30 border-2 border-green-500 success-bounce' 
+              <div className={`p-6 rounded-lg mb-6 ${result.isCorrect
+                  ? 'bg-green-50 dark:bg-green-900/30 border-2 border-green-500 success-bounce'
                   : 'bg-red-50 dark:bg-red-900/30 border-2 border-red-500 shake'
-              }`}>
+                }`}>
                 <div className="flex items-center gap-3 mb-3">
                   {result.isCorrect ? (
                     <CheckCircle className="w-8 h-8 text-green-600 dark:text-green-400 success-bounce" />
@@ -369,14 +374,12 @@ export function Quiz() {
                     <XCircle className="w-8 h-8 text-red-600 dark:text-red-400" />
                   )}
                   <div>
-                    <h4 className={`text-xl font-bold ${
-                      result.isCorrect ? 'text-green-800 dark:text-green-300' : 'text-red-800 dark:text-red-300'
-                    }`}>
+                    <h4 className={`text-xl font-bold ${result.isCorrect ? 'text-green-800 dark:text-green-300' : 'text-red-800 dark:text-red-300'
+                      }`}>
                       {result.isCorrect ? '🎉 Correct!' : 'Not Quite'}
                     </h4>
-                    <p className={`text-sm ${
-                      result.isCorrect ? 'text-green-700 dark:text-green-400' : 'text-red-700 dark:text-red-400'
-                    }`}>
+                    <p className={`text-sm ${result.isCorrect ? 'text-green-700 dark:text-green-400' : 'text-red-700 dark:text-red-400'
+                      }`}>
                       Score: +{result.score} points
                     </p>
                   </div>

@@ -3,6 +3,7 @@ import { Dashboard } from './components/Dashboard';
 import { Quiz } from './components/Quiz';
 import { Homepage } from './components/Homepage';
 import { Navbar } from './components/Navbar';
+import { Footer } from './components/Footer';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
 
@@ -19,6 +20,7 @@ function App() {
                 <main role="main" className="fade-in">
                   <Dashboard />
                 </main>
+                <Footer />
               </div>
             } />
             <Route path="/quiz" element={
@@ -27,6 +29,7 @@ function App() {
                 <main role="main" className="fade-in">
                   <Quiz />
                 </main>
+                <Footer />
               </div>
             } />
             <Route path="/login" element={<Navigate to="/formulas" replace />} />
