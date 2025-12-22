@@ -194,28 +194,38 @@ export function ProblemSolver({
           </div>
 
           <div className="grid grid-cols-1 gap-3 sm:gap-4">
-            {Object.entries(formula.variables).map(([varName, varDef]) => (
-              <div key={varName} className="group">
+            {Object.entries(formula.variables).map(([varName, varDef], index) => (
+              <div key={varName} className="group fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
                 <label className="block text-xs sm:text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
                   {varDef.label}
                   <span className="text-gray-500 dark:text-gray-400 text-xs font-normal bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full ml-2">({varDef.unit})</span>
                 </label>
-                <input
-                  type="number"
-                  step="any"
-                  value={inputs[varName] || ''}
-                  onChange={(e) => handleInputChange(varName, e.target.value)}
-                  className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all font-semibold text-sm sm:text-base text-gray-800 dark:text-gray-200 group-hover:border-blue-300"
-                  required
-                />
+                <div className="relative">
+                  <input
+                    type="number"
+                    step="any"
+                    value={inputs[varName] || ''}
+                    onChange={(e) => handleInputChange(varName, e.target.value)}
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all font-semibold text-sm sm:text-base text-gray-800 dark:text-gray-200 group-hover:border-blue-300 group-hover:shadow-md"
+                    required
+                  />
+                  {inputs[varName] > 0 && (
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2 text-green-500 success-bounce">
+                      ✓
+                    </div>
+                  )}
+                </div>
               </div>
             ))}
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label className="flex items-center gap-2 text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
             Your Answer
+            {userAnswer && (
+              <span className="text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded-full">Ready to submit</span>
+            )}
           </label>
           <div className="relative">
             <input
@@ -223,22 +233,24 @@ export function ProblemSolver({
               step="any"
               value={userAnswer}
               onChange={(e) => setUserAnswer(e.target.value)}
-              className="w-full px-4 py-3 pr-12 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent text-lg transition-colors duration-300"
+              onKeyPress={(e) => e.key === 'Enter' && !loading && e.preventDefault()}
+              className="w-full px-4 py-3 pr-12 border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg transition-all font-semibold"
               placeholder="Enter your calculated result"
               required
             />
             <button
               type="button"
               onClick={() => setShowCalculator(!showCalculator)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-accent-600 dark:hover:text-cyan-400 transition-colors"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-cyan-400 transition-colors p-1 hover:bg-gray-100 dark:hover:bg-gray-600 rounded"
+              title="Toggle Calculator"
             >
               <Calculator className="w-5 h-5" />
             </button>
           </div>
 
           {showCalculator && (
-            <div className="mt-4 p-4 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg transition-colors duration-300">
-              <div className="mb-3 p-3 bg-gray-100 dark:bg-gray-800 rounded text-right font-mono text-xl dark:text-white">
+            <div className="mt-4 p-4 bg-white dark:bg-gray-700 border-2 border-blue-200 dark:border-gray-600 rounded-xl shadow-lg slide-up">
+              <div className="mb-3 p-3 bg-gray-100 dark:bg-gray-800 rounded-lg text-right font-mono text-xl dark:text-white border-2 border-gray-200 dark:border-gray-600">
                 {calcDisplay}
               </div>
               <div className="grid grid-cols-4 gap-2">
@@ -247,7 +259,7 @@ export function ProblemSolver({
                     key={btn}
                     type="button"
                     onClick={() => handleCalcButton(btn)}
-                    className="px-4 py-3 bg-gray-100 dark:bg-gray-600 hover:bg-gray-200 dark:hover:bg-gray-500 rounded font-semibold text-gray-700 dark:text-gray-200 transition-colors"
+                    className="px-4 py-3 bg-gray-100 dark:bg-gray-600 hover:bg-blue-100 dark:hover:bg-blue-500 rounded-lg font-semibold text-gray-700 dark:text-gray-200 transition-all button-press hover:shadow-md"
                   >
                     {btn}
                   </button>
@@ -255,21 +267,21 @@ export function ProblemSolver({
                 <button
                   type="button"
                   onClick={() => handleCalcButton('C')}
-                  className="col-span-2 px-4 py-3 bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-800/40 rounded font-semibold text-red-700 dark:text-red-400 transition-colors"
+                  className="col-span-2 px-4 py-3 bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-800/40 rounded-lg font-semibold text-red-700 dark:text-red-400 transition-all button-press"
                 >
                   Clear
                 </button>
                 <button
                   type="button"
                   onClick={() => handleCalcButton('←')}
-                  className="px-4 py-3 bg-yellow-100 dark:bg-yellow-900/30 hover:bg-yellow-200 dark:hover:bg-yellow-800/40 rounded font-semibold text-yellow-700 dark:text-yellow-400 transition-colors"
+                  className="px-4 py-3 bg-yellow-100 dark:bg-yellow-900/30 hover:bg-yellow-200 dark:hover:bg-yellow-800/40 rounded-lg font-semibold text-yellow-700 dark:text-yellow-400 transition-all button-press"
                 >
                   ←
                 </button>
                 <button
                   type="button"
                   onClick={() => handleCalcButton('Use')}
-                  className="px-4 py-3 bg-green-100 dark:bg-green-900/30 hover:bg-green-200 dark:hover:bg-green-800/40 rounded font-semibold text-green-700 dark:text-green-400 transition-colors"
+                  className="px-4 py-3 bg-gradient-pska text-white hover:shadow-lg rounded-lg font-semibold transition-all button-press glow-effect"
                 >
                   Use
                 </button>
@@ -284,13 +296,14 @@ export function ProblemSolver({
               type="button"
               onClick={requestHint}
               disabled={hintsUsed >= 3}
-              className="flex items-center justify-center gap-2 px-4 py-2.5 bg-yellow-50 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 rounded-lg hover:bg-yellow-100 dark:hover:bg-yellow-800/40 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
+              className="flex items-center justify-center gap-2 px-4 py-2.5 bg-yellow-50 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 rounded-xl hover:bg-yellow-100 dark:hover:bg-yellow-800/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium border-2 border-yellow-200 dark:border-yellow-700 hover:shadow-md button-press"
+              aria-label={`Request hint. ${3 - hintsUsed} hints remaining`}
             >
               <Lightbulb className="w-4 h-4" />
               <span className="hidden sm:inline">Request Hint ({3 - hintsUsed} left)</span>
-              <span className="sm:hidden">Hint ({3 - hintsUsed} left)</span>
+              <span className="sm:hidden">Hint ({3 - hintsUsed})</span>
             </button>
-            <span className="text-xs text-gray-500 dark:text-gray-400 text-center sm:text-left">
+            <span className="text-xs text-gray-500 dark:text-gray-400 text-center sm:text-left bg-gray-50 dark:bg-gray-800 px-3 py-1 rounded-full">
               -10% per hint
             </span>
           </div>
@@ -299,16 +312,23 @@ export function ProblemSolver({
             <button
               type="button"
               onClick={handleNewProblem}
-              className="w-full sm:w-auto px-6 py-2.5 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-medium"
+              className="w-full sm:w-auto px-6 py-2.5 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-all font-medium button-press"
             >
               New Problem
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="w-full sm:w-auto px-8 py-2.5 bg-gradient-to-t from-[rgb(90,103,197)] to-[rgb(0,184,201)] text-white rounded-lg hover:shadow-lg glow-effect transition-all disabled:opacity-50 disabled:cursor-not-allowed font-medium shadow-md transform hover:scale-105"
+              className="w-full sm:w-auto px-8 py-2.5 bg-gradient-pska text-white rounded-lg hover:shadow-lg glow-effect transition-all disabled:opacity-50 disabled:cursor-not-allowed font-medium shadow-md transform hover:scale-105 button-press"
             >
-              {loading ? 'Grading...' : 'Submit'}
+              {loading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  Grading...
+                </span>
+              ) : (
+                'Submit Answer'
+              )}
             </button>
           </div>
         </div>
@@ -316,17 +336,17 @@ export function ProblemSolver({
 
       {visibleHints.length > 0 && (
         <div className="px-6 pb-6">
-          <div className="bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-700 rounded-lg p-4 space-y-3 transition-colors duration-300">
+          <div className="bg-yellow-50 dark:bg-yellow-900/30 border-2 border-yellow-300 dark:border-yellow-700 rounded-xl p-4 space-y-3 slide-up shadow-lg">
             <div className="flex items-center gap-2 text-yellow-800 dark:text-yellow-400 font-semibold">
               <Lightbulb className="w-5 h-5" />
-              Hints
+              💡 Hints
             </div>
-            {visibleHints.map((hintNum) => (
-              <div key={hintNum} className="pl-7">
-                <p className="text-sm font-medium text-yellow-900 dark:text-yellow-300">
+            {visibleHints.map((hintNum, index) => (
+              <div key={hintNum} className="pl-7 fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+                <p className="text-sm font-bold text-yellow-900 dark:text-yellow-300">
                   {HINTS[hintNum].title}
                 </p>
-                <p className="text-sm text-yellow-700 dark:text-yellow-400 mt-1">
+                <p className="text-sm text-yellow-700 dark:text-yellow-400 mt-1 bg-white dark:bg-gray-800 p-2 rounded-lg">
                   {HINTS[hintNum].description}
                 </p>
               </div>

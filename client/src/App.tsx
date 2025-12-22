@@ -10,13 +10,17 @@ function App() {
     <ThemeProvider>
       <AuthProvider>
         <BrowserRouter>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/formulas" element={<Dashboard />} />
-            <Route path="/quiz" element={<Quiz />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
+          <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900">
+            <Navbar />
+            <main role="main" className="fade-in">
+              <Routes>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/formulas" element={<Dashboard />} />
+                <Route path="/quiz" element={<Quiz />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </main>
+          </div>
         </BrowserRouter>
       </AuthProvider>
     </ThemeProvider>

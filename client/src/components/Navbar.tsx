@@ -15,8 +15,9 @@ export function Navbar() {
       {/* Top Banner */}
       <div className="bg-gradient-pska py-3 px-6 text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-white/5 animate-pulse"></div>
+        <div className="absolute inset-0 shimmer"></div>
         <p className="text-white text-sm font-medium relative z-10 pulse-subtle">
-          Prof. Sheetal Kunder Academy programs are entirely updated as per the latest NISM curriculum (June 2025). 
+          🎓 Prof. Sheetal Kunder Academy programs are entirely updated as per the latest NISM curriculum (June 2025). 
           We ensure all the updates regarding SEBI compliance & NISM are touched based regularly
         </p>
       </div>
@@ -30,24 +31,26 @@ export function Navbar() {
               href="https://www.profsheetalkunderacademy.com" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="flex-shrink-0 hover:opacity-80 transition-opacity"
+              className="flex-shrink-0 hover:opacity-80 transition-all transform hover:scale-105"
+              aria-label="Prof. Sheetal Kunder Academy"
             >
               <img 
                 src="/logo.png" 
                 alt="Prof. Sheetal Kunder Academy" 
-                className="w-10 h-10 sm:w-14 sm:h-14"
+                className="w-10 h-10 sm:w-14 sm:h-14 rounded-lg shadow-md"
               />
             </a>
             
             {/* Navigation */}
-            <nav className="flex items-center gap-2 sm:gap-3">
+            <nav className="flex items-center gap-2 sm:gap-3" role="navigation" aria-label="Main Navigation">
               <button 
                 onClick={() => navigate('/formulas')}
-                className={`px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium shadow-md hover:shadow-lg transition-all flex items-center gap-1.5 ${
+                className={`px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium shadow-md hover:shadow-xl transition-all flex items-center gap-1.5 button-press ${
                   isFormulas 
-                    ? 'bg-gradient-pska text-white' 
-                    : 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 border-2 border-blue-600 dark:border-blue-400'
+                    ? 'bg-gradient-pska text-white scale-105' 
+                    : 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 border-2 border-blue-600 dark:border-blue-400 hover:scale-105'
                 }`}
+                aria-current={isFormulas ? 'page' : undefined}
               >
                 <BookOpen className="w-4 h-4" />
                 <span className="hidden sm:inline">Formula Tutor</span>
@@ -55,11 +58,12 @@ export function Navbar() {
               </button>
               <button 
                 onClick={() => navigate('/quiz')}
-                className={`px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium shadow-md hover:shadow-lg transition-all flex items-center gap-1.5 ${
+                className={`px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium shadow-md hover:shadow-xl transition-all flex items-center gap-1.5 button-press ${
                   isQuiz 
-                    ? 'bg-gradient-pska text-white' 
-                    : 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 border-2 border-blue-600 dark:border-blue-400'
+                    ? 'bg-gradient-pska text-white scale-105' 
+                    : 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 border-2 border-blue-600 dark:border-blue-400 hover:scale-105'
                 }`}
+                aria-current={isQuiz ? 'page' : undefined}
               >
                 <Brain className="w-4 h-4" />
                 <span className="hidden sm:inline">Quiz Practice</span>
@@ -71,13 +75,14 @@ export function Navbar() {
           <div className="flex items-center gap-2 sm:gap-4">
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all theme-toggle"
-              aria-label="Toggle theme"
+              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all theme-toggle button-press hover:shadow-md"
+              aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+              title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
             >
               {theme === 'light' ? (
-                <Moon className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+                <Moon className="w-5 h-5 text-gray-700 dark:text-gray-300 rotate-in" />
               ) : (
-                <Sun className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+                <Sun className="w-5 h-5 text-gray-700 dark:text-gray-300 rotate-in" />
               )}
             </button>
           </div>

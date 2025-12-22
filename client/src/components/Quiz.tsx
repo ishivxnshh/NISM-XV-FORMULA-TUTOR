@@ -150,22 +150,34 @@ export function Quiz() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {topics.map((topic) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {topics.map((topic, index) => (
               <button
                 key={topic}
                 onClick={() => startQuiz(topic)}
-                className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all hover:scale-105 border-2 border-transparent hover:border-blue-500 card-hover"
+                disabled={loading}
+                className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all hover:scale-105 border-2 border-transparent hover:border-blue-500 card-hover group disabled:opacity-50 disabled:cursor-not-allowed fade-in button-press"
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="text-left">
-                  <h3 className="font-bold text-lg mb-2 text-gray-900 dark:text-white">
-                    {topic}
-                  </h3>
+                  <div className="flex items-start justify-between mb-2">
+                    <h3 className="font-bold text-lg text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors">
+                      {topic}
+                    </h3>
+                    <div className="bg-blue-100 dark:bg-blue-900 p-2 rounded-lg group-hover:bg-blue-500 transition-colors">
+                      <BookOpen className="w-4 h-4 text-blue-600 dark:text-blue-400 group-hover:text-white transition-colors" />
+                    </div>
+                  </div>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Click to start quiz
+                    10 questions • Fill in the blank
                   </p>
+                  <div className="flex items-center justify-between mt-4">
+                    <span className="text-xs text-blue-600 dark:text-cyan-400 font-semibold group-hover:underline">
+                      Start Quiz
+                    </span>
+                    <ChevronRight className="w-5 h-5 text-blue-600 dark:text-blue-400 group-hover:translate-x-1 transition-transform" />
+                  </div>
                 </div>
-                <ChevronRight className="w-5 h-5 text-blue-600 dark:text-blue-400 ml-auto mt-2" />
               </button>
             ))}
           </div>
@@ -184,10 +196,16 @@ export function Quiz() {
 
   if (questions.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600 dark:text-gray-300">Loading questions...</p>
+          <div className="relative inline-block mb-6">
+            <div className="animate-spin rounded-full h-16 w-16 border-4 border-gray-200 border-t-blue-600 dark:border-gray-700 dark:border-t-cyan-400"></div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <BookOpen className="w-6 h-6 text-blue-600 dark:text-cyan-400 bounce-soft" />
+            </div>
+          </div>
+          <p className="text-gray-700 dark:text-gray-300 text-lg font-medium">Loading questions...</p>
+          <p className="text-gray-500 dark:text-gray-400 text-sm mt-2">Preparing your quiz experience</p>
         </div>
       </div>
     );
@@ -242,10 +260,15 @@ export function Quiz() {
         </div>
 
         {/* Question Card */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-6 slide-up">
           <div className="mb-6">
-            <div className="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded-full text-sm font-medium mb-4">
-              {currentQuestion.difficulty}
+            <div className="flex items-center gap-3 mb-4">
+              <div className="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded-full text-sm font-medium">
+                {currentQuestion.difficulty}
+              </div>
+              <div className="inline-block px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 rounded-full text-sm font-medium">
+                {currentQuestion.topic}
+              </div>
             </div>
             <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white leading-relaxed">
               {currentQuestion.question_text}
@@ -254,23 +277,38 @@ export function Quiz() {
 
           {!result ? (
             <div>
-              <input
-                type="text"
-                value={userAnswer}
-                onChange={(e) => setUserAnswer(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && checkAnswer()}
-                placeholder="Type your answer here..."
-                className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white mb-4"
-                disabled={loading}
-              />
+              <div className="relative mb-4">
+                <input
+                  type="text"
+                  value={userAnswer}
+                  onChange={(e) => setUserAnswer(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && !loading && userAnswer.trim() && checkAnswer()}
+                  placeholder="Type your answer here..."
+                  className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all"
+                  disabled={loading}
+                  autoFocus
+                />
+                {userAnswer && (
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400">
+                    Press Enter
+                  </div>
+                )}
+              </div>
 
               <div className="flex gap-3">
                 <button
                   onClick={checkAnswer}
                   disabled={!userAnswer.trim() || loading}
-                  className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors font-medium"
+                  className="flex-1 px-6 py-3 bg-gradient-pska text-white rounded-lg hover:shadow-lg glow-effect disabled:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50 transition-all font-medium button-press"
                 >
-                  {loading ? 'Checking...' : 'Submit Answer'}
+                  {loading ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      Checking...
+                    </span>
+                  ) : (
+                    'Submit Answer'
+                  )}
                 </button>
 
                 {currentQuestion.hints && currentQuestion.hints.length > 0 && !showHint && (
@@ -303,12 +341,12 @@ export function Quiz() {
               {/* Result Display */}
               <div className={`p-6 rounded-lg mb-6 ${
                 result.isCorrect 
-                  ? 'bg-green-50 dark:bg-green-900/30 border-2 border-green-500' 
-                  : 'bg-red-50 dark:bg-red-900/30 border-2 border-red-500'
+                  ? 'bg-green-50 dark:bg-green-900/30 border-2 border-green-500 success-bounce' 
+                  : 'bg-red-50 dark:bg-red-900/30 border-2 border-red-500 shake'
               }`}>
                 <div className="flex items-center gap-3 mb-3">
                   {result.isCorrect ? (
-                    <CheckCircle className="w-8 h-8 text-green-600 dark:text-green-400" />
+                    <CheckCircle className="w-8 h-8 text-green-600 dark:text-green-400 success-bounce" />
                   ) : (
                     <XCircle className="w-8 h-8 text-red-600 dark:text-red-400" />
                   )}
@@ -316,7 +354,7 @@ export function Quiz() {
                     <h4 className={`text-xl font-bold ${
                       result.isCorrect ? 'text-green-800 dark:text-green-300' : 'text-red-800 dark:text-red-300'
                     }`}>
-                      {result.isCorrect ? 'Correct!' : 'Incorrect'}
+                      {result.isCorrect ? '🎉 Correct!' : 'Not Quite'}
                     </h4>
                     <p className={`text-sm ${
                       result.isCorrect ? 'text-green-700 dark:text-green-400' : 'text-red-700 dark:text-red-400'
