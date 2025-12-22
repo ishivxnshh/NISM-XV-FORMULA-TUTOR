@@ -17,8 +17,8 @@ export function Navbar() {
         <div className="absolute inset-0 bg-white/5 animate-pulse"></div>
         <div className="absolute inset-0 shimmer"></div>
         <p className="text-white text-sm font-medium relative z-10 pulse-subtle">
-          🎓 Prof. Sheetal Kunder Academy programs are entirely updated as per the latest NISM curriculum (June 2025). 
-          We ensure all the updates regarding SEBI compliance & NISM are touched based regularly
+          
+🎓 Prof. Sheetal Kunder Academy practice quiz and case studies are updated with Jan 2026 curriculum
         </p>
       </div>
 

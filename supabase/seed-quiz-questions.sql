@@ -10,37 +10,107 @@ DELETE FROM quiz_questions;
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'PMS',
-  'PMS is regulated by _____.',
-  'SEBI',
+  'GIPS advertisement guidelines require disclosure of appropriate composite _____ return.',
+  'benchmark',
   'easy',
-  '{"regulator"}',
-  'Portfolio Management Services are regulated by SEBI.'
+  '{"comparison"}',
+  'Benchmark return must be disclosed.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'PMS',
-  'Minimum investment amount in PMS is Rs _____.',
-  '50 lakh',
+  'GIPS advertisements must specify the _____ used to express performance.',
+  'currency',
   'easy',
-  '{"threshold"}',
-  'SEBI mandates minimum ₹50 lakh.'
+  '{"clarity"}',
+  'Currency disclosure is mandatory.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'PMS',
-  'PMS can be offered in discretionary and _____ modes.',
-  'non-discretionary',
+  'PMS advertisements must show at least _____ years of performance.',
+  'five',
   'easy',
-  '{"types"}',
-  'Two types of PMS accounts.'
+  '{"history"}',
+  'Minimum five years or since inception.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'PMS',
-  'Portfolio manager cannot _____ client securities.',
+  'Assets are broadly classified into financial and _____ assets.',
+  'physical',
+  'easy',
+  '{"classification"}',
+  'Assets are financial or physical.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'PMS',
+  'Shares and debentures are examples of _____ assets.',
+  'financial',
+  'easy',
+  '{"investment"}',
+  'These are financial instruments.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'PMS',
+  'Gold and real estate are examples of _____ assets.',
+  'physical',
+  'easy',
+  '{"tangible"}',
+  'They are physical assets.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'PMS',
+  'NRIs can open a Demat account in India without _____ permission.',
+  'RBI',
+  'easy',
+  '{"NRI"}',
+  'No RBI approval needed.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'PMS',
+  'PMS registration focuses on grievance redressal and _____ systems.',
+  'accounting',
+  'easy',
+  '{"compliance"}',
+  'Accounting systems are evaluated.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'PMS',
+  'PMS registration does not require disclosure of _____ models.',
+  'forecasting',
+  'medium',
+  '{"investment"}',
+  'Forecasting models are not asked.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'PMS',
+  'If a client fails to meet _____ requirements, transactions cannot be carried out.',
+  'PMLA',
+  'easy',
+  '{"compliance"}',
+  'PMLA compliance is mandatory.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'PMS',
+  'A portfolio manager cannot borrow or _____ client securities.',
   'pledge',
   'easy',
   '{"restriction"}',
@@ -50,107 +120,27 @@ VALUES (
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'PMS',
-  'PMS investment rationale must be disclosed under Regulation _____.',
-  '27',
+  'Any funding shortfall must be met using PMS’s _____ resources.',
+  'own',
+  'easy',
+  '{"liability"}',
+  'PMS uses own resources.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'PMS',
+  'Compensation for postponement of consumption is called the _____ rate.',
+  'real risk-free',
   'medium',
-  '{"SEBI rule"}',
-  'Regulation 27 covers disclosures.'
+  '{"returns"}',
+  'Pure time value of money.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'PMS',
-  'PMS operating expenses cannot exceed _____% per annum.',
-  '0.50',
-  'hard',
-  '{"expense limit"}',
-  'Expense cap excluding brokerage.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'PMS',
-  'Client funds in PMS are held in a _____ account.',
-  'bank',
-  'easy',
-  '{"custody"}',
-  'Client money held in bank account.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'PMS',
-  'PMS cannot borrow funds on behalf of the _____.',
-  'client',
-  'easy',
-  '{"restriction"}',
-  'Borrowing on client behalf prohibited.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'PMS',
-  'Custom benchmarks are more accurate but more _____.',
-  'expensive',
-  'easy',
-  '{"cost"}',
-  'Custom benchmarks cost more.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'PMS',
-  'PMS returns must be shown in the _____ used.',
-  'currency',
-  'easy',
-  '{"GIPS"}',
-  'Currency disclosure mandatory.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'PMS',
-  'NRIs can open PMS account without _____ permission.',
-  'RBI',
-  'easy',
-  '{"NRI"}',
-  'No RBI permission needed.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'PMS',
-  'PMS must align investments with client _____ profile.',
-  'risk',
-  'easy',
-  '{"suitability"}',
-  'Risk profiling required.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'PMS',
-  'Portfolio beta is the _____ average of individual betas.',
-  'weighted',
-  'easy',
-  '{"formula"}',
-  'Weighted average method.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'PMS',
-  'Market risk cannot be removed through _____.',
-  'diversification',
-  'easy',
-  '{"systematic"}',
-  'Systematic risk persists.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'PMS',
-  'Nominal rate includes expected _____.',
+  'Nominal risk-free rate includes expected _____.',
   'inflation',
   'easy',
   '{"returns"}',
@@ -160,27 +150,147 @@ VALUES (
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'PMS',
-  'Real rate ignores the effect of _____.',
+  'Required rate of return includes risk _____.',
+  'premium',
+  'easy',
+  '{"returns"}',
+  'Risk premium added.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'PMS',
+  'A guaranteed future payment is considered a _____ investment.',
+  'risk-free',
+  'easy',
+  '{"certainty"}',
+  'No uncertainty involved.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'PMS',
+  'The return on a risk-free investment is called the _____ rate.',
+  'risk-free',
+  'easy',
+  '{"returns"}',
+  'Risk-free rate definition.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'PMS',
+  'Personal financial statements help assess ability to _____.',
+  'invest',
+  'easy',
+  '{"planning"}',
+  'Used to judge investibility.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'PMS',
+  'If income exceeds expenses, the investor has surplus to _____.',
+  'invest',
+  'easy',
+  '{"planning"}',
+  'Surplus allows investing.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'PMS',
+  'Nominal rate of return ignores change in purchasing _____.',
+  'power',
+  'easy',
+  '{"inflation"}',
+  'Purchasing power ignored.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'PMS',
+  'Real rate of return is calculated by subtracting _____ from nominal rate.',
   'inflation',
   'easy',
-  '{"purchasing power"}',
-  'Real return adjusts inflation.'
+  '{"formula"}',
+  'Real = nominal − inflation.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'PMS',
-  'PMS advertisements must show at least _____ years of returns.',
-  'five',
+  'Investment rationale of PMS is governed under Regulation _____.',
+  '27',
+  'medium',
+  '{"SEBI"}',
+  'SEBI PMS Regulations.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'PMS',
+  'Portfolio managers must align investments with client risk _____.',
+  'profile',
   'easy',
-  '{"GIPS"}',
-  'Minimum 5-year disclosure.'
+  '{"suitability"}',
+  'Risk profiling required.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'PMS',
-  'PMS is not allowed to invest in _____ shares.',
+  'Custom benchmarks are more accurate but more _____.',
+  'expensive',
+  'easy',
+  '{"cost"}',
+  'Higher maintenance cost.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'PMS',
+  'Client funds in PMS are maintained in a _____ account.',
+  'bank',
+  'easy',
+  '{"custody"}',
+  'Bank account maintained.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'PMS',
+  'SEBI may seek business information during PMS _____.',
+  'registration',
+  'easy',
+  '{"process"}',
+  'Registration scrutiny.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'PMS',
+  'Portfolio beta is the _____ average of stock betas.',
+  'weighted',
+  'easy',
+  '{"formula"}',
+  'Weighted beta calculation.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'PMS',
+  'Active and passive funds are classified based on management _____.',
+  'style',
+  'easy',
+  '{"funds"}',
+  'Management approach.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'PMS',
+  'Portfolio manager cannot invest in _____ shares under discretionary PMS.',
   'unlisted',
   'medium',
   '{"restriction"}',
@@ -190,71 +300,11 @@ VALUES (
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'PMS',
-  'Client grievances must be addressed through proper _____ mechanism.',
-  'redressal',
-  'easy',
-  '{"SEBI"}',
-  'Grievance redressal required.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'PMS',
-  'PMS registration requires disclosure of accounting _____.',
-  'systems',
-  'easy',
-  '{"infrastructure"}',
-  'Accounting systems checked.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'PMS',
-  'Risk-free rate adjusted for inflation is called _____ rate.',
-  'real',
-  'medium',
-  '{"returns"}',
-  'Real risk-free rate.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'PMS',
-  'PMS fees are charged as a percentage of _____.',
-  'AUM',
-  'easy',
-  '{"assets"}',
-  'Assets Under Management.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'PMS',
-  'PMS investment decisions must be properly _____.',
-  'documented',
-  'easy',
-  '{"records"}',
-  'Documentation mandatory.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'PMS',
-  'PMS cannot guarantee _____ to clients.',
-  'returns',
-  'easy',
-  '{"risk"}',
-  'Returns not guaranteed.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'PMS',
-  'PMS is suitable for _____ net-worth investors.',
-  'high',
-  'easy',
-  '{"HNIs"}',
-  'PMS targets HNIs.'
+  'PMS operating expenses cannot exceed _____% per annum.',
+  '0.50',
+  'hard',
+  '{"limit"}',
+  'Expense cap excluding brokerage.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
@@ -264,127 +314,387 @@ VALUES (
   'precedes',
   'easy',
   '{"order"}',
-  'Saving comes before investing.'
+  'Saving must happen before investing.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'MFD',
-  'A mutual fund is structured as a _____.',
-  'trust',
+  'The three key factors to evaluate investments are safety, liquidity and _____.',
+  'returns',
   'easy',
-  '{"structure"}',
-  'MF operates as trust.'
+  '{"evaluation"}',
+  'Core investment factors.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'MFD',
-  'NAV of open-ended schemes is calculated _____ daily.',
-  'once',
+  'The minimum amount required for investment is known as _____.',
+  'ticket size',
   'easy',
-  '{"frequency"}',
-  'NAV disclosed daily.'
+  '{"minimum"}',
+  'Ticket size definition.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'MFD',
-  'ELSS schemes have a lock-in of _____ years.',
-  'three',
+  'An asset class groups investments with similar _____.',
+  'characteristics',
   'easy',
-  '{"tax"}',
-  'Statutory lock-in.'
+  '{"classification"}',
+  'Asset class meaning.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'MFD',
-  'Mutual funds pass risk and return to _____.',
-  'investors',
+  'Real estate is considered a _____ asset.',
+  'illiquid',
   'easy',
-  '{"ownership"}',
-  'MF is pass-through.'
+  '{"liquidity"}',
+  'Real estate is not easily sellable.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'MFD',
-  'Market risk cannot be eliminated by _____.',
+  'Equity is also known as _____ capital.',
+  'risk',
+  'easy',
+  '{"nature"}',
+  'Equity involves higher risk.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
+  'Inflation erodes the _____ power of money.',
+  'purchasing',
+  'easy',
+  '{"value"}',
+  'Inflation effect.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
+  'Real rate of return is calculated after adjusting for taxes and _____.',
+  'inflation',
+  'easy',
+  '{"returns"}',
+  'Real return meaning.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
+  'A return ignoring taxes and inflation is called _____ return.',
+  'nominal',
+  'easy',
+  '{"definition"}',
+  'Nominal return.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
+  'Market risk cannot be eliminated through _____.',
   'diversification',
   'easy',
   '{"systematic"}',
-  'Market risk remains.'
+  'Systematic risk.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'MFD',
-  'SIP stands for Systematic _____ Plan.',
-  'Investment',
+  'Bond prices and interest rates have an _____ relationship.',
+  'inverse',
   'easy',
-  '{"abbreviation"}',
-  'SIP expands to Investment.'
+  '{"pricing"}',
+  'Interest rate effect.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'MFD',
-  'SWP provides _____ income to investors.',
-  'regular',
+  'Asset allocation means distributing money across different _____ classes.',
+  'asset',
   'easy',
-  '{"withdrawal"}',
-  'Systematic withdrawals.'
+  '{"allocation"}',
+  'Asset allocation meaning.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'MFD',
-  'STP transfers money between _____ schemes.',
-  'two',
+  'Risk profiling determines an investor’s risk _____.',
+  'appetite',
   'easy',
-  '{"movement"}',
-  'Source to target scheme.'
+  '{"profile"}',
+  'Risk appetite assessment.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'MFD',
-  'Close-ended schemes have fixed _____.',
+  'Strategic asset allocation is aligned with financial _____.',
+  'goals',
+  'easy',
+  '{"planning"}',
+  'Goal-based allocation.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
+  'Tactical asset allocation aims to improve risk-adjusted _____.',
+  'returns',
+  'easy',
+  '{"performance"}',
+  'Tactical objective.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
+  'A mutual fund is a professionally managed investment _____.',
+  'vehicle',
+  'easy',
+  '{"definition"}',
+  'MF definition.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
+  'A mutual fund is structured in the form of a _____.',
+  'trust',
+  'easy',
+  '{"structure"}',
+  'MF legal structure.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
+  'Fund and scheme are used _____ in the mutual fund industry.',
+  'interchangeably',
+  'easy',
+  '{"terminology"}',
+  'Common usage.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
+  'Every mutual fund scheme has a pre-announced investment _____.',
+  'objective',
+  'easy',
+  '{"planning"}',
+  'Scheme objective.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
+  'Mutual funds pass risk and return directly to the _____.',
+  'investors',
+  'easy',
+  '{"ownership"}',
+  'Pass-through vehicle.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
+  'Mutual funds are not _____ return products.',
+  'guaranteed',
+  'easy',
+  '{"disclaimer"}',
+  'No assured returns.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
+  'Open-ended schemes allow investors to enter or exit at _____ time.',
+  'any',
+  'easy',
+  '{"flexibility"}',
+  'Anytime entry-exit.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
+  'Close-ended schemes have a fixed _____.',
   'maturity',
   'easy',
   '{"tenure"}',
-  'Fixed maturity.'
+  'Fixed life.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'MFD',
-  'ETF units are traded on the _____.',
+  'Listing of close-ended schemes is _____ to provide liquidity.',
+  'compulsory',
+  'medium',
+  '{"exchange"}',
+  'Liquidity requirement.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
+  'Interval funds combine features of open-ended and _____ schemes.',
+  'close-ended',
+  'easy',
+  '{"hybrid"}',
+  'Interval fund structure.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
+  'The open period in an interval fund is called the _____ period.',
+  'transaction',
+  'medium',
+  '{"interval"}',
+  'Transaction window.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
+  'ETFs are traded throughout the day on the stock _____.',
   'exchange',
   'easy',
-  '{"stock market"}',
-  'ETFs trade like stocks.'
+  '{"trading"}',
+  'ETF trading.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'MFD',
-  'Passive funds aim to track an _____.',
+  'A demat account is required to invest in _____.',
+  'ETFs',
+  'easy',
+  '{"requirement"}',
+  'ETF requirement.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
+  'Passive funds aim to replicate a market _____.',
   'index',
   'easy',
-  '{"benchmark"}',
+  '{"tracking"}',
   'Index tracking.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'MFD',
-  'Expense ratio represents cost of managing the _____.',
-  'fund',
+  'Passive funds generally have lower running _____.',
+  'costs',
   'easy',
-  '{"TER"}',
-  'Total Expense Ratio.'
+  '{"expenses"}',
+  'Low expense ratio.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
+  'ELSS schemes have a statutory lock-in of _____ years.',
+  'three',
+  'easy',
+  '{"tax"}',
+  'ELSS lock-in.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
+  'Overnight funds invest in securities with maturity of _____ day.',
+  'one',
+  'easy',
+  '{"tenure"}',
+  'Overnight duration.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
+  'Liquid funds invest in securities up to _____ days maturity.',
+  '91',
+  'easy',
+  '{"duration"}',
+  'Liquid fund rule.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
+  'Corporate bond funds invest mainly in _____ rated bonds.',
+  'AA+',
+  'medium',
+  '{"credit"}',
+  'Credit quality.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
+  'Gilt funds invest in _____ securities.',
+  'government',
+  'easy',
+  '{"sovereign"}',
+  'G-Secs.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
+  'Aggressive hybrid funds invest predominantly in _____.',
+  'equity',
+  'easy',
+  '{"allocation"}',
+  'Equity-heavy hybrid.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
+  'Children’s funds have a minimum lock-in of _____ years.',
+  'five',
+  'easy',
+  '{"solution"}',
+  'Child fund rule.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
+  'NAV of open-ended schemes is disclosed on a _____ basis.',
+  'daily',
+  'easy',
+  '{"frequency"}',
+  'Daily NAV.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
+  'NAV of close-ended schemes is calculated at least once a _____.',
+  'week',
+  'medium',
+  '{"frequency"}',
+  'Weekly NAV.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
@@ -400,77 +710,67 @@ VALUES (
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'MFD',
+  'Risk disclosure in SID is shown using the _____.',
+  'Riskometer',
+  'easy',
+  '{"indicator"}',
+  'Risk indicator.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
+  'SIP allows investors to invest at _____ intervals.',
+  'regular',
+  'easy',
+  '{"discipline"}',
+  'Systematic investment.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
+  'SWP provides _____ income to investors.',
+  'regular',
+  'easy',
+  '{"withdrawal"}',
+  'Systematic withdrawal.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
+  'Units are redeemed on _____ basis.',
+  'FIFO',
+  'medium',
+  '{"accounting"}',
+  'First-in-first-out.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'MFD',
   'PAN is compulsory except for _____ SIPs.',
   'micro',
   'medium',
-  '{"limit"}',
+  '{"exemption"}',
   'Micro SIP exemption.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'MFD',
-  'Mutual fund distributor earns income through _____.',
-  'commission',
-  'easy',
-  '{"earnings"}',
-  'Commission based.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'MFD',
-  'Entry load in mutual funds is currently _____.',
-  'nil',
-  'easy',
-  '{"charges"}',
-  'Entry load abolished.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'MFD',
-  'Exit load is charged on _____ before time.',
-  'redemption',
-  'easy',
-  '{"fees"}',
-  'Charged on early exit.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'MFD',
-  'Gilt funds invest in _____ securities.',
-  'government',
-  'easy',
-  '{"risk-free"}',
-  'Government bonds.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'MFD',
-  'Corporate bond funds invest mainly in _____ rated bonds.',
-  'AA+',
+  'Cash investment in mutual funds is allowed up to Rs _____ per year.',
+  '50000',
   'medium',
-  '{"credit"}',
-  'High-rated bonds.'
+  '{"limit"}',
+  'Cash transaction limit.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'MFD',
-  'NAV for equity funds is calculated up to _____ decimals.',
-  'two',
-  'hard',
-  '{"precision"}',
-  'SEBI guideline.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'MFD',
-  'Fund factsheet is published on a _____ basis.',
+  'Fund factsheets are published on a _____ basis.',
   'monthly',
   'easy',
   '{"report"}',
@@ -479,148 +779,248 @@ VALUES (
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
-  'MFD',
-  'Index funds have _____ running costs.',
-  'low',
-  'easy',
-  '{"expenses"}',
-  'Low cost structure.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'MFD',
-  'Riskometer shows _____ level of scheme.',
-  'risk',
-  'easy',
-  '{"indicator"}',
-  'Risk classification.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'MFD',
-  'Children’s fund has minimum lock-in of _____ years.',
-  'five',
-  'easy',
-  '{"solution fund"}',
-  'Child investment.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
   'Equity Derivatives',
-  'A call option gives the right to _____ the underlying.',
-  'buy',
+  'An option is a contract that gives the right but not the _____ to buy or sell.',
+  'obligation',
   'easy',
   '{"rights"}',
-  'Call option buy right.'
+  'Options give rights without obligation.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Equity Derivatives',
-  'A put option gives the right to _____ the underlying.',
-  'sell',
+  'The buyer of an option pays the option _____.',
+  'premium',
   'easy',
-  '{"rights"}',
-  'Put option sell right.'
+  '{"cost"}',
+  'Buyer pays premium upfront.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Equity Derivatives',
-  'All equity options in India are of _____ style.',
-  'European',
+  'The seller of an option receives premium and has the _____ to perform.',
+  'obligation',
   'easy',
-  '{"exercise"}',
-  'European options.'
+  '{"duty"}',
+  'Option writer is obligated.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Equity Derivatives',
-  'Option premium is paid by the option _____.',
-  'buyer',
+  'Intrinsic value of a call option is calculated as spot price minus _____.',
+  'strike price',
   'easy',
-  '{"premium"}',
-  'Buyer pays premium.'
+  '{"formula"}',
+  'Call intrinsic value formula.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Equity Derivatives',
-  'Time decay benefits the option _____.',
-  'seller',
+  'An in-the-money option has _____ intrinsic value.',
+  'positive',
+  'easy',
+  '{"value"}',
+  'ITM options have value.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Equity Derivatives',
+  'A call option is in-the-money when strike price is _____ than spot price.',
+  'lower',
+  'easy',
+  '{"ITM"}',
+  'ITM call condition.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Equity Derivatives',
+  'A trader bearish on the market may use a bearish vertical spread using _____.',
+  'put',
   'medium',
-  '{"theta"}',
-  'Seller gains from decay.'
+  '{"strategy"}',
+  'Bearish put spread.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Equity Derivatives',
-  'Delta measures sensitivity to _____ price.',
-  'spot',
+  'Hedging intention is confirmed when there exists a related _____ position.',
+  'commercial',
   'medium',
-  '{"greeks"}',
-  'Underlying price.'
+  '{"risk"}',
+  'Commercial exposure check.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Equity Derivatives',
-  'Gamma measures change in _____.',
-  'delta',
+  'Net worth requirement of a clearing member is _____ than non-clearing member.',
+  'higher',
+  'easy',
+  '{"membership"}',
+  'Higher capital needed.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Equity Derivatives',
+  'Dow Jones Industrial Average consists of _____ stocks.',
+  '30',
+  'easy',
+  '{"index"}',
+  'DJIA composition.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Equity Derivatives',
+  'S&P 500 is considered a _____ index than Dow Jones.',
+  'broader',
+  'easy',
+  '{"comparison"}',
+  'Covers more stocks.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Equity Derivatives',
+  'Entire contribution of equity shares is not allowed as _____ assets for margin.',
+  'liquid',
   'medium',
-  '{"greeks"}',
-  'Change in delta.'
+  '{"margin"}',
+  'Liquid asset definition.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Equity Derivatives',
-  'Theta measures sensitivity to _____.',
-  'time',
+  'Margins in derivative trading depend on volatility and _____ movement.',
+  'price',
   'easy',
-  '{"decay"}',
-  'Time decay.'
+  '{"risk"}',
+  'Margin determinants.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Equity Derivatives',
-  'Vega measures sensitivity to _____.',
-  'volatility',
+  'Declining futures price with rising open interest indicates a _____ trend.',
+  'bearish',
   'easy',
-  '{"greeks"}',
-  'Volatility impact.'
+  '{"market"}',
+  'Bearish signal.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Equity Derivatives',
-  'Rho measures sensitivity to _____ rates.',
-  'interest',
+  'ETFs can be traded on exchange on an _____ basis.',
+  'intraday',
+  'easy',
+  '{"trading"}',
+  'Intraday trading allowed.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Equity Derivatives',
+  'A trading member can trade on behalf of clients or on own _____.',
+  'account',
+  'easy',
+  '{"roles"}',
+  'Proprietary trading.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Equity Derivatives',
+  'A swap is an agreement to exchange _____ flows in the future.',
+  'cash',
+  'easy',
+  '{"definition"}',
+  'Swap definition.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Equity Derivatives',
+  'High volatility generally causes the bid-ask spread to _____.',
+  'widen',
+  'easy',
+  '{"liquidity"}',
+  'Spread behavior.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Equity Derivatives',
+  'Derivative income on recognised exchanges is treated as _____ income.',
+  'non-speculative',
+  'medium',
+  '{"tax"}',
+  'Finance Act 2005.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Equity Derivatives',
+  'Natural gas future is a derivative on _____ resources.',
+  'energy',
+  'easy',
+  '{"commodity"}',
+  'Energy derivative.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Equity Derivatives',
+  'Risk management focuses on maintaining _____ in derivative markets.',
+  'stability',
+  'easy',
+  '{"objective"}',
+  'Market stability.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Equity Derivatives',
+  'Initial margin is shown under _____ assets in balance sheet.',
+  'current',
   'hard',
-  '{"greeks"}',
-  'Interest rate effect.'
+  '{"accounting"}',
+  'Accounting treatment.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Equity Derivatives',
-  'Futures contracts have _____ payoff.',
-  'linear',
+  'American options are valued higher due to early _____ feature.',
+  'exercise',
   'easy',
-  '{"payoff"}',
-  'Linear payoff.'
+  '{"rights"}',
+  'Early exercise benefit.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Equity Derivatives',
-  'Index futures in India are settled in _____.',
+  'Stock options in India are settled by _____ delivery.',
+  'physical',
+  'medium',
+  '{"settlement"}',
+  'Physical settlement.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Equity Derivatives',
+  'Index options are settled in _____.',
   'cash',
   'easy',
   '{"settlement"}',
@@ -630,147 +1030,287 @@ VALUES (
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Equity Derivatives',
-  'Stock options are settled by _____ delivery.',
-  'physical',
+  'Equity shares deposited as margin are marked to market on a _____ basis.',
+  'regular',
   'medium',
-  '{"shares"}',
-  'Physical settlement.'
+  '{"valuation"}',
+  'MTM valuation.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Equity Derivatives',
-  'Difference between spot and future price is _____.',
-  'basis',
+  'Indian derivative market follows a _____ driven trading system.',
+  'order',
   'easy',
-  '{"pricing"}',
-  'Basis definition.'
+  '{"market"}',
+  'Order-driven market.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Equity Derivatives',
-  'Higher volatility leads to higher option _____.',
-  'premium',
+  'Clearing corporations maintain a Core Settlement _____ Fund.',
+  'Guarantee',
+  'medium',
+  '{"safety"}',
+  'Settlement protection.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Equity Derivatives',
+  'Outstanding liability of a member includes all client open _____.',
+  'positions',
+  'medium',
+  '{"risk"}',
+  'Cannot be netted.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Equity Derivatives',
+  'Debit balance in MTM margin account represents anticipated _____.',
+  'loss',
   'easy',
-  '{"pricing"}',
-  'Volatility effect.'
+  '{"prudence"}',
+  'Anticipated loss.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Equity Derivatives',
-  'ITM call option delta approaches _____.',
-  '1',
-  'hard',
-  '{"expiry"}',
-  'Delta near +1.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'Equity Derivatives',
-  'ITM put option delta approaches _____.',
-  '-1',
-  'hard',
-  '{"expiry"}',
-  'Delta near -1.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'Equity Derivatives',
-  'OTM options have _____ intrinsic value.',
-  'zero',
+  'Higher margins restrict derivative trading to financially _____ traders.',
+  'strong',
   'easy',
-  '{"value"}',
-  'No intrinsic value.'
+  '{"risk"}',
+  'Risk control.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Equity Derivatives',
-  'Leverage allows high exposure with low _____.',
-  'margin',
+  'Forward contracts are _____ contracts.',
+  'customized',
   'easy',
-  '{"capital"}',
-  'Margin trading.'
+  '{"OTC"}',
+  'Negotiated contracts.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Equity Derivatives',
-  'Speculators primarily _____ risk.',
+  'UCC stands for Unique _____ Code.',
+  'Client',
+  'easy',
+  '{"onboarding"}',
+  'Client identification.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Equity Derivatives',
+  'Speculators _____ risk while hedgers reduce it.',
   'take',
   'easy',
-  '{"participants"}',
-  'Speculators take risk.'
+  '{"roles"}',
+  'Market participants.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Equity Derivatives',
-  'Hedgers aim to _____ risk.',
-  'reduce',
+  'A limit order executes only at the specified or _____ price.',
+  'better',
   'easy',
-  '{"participants"}',
-  'Risk reduction.'
+  '{"orders"}',
+  'Limit order rule.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Equity Derivatives',
-  'IOC order cancels unexecuted portion _____.',
+  'A professional clearing member is not a _____ member.',
+  'trading',
+  'medium',
+  '{"membership"}',
+  'Clearing-only role.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Equity Derivatives',
+  'Option price depends on spot price, strike price, volatility, time and _____ rates.',
+  'interest',
+  'hard',
+  '{"pricing"}',
+  'Option pricing factors.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Equity Derivatives',
+  'Covered call strategy restricts upside but leaves _____ loss potential.',
+  'unlimited',
+  'medium',
+  '{"risk"}',
+  'Covered call risk.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Equity Derivatives',
+  'Bid price is the price at which market is prepared to _____.',
+  'buy',
+  'easy',
+  '{"quotes"}',
+  'Bid definition.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Equity Derivatives',
+  'Ask price is the price at which market is prepared to _____.',
+  'sell',
+  'easy',
+  '{"quotes"}',
+  'Ask definition.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Equity Derivatives',
+  'Initial margin is based on VaR while MTM is calculated on _____ basis.',
+  'daily',
+  'easy',
+  '{"margin"}',
+  'MTM frequency.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Equity Derivatives',
+  'Immediate-or-cancel order cancels unmatched portion _____.',
   'immediately',
   'easy',
-  '{"order"}',
-  'Immediate-or-cancel.'
+  '{"IOC"}',
+  'Order behavior.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Equity Derivatives',
-  'Market order is placed without specifying _____.',
-  'price',
+  'Difference between spot and futures price is called _____.',
+  'basis',
   'easy',
-  '{"order"}',
-  'Market price execution.'
+  '{"pricing"}',
+  'Basis definition.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Equity Derivatives',
-  'STT stands for Security Transaction _____.',
-  'Tax',
+  'Market maker provides _____ way quotes.',
+  'two',
   'easy',
-  '{"charges"}',
-  'Transaction tax.'
+  '{"liquidity"}',
+  'Bid and ask.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Equity Derivatives',
-  'On expiry, spot and futures prices converge to be _____.',
-  'same',
+  'Impact cost differs for the buyer and the _____.',
+  'seller',
+  'medium',
+  '{"liquidity"}',
+  'Impact cost asymmetry.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Equity Derivatives',
+  'Contract month refers to the _____ month of futures contract.',
+  'maturity',
   'easy',
   '{"expiry"}',
-  'Price convergence.'
+  'Contract month meaning.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Equity Derivatives',
+  'Seller of a put option prefers the spot price to _____.',
+  'rise',
+  'medium',
+  '{"view"}',
+  'Bullish view.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Equity Derivatives',
+  'If trading member reaches position limit, only _____ transactions are allowed.',
+  'squaring-off',
+  'hard',
+  '{"risk"}',
+  'Exposure reduction.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Common Derivatives',
-  'Derivatives are mainly used for managing _____.',
+  'The primary objective of derivatives is to manage _____.',
   'risk',
   'easy',
-  '{"purpose"}',
-  'Primary objective.'
+  '{"hedging"}',
+  'Derivatives are mainly risk management tools.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Common Derivatives',
-  'Difference between two futures prices is called _____.',
+  'Derivative market mainly consists of hedgers and _____.',
+  'speculators',
+  'easy',
+  '{"participants"}',
+  'Two main participants.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Common Derivatives',
+  'The minimum price movement in a contract is called _____.',
+  'tick size',
+  'easy',
+  '{"pricing"}',
+  'Defined by exchange.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Common Derivatives',
+  'Forward contracts are _____ contracts.',
+  'customized',
+  'easy',
+  '{"OTC"}',
+  'Terms are negotiated.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Common Derivatives',
+  'Futures contracts are _____ contracts.',
+  'standardized',
+  'easy',
+  '{"exchange"}',
+  'Exchange traded contracts.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Common Derivatives',
+  'Difference between spot price and futures price is called _____.',
   'basis',
   'easy',
   '{"pricing"}',
@@ -780,17 +1320,17 @@ VALUES (
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Common Derivatives',
-  'When future price exceeds spot price it is called _____.',
+  'When futures price is higher than spot price, market is in _____.',
   'contango',
   'medium',
   '{"market"}',
-  'Normal market.'
+  'Normal market condition.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Common Derivatives',
-  'When spot price exceeds future price it is called _____.',
+  'When spot price is higher than futures price, market is in _____.',
   'backwardation',
   'medium',
   '{"market"}',
@@ -810,57 +1350,37 @@ VALUES (
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Common Derivatives',
-  'Minimum price movement is called _____.',
-  'tick size',
-  'easy',
-  '{"pricing"}',
-  'Exchange defined.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'Common Derivatives',
-  'Clearing corporation acts as legal _____.',
-  'counterparty',
-  'medium',
-  '{"settlement"}',
-  'Guarantees trades.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'Common Derivatives',
   'Initial margin is collected to cover _____ risk.',
   'default',
   'easy',
   '{"margin"}',
-  'Risk mitigation.'
+  'Protects against default.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Common Derivatives',
-  'Forward contracts are _____ contracts.',
-  'customized',
+  'Clearing corporation acts as a legal _____.',
+  'counterparty',
+  'medium',
+  '{"settlement"}',
+  'Guarantees settlement.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Common Derivatives',
+  'Higher volatility leads to higher margin _____.',
+  'requirement',
   'easy',
-  '{"OTC"}',
-  'Not standardized.'
+  '{"risk"}',
+  'Volatility-based margins.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Common Derivatives',
-  'Futures contracts are _____ contracts.',
-  'standardized',
-  'easy',
-  '{"exchange"}',
-  'Exchange traded.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'Common Derivatives',
-  'Bid price is price at which market is ready to _____.',
+  'Bid price is the price at which market is prepared to _____.',
   'buy',
   'easy',
   '{"quotes"}',
@@ -870,7 +1390,7 @@ VALUES (
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Common Derivatives',
-  'Ask price is price at which market is ready to _____.',
+  'Ask price is the price at which market is prepared to _____.',
   'sell',
   'easy',
   '{"quotes"}',
@@ -880,11 +1400,21 @@ VALUES (
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Common Derivatives',
-  'Higher liquidity leads to lower _____ cost.',
-  'impact',
+  'The difference between bid and ask price is called _____.',
+  'spread',
+  'easy',
+  '{"liquidity"}',
+  'Bid-ask spread.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Common Derivatives',
+  'Cost arising due to bid-ask spread is called _____.',
+  'impact cost',
   'medium',
-  '{"spread"}',
-  'Impact cost.'
+  '{"liquidity"}',
+  'Impact cost meaning.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
@@ -894,17 +1424,27 @@ VALUES (
   'liquidity',
   'easy',
   '{"role"}',
-  'Liquidity providers.'
+  'Speculators add liquidity.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Common Derivatives',
-  'Hedging limits both losses and _____.',
-  'profits',
+  'Hedgers aim to _____ risk.',
+  'reduce',
   'easy',
-  '{"tradeoff"}',
-  'Hedging trade-off.'
+  '{"purpose"}',
+  'Risk reduction.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Common Derivatives',
+  'Leverage allows large exposure with small _____.',
+  'margin',
+  'easy',
+  '{"capital"}',
+  'Margin trading.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
@@ -930,41 +1470,21 @@ VALUES (
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Common Derivatives',
-  'Derivative market shifts risk to _____.',
-  'speculators',
-  'easy',
-  '{"participants"}',
-  'Risk transfer.'
+  'Derivative trading in India is done through an online _____ system.',
+  'screen-based',
+  'medium',
+  '{"trading"}',
+  'Screen based trading.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Common Derivatives',
-  'Settlement guarantee fund is maintained by _____.',
-  'clearing corporation',
+  'Settlement guarantee fund is maintained by the _____ corporation.',
+  'clearing',
   'hard',
-  '{"regulation"}',
-  'Settlement safety.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'Common Derivatives',
-  'Higher margin requirement makes trading more _____.',
-  'expensive',
-  'easy',
-  '{"cost"}',
-  'Cost of carry.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'Common Derivatives',
-  'Market with more participants has higher _____.',
-  'liquidity',
-  'easy',
-  '{"volume"}',
-  'Liquidity concept.'
+  '{"safety"}',
+  'Guarantees settlement.'
 );
 
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
@@ -980,31 +1500,21 @@ VALUES (
 INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
 VALUES (
   'Common Derivatives',
-  'Basis risk arises due to change in _____.',
-  'basis',
-  'hard',
-  '{"hedging"}',
-  'Hedging risk.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'Common Derivatives',
-  'Exchange traded derivatives are _____.',
-  'transparent',
-  'easy',
-  '{"screen-based"}',
-  'Transparency.'
-);
-
-INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
-VALUES (
-  'Common Derivatives',
-  'Derivative losses on exchanges are treated as _____.',
+  'Derivative losses on recognised exchanges are treated as _____ income.',
   'non-speculative',
   'medium',
   '{"tax"}',
   'Income tax rule.'
+);
+
+INSERT INTO quiz_questions (topic, question_text, answer, difficulty, hints, explanation)
+VALUES (
+  'Common Derivatives',
+  'On expiry day, spot price and futures price should ideally be _____.',
+  'same',
+  'easy',
+  '{"convergence"}',
+  'Price convergence.'
 );
 
 

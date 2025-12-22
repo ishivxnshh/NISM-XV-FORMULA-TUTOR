@@ -54,7 +54,7 @@ export function Quiz() {
     setLoading(true);
     setSelectedTopic(topic);
     try {
-      const response = await fetch(`${API_URL}/quiz/questions?topic=${encodeURIComponent(topic)}&limit=10`);
+      const response = await fetch(`${API_URL}/quiz/questions?topic=${encodeURIComponent(topic)}&limit=25`);
       const data = await response.json();
       setQuestions(data.questions || []);
       setCurrentQuestionIndex(0);
@@ -139,15 +139,33 @@ export function Quiz() {
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900 p-6">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
-            <div className="inline-block p-4 bg-blue-100 dark:bg-blue-900 rounded-full mb-4">
-              <BookOpen className="w-12 h-12 text-blue-600 dark:text-blue-400" />
+            <div className="relative inline-block mb-6">
+              <div className="absolute inset-0 bg-gradient-pska rounded-full blur-2xl opacity-30 animate-pulse"></div>
+              <div className="relative p-4 bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-blue-900 dark:to-cyan-900 rounded-full">
+                <BookOpen className="w-12 h-12 text-blue-600 dark:text-blue-400" />
+              </div>
             </div>
-            <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-white">
-              NISM XV Quiz Practice
+            <h1 className="text-4xl sm:text-5xl font-extrabold mb-3 leading-tight">
+              <span className="text-gradient">Clear NISM Series in 1st Attempt</span>
+              <br />
+              <span className="text-2xl sm:text-3xl font-bold text-gray-700 dark:text-gray-300">
+                Smart Preparation Starts Here 🎯
+              </span>
             </h1>
-            <p className="text-lg text-gray-600 dark:text-gray-300">
-              Test your knowledge with fill-in-the-blank questions
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Test your knowledge with interactive fill-in-the-blank questions
             </p>
+            <div className="flex items-center justify-center gap-3 mt-4">
+              <span className="px-4 py-1.5 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded-full text-sm font-semibold">
+                ✓ Topic-wise Practice
+              </span>
+              <span className="px-4 py-1.5 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded-full text-sm font-semibold">
+                ✓ Instant Feedback
+              </span>
+              <span className="px-4 py-1.5 bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 rounded-full text-sm font-semibold">
+                ✓ Score Tracking
+              </span>
+            </div>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -169,7 +187,7 @@ export function Quiz() {
                     </div>
                   </div>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                    10 questions • Fill in the blank
+                    25 questions • Fill in the blank
                   </p>
                   <div className="flex items-center justify-between mt-4">
                     <span className="text-xs text-blue-600 dark:text-cyan-400 font-semibold group-hover:underline">
