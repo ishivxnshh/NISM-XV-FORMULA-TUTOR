@@ -4,11 +4,9 @@ import { ProblemSolver } from './ProblemSolver';
 import { ResultsPanel } from './ResultsPanel';
 import { SessionManager } from './SessionManager';
 import { Formula, GradeResponse } from '../types';
-import { BookOpen, AlertCircle, Sun, Moon } from 'lucide-react';
-import { useTheme } from '../context/ThemeContext';
+import { BookOpen, AlertCircle } from 'lucide-react';
 
 export function Dashboard() {
-  const { theme, toggleTheme } = useTheme();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedFormula, setSelectedFormula] = useState<Formula | null>(null);
   const [gradeResult, setGradeResult] = useState<GradeResponse | null>(null);
@@ -41,69 +39,6 @@ export function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900 transition-colors duration-300">
-      {/* Top Banner matching PSKA website */}
-      <div className="bg-gradient-pska py-3 px-6 text-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-white/5 animate-pulse"></div>
-        <p className="text-white text-sm font-medium relative z-10 pulse-subtle">
-          Prof. Sheetal Kunder Academy programs are entirely updated as per the latest NISM curriculum (June 2025). 
-          We ensure all the updates regarding SEBI compliance & NISM are touched based regularly
-        </p>
-      </div>
-
-      {/* Main Header */}
-      <header className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 shadow-lg sticky top-0 z-50 transition-colors duration-300">
-        <div className="max-w-full mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3 sm:gap-6">
-            {/* Logo - Clickable to main website */}
-            <a 
-              href="https://www.profsheetalkunderacademy.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="flex-shrink-0 hover:opacity-80 transition-opacity"
-            >
-              <img 
-                src="/logo.png" 
-                alt="Prof. Sheetal Kunder Academy" 
-                className="w-10 h-10 sm:w-14 sm:h-14"
-              />
-            </a>
-            
-            {/* Navigation */}
-            <nav className="hidden sm:flex items-center gap-3">
-              <button className="px-4 sm:px-5 py-1.5 sm:py-2 bg-gradient-pska text-white rounded-full text-xs sm:text-sm font-medium shadow-md hover:shadow-lg transition-all">
-                Formula Tutor
-              </button>
-            </nav>
-          </div>
-
-          <div className="flex items-center gap-2 sm:gap-4">
-            <div className="hidden sm:block text-right">
-              <p className="text-xs text-gray-500 dark:text-gray-400">
-                Session: {sessionAttempts.length} attempts
-              </p>
-            </div>
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
-              aria-label="Toggle theme"
-            >
-              {theme === 'light' ? (
-                <Moon className="w-5 h-5 text-gray-700 dark:text-gray-300" />
-              ) : (
-                <Sun className="w-5 h-5 text-yellow-500" />
-              )}
-            </button>
-            <button 
-              onClick={handleGenerateReport}
-              className="px-3 sm:px-6 py-2 sm:py-2.5 bg-gradient-pska text-white rounded-lg text-xs sm:text-sm font-medium shadow-md hover:shadow-lg glow-effect transition-all transform hover:scale-105"
-            >
-              <span className="hidden sm:inline">Generate Report</span>
-              <span className="sm:hidden">Report</span>
-            </button>
-          </div>
-        </div>
-      </header>
-
       {/* Warning Banner */}
       {showWarning && (
         <div className="bg-yellow-50 dark:bg-yellow-900/30 border-l-4 border-yellow-400 dark:border-yellow-600 p-4 mx-6 mt-4 rounded-r-lg shadow-sm animate-pulse">
@@ -124,12 +59,28 @@ export function Dashboard() {
       {/* Title Section */}
       <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700 shadow-sm transition-colors duration-300">
         <div className="max-w-full mx-auto px-4 sm:px-6 py-6 sm:py-8">
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-3">
-            <div className="hidden sm:block h-1 w-8 sm:w-12 bg-gradient-pska rounded-full"></div>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gradient text-center px-4 sm:px-0">
-              NISM Research Analyst (XV) Formula Tutor
-            </h1>
-            <div className="hidden sm:block h-1 w-8 sm:w-12 bg-gradient-pska rounded-full"></div>
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-3">
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="hidden sm:block h-1 w-8 sm:w-12 bg-gradient-pska rounded-full"></div>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gradient text-center">
+                NISM Research Analyst (XV) Formula Tutor
+              </h1>
+              <div className="hidden sm:block h-1 w-8 sm:w-12 bg-gradient-pska rounded-full"></div>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="text-right">
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Session: {sessionAttempts.length} attempts
+                </p>
+              </div>
+              <button 
+                onClick={handleGenerateReport}
+                className="px-4 sm:px-6 py-2 sm:py-2.5 bg-gradient-pska text-white rounded-lg text-xs sm:text-sm font-medium shadow-md hover:shadow-lg glow-effect transition-all transform hover:scale-105"
+              >
+                <span className="hidden sm:inline">Generate Report</span>
+                <span className="sm:hidden">Report</span>
+              </button>
+            </div>
           </div>
           <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base md:text-lg text-center px-4 transition-colors duration-300">
             Practice, Learn, and Assess Your Readiness | Powered by Prof. Sheetal Kunder Academy

@@ -205,7 +205,7 @@ export function ProblemSolver({
                   step="any"
                   value={inputs[varName] || ''}
                   onChange={(e) => handleInputChange(varName, e.target.value)}
-                  className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all font-semibold text-sm sm:text-base text-gray-800 dark:text-gray-200 group-hover:border-blue-300"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all font-semibold text-sm sm:text-base text-gray-800 dark:text-gray-200 group-hover:border-blue-300"
                   required
                 />
               </div>
