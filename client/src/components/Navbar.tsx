@@ -17,8 +17,7 @@ export function Navbar() {
       <div className="bg-gradient-pska py-3 px-6 text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-white/5 animate-pulse"></div>
         <div className="absolute inset-0 shimmer"></div>
-        <p className="text-white text-sm font-medium relative z-10 pulse-subtle">
-
+        <p className="text-white text-xs sm:text-sm font-medium relative z-10 pulse-subtle">
           🎓 Prof. Sheetal Kunder Academy practice quiz and case studies are updated with Jan 2026 curriculum
         </p>
       </div>
@@ -36,7 +35,7 @@ export function Navbar() {
               aria-label="Prof. Sheetal Kunder Academy"
             >
               <img
-                src="/logo.png"
+                src="/logo.webp"
                 alt="Prof. Sheetal Kunder Academy"
                 className="w-10 h-10 sm:w-14 sm:h-14 rounded-lg shadow-md"
               />

@@ -52,7 +52,7 @@ export function Dashboard() {
                 You need at least 3 attempts to generate a readiness report. Current attempts: {sessionAttempts.length}
               </p>
             </div>
-            <button 
+            <button
               onClick={() => setShowWarning(false)}
               className="ml-3 text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-200 transition-colors"
               aria-label="Close warning"
@@ -80,7 +80,7 @@ export function Dashboard() {
                   Session: <span className="font-bold text-blue-600 dark:text-cyan-400">{sessionAttempts.length}</span> attempts
                 </p>
               </div>
-              <button 
+              <button
                 onClick={handleGenerateReport}
                 disabled={sessionAttempts.length < 3}
                 className="px-4 sm:px-6 py-2 sm:py-2.5 bg-gradient-pska text-white rounded-lg text-xs sm:text-sm font-medium shadow-md hover:shadow-xl glow-effect transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:grayscale button-press"
@@ -114,7 +114,7 @@ export function Dashboard() {
               />
             </div>
 
-            <div className="lg:col-span-6 order-3 lg:order-2">
+            <div className="lg:col-span-6 order-2">
               {selectedFormula ? (
                 <ProblemSolver
                   formula={selectedFormula}
@@ -152,7 +152,7 @@ export function Dashboard() {
               )}
             </div>
 
-            <div className="lg:col-span-3 order-2 lg:order-3">
+            <div className="lg:col-span-3 order-3">
               <ResultsPanel
                 gradeResult={gradeResult}
                 sessionAttempts={sessionAttempts}

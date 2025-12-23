@@ -10,38 +10,38 @@ export function Homepage() {
 
   const testimonials = [
     {
-      name: "Rahul Sharma",
-      role: "Cleared NISM XV - 1st Attempt",
-      image: "👨‍💼",
-      text: "Prof. Sheetal Kunder's teaching methodology is outstanding! The practice quizzes helped me clear NISM XV in my first attempt with 85% marks.",
+      name: "Chandra Shekaar",
+      role: "Cleared Research Analyst (RA)",
+      image: "👨‍🔬",
+      text: "Just cleared the Research Analyst (RA) on my first attempt — and I'm from an engineering background! Big thanks to Sheetal Madam — her course is truly transformative. She explains tough concepts clearly and keeps learning engaging.",
       rating: 5
     },
     {
-      name: "Priya Patel",
-      role: "Cleared NISM Series V-A",
+      name: "Pankaj Sabnani",
+      role: "Cleared NISM XV (1st Attempt)",
+      image: "👨‍🎓",
+      text: "I just cleared the NISM XV Research Analyst Exam in my first attempt and I can't thank Prof. Sheetal Kunder ma'am and her team enough. Her videos helped me in getting my concepts cleared for all types of questions.",
+      rating: 5
+    },
+    {
+      name: "Sandip Kadam",
+      role: "Cleared NISM XIII",
+      image: "👨‍💼",
+      text: "This was my 3rd attempt and believe that it was only because of her tremendous support and mentorship. Sheetal mam is an excellent teacher who always answers questions patiently and ensures we don't have any confusion.",
+      rating: 5
+    },
+    {
+      name: "Neeraj Yadav",
+      role: "Student",
+      image: "👨‍💻",
+      text: "Prof. Sheetal Kunder is an excellent mentor who goes above and beyond to ensure her students understand every concept clearly. She is approachable, patient, and always willing to explain even the smallest doubts.",
+      rating: 5
+    },
+    {
+      name: "Seo Moon-jo",
+      role: "Cleared Common Derivatives",
       image: "👩‍💼",
-      text: "The case studies and formula tutor made complex concepts so easy to understand. Highly recommend for serious aspirants!",
-      rating: 5
-    },
-    {
-      name: "Amit Kumar",
-      role: "Cleared Multiple NISM Series",
-      image: "👨‍💼",
-      text: "Best academy for NISM preparation. Updated curriculum, expert guidance, and excellent study material. Thank you Prof. Sheetal!",
-      rating: 5
-    },
-    {
-      name: "Neha Singh",
-      role: "Cleared NISM XV",
-      image: "👩‍💼",
-      text: "The interactive platform and regular updates as per SEBI guidelines made my preparation smooth and effective.",
-      rating: 5
-    },
-    {
-      name: "Vikram Reddy",
-      role: "Cleared in 1st Attempt",
-      image: "👨‍💼",
-      text: "Professional approach, comprehensive coverage, and excellent support. Got 92% marks in NISM XV!",
+      text: "I enrolled for common derivatives exam with Sheetal Kunder Academy a month back. The study plan video in the course helped me plan my exam strategy. I cleared in my first attempt. Thank you so much Sheetal ma'am!",
       rating: 5
     }
   ];
@@ -57,12 +57,11 @@ export function Homepage() {
         href="https://api.whatsapp.com/send?phone=%2B919987308778&text=Hello%20Prof.%20Sheetal%20Mam%2C%20I%20have%20a%20query%20regarding%20NISM%20Exam%20Series.%20Please%20guide%20me%20further"
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-5 py-3 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-2xl text-lg font-bold transition-all button-press"
-        style={{ boxShadow: '0 4px 24px 0 rgba(37, 211, 102, 0.3)' }}
+        className="fixed bottom-6 right-6 z-50 flex items-center justify-center p-4 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-2xl transition-all hover:scale-110 button-press"
+        style={{ boxShadow: '0 4px 24px 0 rgba(37, 211, 102, 0.4)' }}
         aria-label="Chat on WhatsApp"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" className="w-7 h-7 mr-1"><path d="M16 3C9.373 3 4 8.373 4 15c0 2.385.832 4.584 2.236 6.393L4.062 28.25a1 1 0 0 0 1.312 1.312l6.857-2.174A11.96 11.96 0 0 0 16 27c6.627 0 12-5.373 12-12S22.627 3 16 3zm0 22c-1.74 0-3.41-.447-4.857-1.223a1 1 0 0 0-.765-.07l-5.13 1.627 1.627-5.13a1 1 0 0 0-.07-.765A9.963 9.963 0 0 1 6 15c0-5.514 4.486-10 10-10s10 4.486 10 10-4.486 10-10 10zm5.29-7.709c-.273-.137-1.617-.797-1.868-.888-.25-.092-.432-.137-.614.137-.182.273-.705.888-.865 1.07-.159.182-.318.205-.591.068-.273-.137-1.153-.425-2.197-1.354-.813-.724-1.362-1.617-1.523-1.89-.159-.273-.017-.42.12-.557.124-.123.273-.318.409-.477.137-.159.182-.273.273-.455.091-.182.045-.341-.023-.478-.068-.137-.614-1.482-.841-2.03-.222-.534-.448-.461-.614-.47-.159-.007-.341-.009-.523-.009a1.01 1.01 0 0 0-.727.341c-.25.273-.955.934-.955 2.277 0 1.343.978 2.64 1.114 2.823.137.182 1.926 2.943 4.67 4.013.653.282 1.162.45 1.56.576.655.209 1.25.18 1.72.109.525-.078 1.617-.661 1.846-1.299.227-.637.227-1.183.159-1.299-.068-.114-.25-.182-.523-.318z" /></svg>
-        Chat on WhatsApp
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" className="w-8 h-8"><path d="M16 3C9.373 3 4 8.373 4 15c0 2.385.832 4.584 2.236 6.393L4.062 28.25a1 1 0 0 0 1.312 1.312l6.857-2.174A11.96 11.96 0 0 0 16 27c6.627 0 12-5.373 12-12S22.627 3 16 3zm0 22c-1.74 0-3.41-.447-4.857-1.223a1 1 0 0 0-.765-.07l-5.13 1.627 1.627-5.13a1 1 0 0 0-.07-.765A9.963 9.963 0 0 1 6 15c0-5.514 4.486-10 10-10s10 4.486 10 10-4.486 10-10 10zm5.29-7.709c-.273-.137-1.617-.797-1.868-.888-.25-.092-.432-.137-.614.137-.182.273-.705.888-.865 1.07-.159.182-.318.205-.591.068-.273-.137-1.153-.425-2.197-1.354-.813-.724-1.362-1.617-1.523-1.89-.159-.273-.017-.42.12-.557.124-.123.273-.318.409-.477.137-.159.182-.273.273-.455.091-.182.045-.341-.023-.478-.068-.137-.614-1.482-.841-2.03-.222-.534-.448-.461-.614-.47-.159-.007-.341-.009-.523-.009a1.01 1.01 0 0 0-.727.341c-.25.273-.955.934-.955 2.277 0 1.343.978 2.64 1.114 2.823.137.182 1.926 2.943 4.67 4.013.653.282 1.162.45 1.56.576.655.209 1.25.18 1.72.109.525-.078 1.617-.661 1.846-1.299.227-.637.227-1.183.159-1.299-.068-.114-.25-.182-.523-.318z" /></svg>
       </a>
 
       {/* Hero Section */}
@@ -155,11 +154,9 @@ export function Homepage() {
           />
           <div className="max-w-3xl w-full bg-white/80 dark:bg-gray-900/80 rounded-2xl shadow p-6 md:p-8 border border-yellow-200 text-gray-900 dark:text-gray-100 text-lg leading-relaxed">
             <h2 className="text-2xl font-bold mb-2 text-gradient">About Prof. Sheetal Kunder (Program Director)</h2>
-            <p className="mb-2 font-semibold">With over 16 years of experience in the field of education.</p>
-            <p className="mb-2">As the Program Director of Prof. Sheetal Kunder Academy, a specialized virtual platform for capital market training, I have established a sustainable, real-world example-driven model to provide learners with hands-on experiences in the dynamic Indian securities market. My philosophy centers around connecting various subjects, including finance, statistics, taxation, and accounting, with the world of finance to demonstrate the diverse applications of financial knowledge.</p>
-            <p className="mb-2">My professional journey includes a significant tenure as a part of the teaching team at BSE Institute, where I shared my expertise on financial markets with both graduate and postgraduate students. Additionally, I facilitated capital market training programs for working professionals on weekends.</p>
-            <p className="mb-2">I take pride in spearheading workshops that foster nationwide awareness of the Indian Capital Market. My dedication extends to organizing Management Development Programs and Faculty Development Programs across India. Additionally, I am deeply engaged in Corporate Social Responsibility (CSR) initiatives, where I lead NISM MFD training programs to nurture the next generation of professionals for the mutual fund industry, addressing the evolving needs of the financial market.</p>
-            <p>Recognizing the vital role of SEBI's educational initiatives, exemplified by NISM, I am committed to guiding individuals in their pursuit of NISM Certification and elevating their expertise within the financial industry.</p>
+            <p className="mb-2 font-semibold">SEBI® Research Analyst. Registration No. INH000013800</p>
+            <p className="mb-2">M.Com, M.Phil, B.Ed, PGDFM, Teaching Diploma (in Accounting & Finance) from Cambridge International Examination, UK. Various NISM Certification Holders. Ex-BSE Institute Faculty.</p>
+            <p>18 years of extensive experience in Accounting & Finance. Faculty Development Programs and Management Development Programs at the PAN India level to create awareness about the emerging trends in the Indian Capital Market, and counsel hundreds of students in career choices in the finance area</p>
             <div className="flex flex-wrap gap-4 mt-6 justify-center">
               <a
                 href="https://www.linkedin.com/in/sheetal-kunder-608870179/"
@@ -206,7 +203,7 @@ export function Homepage() {
             {testimonials.map((testimonial, index) => (
               <div
                 key={index}
-                className="flex-shrink-0 w-80 bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 border-2 border-blue-100 dark:border-gray-700 snap-center card-hover"
+                className="flex-shrink-0 w-72 sm:w-80 bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 border-2 border-blue-100 dark:border-gray-700 snap-center card-hover"
               >
                 <div className="flex items-center gap-4 mb-4">
                   <div className="text-4xl">{testimonial.image}</div>
