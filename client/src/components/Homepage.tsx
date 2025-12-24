@@ -147,12 +147,12 @@ export function Homepage() {
       {/* About Prof. Sheetal Kunder */}
       <section className="bg-white dark:bg-gray-800 py-16">
         <div className="container mx-auto px-4 flex flex-col items-center">
-          <img
-            src="/about.png"
-            alt="About Prof. Sheetal Kunder"
-            className="rounded-3xl shadow-2xl w-full max-w-4xl border-4 border-yellow-200 mb-8"
-          />
-          <div className="max-w-3xl w-full bg-white/80 dark:bg-gray-900/80 rounded-2xl shadow p-6 md:p-8 border border-yellow-200 text-gray-900 dark:text-gray-100 text-lg leading-relaxed">
+          <div className="max-w-3xl w-full bg-white/80 dark:bg-gray-900/80 rounded-2xl shadow p-6 md:p-8 border border-yellow-200 text-gray-900 dark:text-gray-100 text-lg leading-relaxed flex flex-col items-center">
+            <img
+              src="/pp.jpeg"
+              alt="About Prof. Sheetal Kunder"
+              className="rounded-full shadow-2xl w-56 h-56 object-cover border-4 border-yellow-200 mb-6"
+            />
             <h2 className="text-2xl font-bold mb-2 text-gradient">About Prof. Sheetal Kunder (Program Director)</h2>
             <p className="mb-2 font-semibold">SEBI® Research Analyst. Registration No. INH000013800</p>
             <p className="mb-2">M.Com, M.Phil, B.Ed, PGDFM, Teaching Diploma (in Accounting & Finance) from Cambridge International Examination, UK. Various NISM Certification Holders. Ex-BSE Institute Faculty.</p>
