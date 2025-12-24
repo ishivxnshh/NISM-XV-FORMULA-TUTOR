@@ -16,7 +16,7 @@ import { authenticateUser, requireSubscription } from './middleware/auth.js';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
 // Supabase client
 export const supabase = createClient(
