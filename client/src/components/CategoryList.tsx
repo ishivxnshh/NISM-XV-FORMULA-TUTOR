@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Formula, CategoryInfo } from '../types';
 import { API_URL } from '../lib/api';
 import { ChevronRight, Folder } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 interface CategoryListProps {
   selectedCategory: string | null;
@@ -14,25 +15,33 @@ export function CategoryList({
   onCategorySelect,
   onFormulaSelect,
 }: CategoryListProps) {
+  const { session } = useAuth();
   const [categories, setCategories] = useState<CategoryInfo[]>([]);
   const [formulas, setFormulas] = useState<Formula[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchCategories();
-  }, []);
+    if (session) {
+      fetchCategories();
+    }
+  }, [session]);
 
   useEffect(() => {
-    if (selectedCategory) {
+    if (selectedCategory && session) {
       fetchFormulas(selectedCategory);
     }
-  }, [selectedCategory]);
+  }, [selectedCategory, session]);
 
   const fetchCategories = async () => {
+    if (!session?.access_token) return;
     try {
-      const response = await fetch(`${API_URL}/formulas/categories`);
+      const response = await fetch(`${API_URL}/formulas/categories`, {
+        headers: {
+          'Authorization': `Bearer ${session.access_token}`
+        }
+      });
       const data = await response.json();
-      setCategories(data.categories);
+      setCategories(data.categories || []);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching categories:', error);
@@ -41,12 +50,17 @@ export function CategoryList({
   };
 
   const fetchFormulas = async (category: string) => {
+    if (!session?.access_token) return;
     try {
       const response = await fetch(
-        `${API_URL}/formulas?category=${encodeURIComponent(category)}`
+        `${API_URL}/formulas?category=${encodeURIComponent(category)}`, {
+        headers: {
+          'Authorization': `Bearer ${session.access_token}`
+        }
+      }
       );
       const data = await response.json();
-      setFormulas(data.formulas);
+      setFormulas(data.formulas || []); // Safety check here too
     } catch (error) {
       console.error('Error fetching formulas:', error);
     }
@@ -85,50 +99,44 @@ export function CategoryList({
                   selectedCategory === cat.category ? '' : cat.category
                 )
               }
-              className={`w-full px-4 sm:px-5 py-3 sm:py-4 flex items-center justify-between transition-all duration-300 group button-press ${
-                selectedCategory === cat.category 
-                  ? 'bg-gradient-pska text-white shadow-lg glow-effect transform scale-[1.02]' 
-                  : 'hover:bg-gradient-to-r hover:from-blue-50 hover:to-cyan-50 dark:hover:from-gray-700 dark:hover:to-gray-600 hover:shadow-md'
-              }`}
+              className={`w-full px-4 sm:px-5 py-3 sm:py-4 flex items-center justify-between transition-all duration-300 group button-press ${selectedCategory === cat.category
+                ? 'bg-gradient-pska text-white shadow-lg glow-effect transform scale-[1.02]'
+                : 'hover:bg-gradient-to-r hover:from-blue-50 hover:to-cyan-50 dark:hover:from-gray-700 dark:hover:to-gray-600 hover:shadow-md'
+                }`}
             >
               <div className="flex items-center gap-3">
-                <div className={`p-1.5 rounded-lg transition-colors ${
-                  selectedCategory === cat.category
-                    ? 'bg-white/20'
-                    : 'bg-gray-100 dark:bg-gray-700 group-hover:bg-blue-100 dark:group-hover:bg-blue-900'
-                }`}>
+                <div className={`p-1.5 rounded-lg transition-colors ${selectedCategory === cat.category
+                  ? 'bg-white/20'
+                  : 'bg-gray-100 dark:bg-gray-700 group-hover:bg-blue-100 dark:group-hover:bg-blue-900'
+                  }`}>
                   <Folder
-                    className={`w-5 h-5 ${
-                      selectedCategory === cat.category
-                        ? 'text-white'
-                        : 'text-gray-400 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-cyan-400'
-                    }`}
+                    className={`w-5 h-5 ${selectedCategory === cat.category
+                      ? 'text-white'
+                      : 'text-gray-400 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-cyan-400'
+                      }`}
                   />
                 </div>
                 <span
-                  className={`font-medium ${
-                    selectedCategory === cat.category
-                      ? 'text-white'
-                      : 'text-gray-700 dark:text-gray-300'
-                  }`}
+                  className={`font-medium ${selectedCategory === cat.category
+                    ? 'text-white'
+                    : 'text-gray-700 dark:text-gray-300'
+                    }`}
                 >
                   {cat.category}
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <span className={`text-xs px-2.5 py-1 rounded-full font-semibold ${
-                  selectedCategory === cat.category
-                    ? 'text-white bg-white/20'
-                    : 'text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700'
-                }`}>
+                <span className={`text-xs px-2.5 py-1 rounded-full font-semibold ${selectedCategory === cat.category
+                  ? 'text-white bg-white/20'
+                  : 'text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700'
+                  }`}>
                   {cat.count}
                 </span>
                 <ChevronRight
-                  className={`w-4 h-4 transition-transform ${
-                    selectedCategory === cat.category 
-                      ? 'rotate-90 text-white' 
-                      : 'text-gray-400 dark:text-gray-500 group-hover:translate-x-0.5'
-                  }`}
+                  className={`w-4 h-4 transition-transform ${selectedCategory === cat.category
+                    ? 'rotate-90 text-white'
+                    : 'text-gray-400 dark:text-gray-500 group-hover:translate-x-0.5'
+                    }`}
                 />
               </div>
             </button>

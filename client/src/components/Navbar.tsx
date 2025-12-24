@@ -1,15 +1,65 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { BookOpen, Brain, Sun, Moon, Home } from 'lucide-react';
+import { Sun, Moon, Home, User, LogOut, ChevronDown, Crown } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import { useAuth } from '../context/AuthContext';
+import { useState, useRef, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
 
-export function Navbar() {
+interface NavbarProps {
+  onOpenAuthModal?: (tab: 'login' | 'signup') => void;
+}
+
+export function Navbar({ onOpenAuthModal }: NavbarProps = {}) {
   const navigate = useNavigate();
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
+  const { user } = useAuth();
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const isHome = location.pathname === '/';
-  const isFormulas = location.pathname === '/formulas';
-  const isQuiz = location.pathname === '/quiz';
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleLogout = async () => {
+    setShowDropdown(false);
+
+    try {
+      // Sign out from Supabase (this will trigger state cleanup in AuthContext)
+      await supabase.auth.signOut();
+
+      // Clear all storage
+      localStorage.clear();
+      sessionStorage.clear();
+
+      // Soft navigation using React Router (smoother, avoids Vite "module" errors)
+      navigate('/');
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Fallback if soft navigation fails
+      window.location.href = '/';
+    }
+  };
+
+  const getUserDisplayName = () => {
+    if (user?.user_metadata?.full_name) {
+      return user.user_metadata.full_name;
+    }
+    if (user?.email) {
+      return user.email.split('@')[0];
+    }
+    return 'User';
+  };
 
   return (
     <>
@@ -54,34 +104,11 @@ export function Navbar() {
                 <Home className="w-4 h-4" />
                 <span className="hidden sm:inline">Home</span>
               </button>
-              <button
-                onClick={() => navigate('/formulas')}
-                className={`px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium shadow-md hover:shadow-xl transition-all flex items-center gap-1.5 button-press ${isFormulas
-                  ? 'bg-gradient-pska text-white scale-105'
-                  : 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 border-2 border-blue-600 dark:border-blue-400 hover:scale-105'
-                  }`}
-                aria-current={isFormulas ? 'page' : undefined}
-              >
-                <BookOpen className="w-4 h-4" />
-                <span className="hidden sm:inline">Formula Tutor</span>
-                <span className="sm:hidden">Formulas</span>
-              </button>
-              <button
-                onClick={() => navigate('/quiz')}
-                className={`px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium shadow-md hover:shadow-xl transition-all flex items-center gap-1.5 button-press ${isQuiz
-                  ? 'bg-gradient-pska text-white scale-105'
-                  : 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 border-2 border-blue-600 dark:border-blue-400 hover:scale-105'
-                  }`}
-                aria-current={isQuiz ? 'page' : undefined}
-              >
-                <Brain className="w-4 h-4" />
-                <span className="hidden sm:inline">Quiz Practice</span>
-                <span className="sm:hidden">Quiz</span>
-              </button>
             </nav>
           </div>
 
           <div className="flex items-center gap-2 sm:gap-4">
+            {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
               className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all theme-toggle button-press hover:shadow-md"
@@ -94,6 +121,77 @@ export function Navbar() {
                 <Sun className="w-5 h-5 text-gray-700 dark:text-gray-300 rotate-in" />
               )}
             </button>
+
+            {/* Login Button or User Profile */}
+            {!user ? (
+              <button
+                onClick={() => onOpenAuthModal?.('login')}
+                className="px-4 py-2 bg-gradient-pska text-white rounded-lg hover:shadow-xl transition-all font-medium button-press"
+              >
+                Login
+              </button>
+            ) : (
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  onClick={() => setShowDropdown(!showDropdown)}
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all button-press"
+                >
+                  <div className="w-8 h-8 rounded-full bg-gradient-pska flex items-center justify-center text-white font-semibold">
+                    {getUserDisplayName().charAt(0).toUpperCase()}
+                  </div>
+                  <span className="hidden md:inline text-sm font-medium text-gray-700 dark:text-gray-300">
+                    {getUserDisplayName()}
+                  </span>
+                  <ChevronDown className={`w-4 h-4 text-gray-700 dark:text-gray-300 transition-transform ${showDropdown ? 'rotate-180' : ''}`} />
+                </button>
+
+                {/* Dropdown Menu */}
+                {showDropdown && (
+                  <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-50">
+                    {/* User Info */}
+                    <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+                      <p className="text-sm font-medium text-gray-900 dark:text-white">
+                        {user.user_metadata?.full_name || 'User'}
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                        {user.email}
+                      </p>
+                    </div>
+
+                    {/* Menu Items */}
+                    <button
+                      onClick={() => {
+                        setShowDropdown(false);
+                        navigate('/dashboard');
+                      }}
+                      className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2 transition-colors"
+                    >
+                      <User className="w-4 h-4" />
+                      Dashboard
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setShowDropdown(false);
+                        navigate('/subscribe');
+                      }}
+                      className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2 transition-colors"
+                    >
+                      <Crown className="w-4 h-4" />
+                      Subscription
+                    </button>
+
+                    <button
+                      onClick={handleLogout}
+                      className="w-full px-4 py-2 text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2 transition-colors"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </header>

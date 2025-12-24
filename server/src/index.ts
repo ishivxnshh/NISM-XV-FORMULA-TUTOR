@@ -1,11 +1,17 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import helmet from 'helmet';
+import compression from 'compression';
+import rateLimit from 'express-rate-limit';
 import { createClient } from '@supabase/supabase-js';
 import formulasRouter from './routes/formulas.js';
 import gradeAttemptRouter from './routes/grade-attempt.js';
 import sessionReportRouter from './routes/session-report.js';
 import quizRouter from './routes/quiz.js';
+import authRouter from './routes/auth.js';
+import subscriptionsRouter from './routes/subscriptions.js';
+import { authenticateUser, requireSubscription } from './middleware/auth.js';
 
 dotenv.config();
 
@@ -19,19 +25,34 @@ export const supabase = createClient(
 );
 
 // Middleware
+app.use(helmet()); // Security headers
+app.use(compression()); // Gzip compression
 app.use(cors());
 app.use(express.json());
+
+// Rate Limiting (100 req per 15 min per IP)
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+app.use('/api', limiter);
 
 // Health check
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Routes
-app.use('/api/formulas', formulasRouter);
-app.use('/api/grade-attempt', gradeAttemptRouter);
-app.use('/api/session-report', sessionReportRouter);
-app.use('/api/quiz', quizRouter);
+// Public routes
+app.use('/api/auth', authRouter);
+app.use('/api/subscriptions', subscriptionsRouter);
+
+// Protected routes (require authentication and active subscription)
+app.use('/api/formulas', authenticateUser, requireSubscription, formulasRouter);
+app.use('/api/grade-attempt', authenticateUser, requireSubscription, gradeAttemptRouter);
+app.use('/api/session-report', authenticateUser, requireSubscription, sessionReportRouter);
+app.use('/api/quiz', authenticateUser, requireSubscription, quizRouter);
 
 // Error handling middleware
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {

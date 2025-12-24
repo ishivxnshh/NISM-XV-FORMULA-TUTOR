@@ -1,12 +1,17 @@
-import { useNavigate } from 'react-router-dom';
 import { BookOpen, Trophy, Target, Star } from 'lucide-react';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
+import { AuthModal } from './AuthModal';
+import { useAuth } from '../context/AuthContext';
 
 export function Homepage() {
   const navigate = useNavigate();
+  const { user, hasActiveSubscription } = useAuth();
   const testimonialsRef = useRef<HTMLDivElement>(null);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authModalTab, setAuthModalTab] = useState<'login' | 'signup'>('login');
 
   const testimonials = [
     {
@@ -46,11 +51,47 @@ export function Homepage() {
     }
   ];
 
+  const openAuthModal = (tab: 'login' | 'signup') => {
+    setAuthModalTab(tab);
+    setIsAuthModalOpen(true);
+  };
 
+  const handleFormulaTutorClick = () => {
+    if (!user) {
+      // Not logged in - show login modal
+      openAuthModal('login');
+    } else if (!hasActiveSubscription) {
+      // Logged in but no subscription - go to subscription page
+      navigate('/subscribe');
+    } else {
+      // Logged in with subscription - go to formulas
+      navigate('/formulas');
+    }
+  };
+
+  const handleQuizPracticeClick = () => {
+    if (!user) {
+      // Not logged in - show login modal
+      openAuthModal('login');
+    } else if (!hasActiveSubscription) {
+      // Logged in but no subscription - go to subscription page
+      navigate('/subscribe');
+    } else {
+      // Logged in with subscription - go to quiz
+      navigate('/quiz');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900 flex flex-col">
-      <Navbar />
+      <Navbar onOpenAuthModal={openAuthModal} />
+
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        defaultTab={authModalTab}
+      />
 
       {/* Floating WhatsApp Chat Button */}
       <a
@@ -89,16 +130,16 @@ export function Homepage() {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
             <button
-              onClick={() => navigate('/login')}
+              onClick={handleFormulaTutorClick}
               className="px-8 py-4 bg-gradient-pska text-white rounded-xl hover:shadow-2xl glow-effect transition-all transform hover:scale-105 font-bold text-lg w-full sm:w-auto button-press"
             >
-              Login to Dashboard
+              Formula Tutor
             </button>
             <button
-              onClick={() => navigate('/signup')}
+              onClick={handleQuizPracticeClick}
               className="px-8 py-4 bg-white dark:bg-gray-800 text-blue-600 dark:text-cyan-400 border-2 border-blue-600 dark:border-cyan-400 rounded-xl hover:shadow-xl transition-all transform hover:scale-105 font-bold text-lg w-full sm:w-auto button-press"
             >
-              Sign Up Now
+              Quiz Practice
             </button>
           </div>
 
@@ -240,16 +281,16 @@ export function Homepage() {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8 mb-12">
               <div className="aspect-w-16 aspect-h-9 w-full">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/AE87u7K11Lo?si=hh3ZMAUpIhmLoeNg" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen className="w-full h-72 rounded-2xl shadow-xl border-2 border-red-200 dark:border-gray-600"></iframe>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/AE87u7K11Lo?si=hh3ZMAUpIhmLoeNg" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; compute-pressure" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen className="w-full h-72 rounded-2xl shadow-xl border-2 border-red-200 dark:border-gray-600"></iframe>
               </div>
               <div className="aspect-w-16 aspect-h-9 w-full">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/Mx1dw21vByw?si=Y2rAod3H--jRfy1K" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen className="w-full h-72 rounded-2xl shadow-xl border-2 border-red-200 dark:border-gray-600"></iframe>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/Mx1dw21vByw?si=Y2rAod3H--jRfy1K" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; compute-pressure" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen className="w-full h-72 rounded-2xl shadow-xl border-2 border-red-200 dark:border-gray-600"></iframe>
               </div>
               <div className="aspect-w-16 aspect-h-9 w-full">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/07eFKNFo8vY?si=xGG_QOjAErw6Esrw" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen className="w-full h-72 rounded-2xl shadow-xl border-2 border-red-200 dark:border-gray-600"></iframe>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/07eFKNFo8vY?si=xGG_QOjAErw6Esrw" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; compute-pressure" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen className="w-full h-72 rounded-2xl shadow-xl border-2 border-red-200 dark:border-gray-600"></iframe>
               </div>
               <div className="aspect-w-16 aspect-h-9 w-full">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/sjh_ol4RTMw?si=JXioOi36lrTxxOoS" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen className="w-full h-72 rounded-2xl shadow-xl border-2 border-red-200 dark:border-gray-600"></iframe>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/sjh_ol4RTMw?si=JXioOi36lrTxxOoS" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; compute-pressure" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen className="w-full h-72 rounded-2xl shadow-xl border-2 border-red-200 dark:border-gray-600"></iframe>
               </div>
             </div>
 

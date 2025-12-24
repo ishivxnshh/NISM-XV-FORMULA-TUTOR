@@ -3,27 +3,27 @@ import { supabase } from '../index.js';
 
 const router = Router();
 
-// GET /api/formulas/categories - List all unique categories
+// GET /api/formulas/categories - List all unique categories with counts
 router.get('/categories', async (req, res) => {
   try {
+    // Fetch all categories in a single query
     const { data, error } = await supabase
       .from('formulas')
-      .select('category')
-      .order('category');
+      .select('category');
 
     if (error) throw error;
 
-    const uniqueCategories = [...new Set(data.map((f: any) => f.category))];
-    const categoriesWithCount = await Promise.all(
-      uniqueCategories.map(async (category) => {
-        const { count } = await supabase
-          .from('formulas')
-          .select('*', { count: 'exact', head: true })
-          .eq('category', category);
-        
-        return { category, count: count || 0 };
-      })
-    );
+    // Aggregate counts in memory (much faster than N+1 DB calls)
+    const categoryCounts: Record<string, number> = {};
+    data.forEach((f: any) => {
+      const cat = f.category;
+      categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
+    });
+
+    // Format and sort
+    const categoriesWithCount = Object.entries(categoryCounts)
+      .map(([category, count]) => ({ category, count }))
+      .sort((a, b) => a.category.localeCompare(b.category));
 
     res.json({ categories: categoriesWithCount });
   } catch (error: any) {

@@ -102,8 +102,8 @@ router.post('/check-answer', async (req, res) => {
 
     // Check if answer is correct (with some flexibility)
     const isCorrect = normalizedUserAnswer === normalizedCorrectAnswer ||
-                      normalizedCorrectAnswer.includes(normalizedUserAnswer) ||
-                      normalizedUserAnswer.includes(normalizedCorrectAnswer);
+      normalizedCorrectAnswer.includes(normalizedUserAnswer) ||
+      normalizedUserAnswer.includes(normalizedCorrectAnswer);
 
     // Calculate score (0-100)
     let score = 0;
@@ -156,7 +156,7 @@ router.get('/stats/:userId', async (req, res) => {
 
     const { data, error } = await supabase
       .from('quiz_attempts')
-      .select('*')
+      .select('is_correct, time_spent_ms')
       .eq('user_id', userId);
 
     if (error) throw error;
@@ -164,8 +164,8 @@ router.get('/stats/:userId', async (req, res) => {
     const totalAttempts = data.length;
     const correctAttempts = data.filter((a: any) => a.is_correct).length;
     const accuracy = totalAttempts > 0 ? (correctAttempts / totalAttempts) * 100 : 0;
-    const avgTimeSpent = totalAttempts > 0 
-      ? data.reduce((sum: number, a: any) => sum + a.time_spent_ms, 0) / totalAttempts 
+    const avgTimeSpent = totalAttempts > 0
+      ? data.reduce((sum: number, a: any) => sum + a.time_spent_ms, 0) / totalAttempts
       : 0;
 
     res.json({

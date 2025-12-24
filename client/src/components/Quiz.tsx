@@ -22,8 +22,9 @@ interface QuizResult {
 }
 
 export function Quiz() {
-  const { user } = useAuth();
+  const { user, session } = useAuth();
   const [topics, setTopics] = useState<string[]>([]);
+  // ... (state variables remain same)
   const [selectedTopic, setSelectedTopic] = useState<string>('');
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -37,12 +38,19 @@ export function Quiz() {
   const [correctCount, setCorrectCount] = useState(0);
 
   useEffect(() => {
-    fetchTopics();
-  }, []);
+    if (session) {
+      fetchTopics();
+    }
+  }, [session]);
 
   const fetchTopics = async () => {
+    if (!session?.access_token) return;
     try {
-      const response = await fetch(`${API_URL}/quiz/topics`);
+      const response = await fetch(`${API_URL}/quiz/topics`, {
+        headers: {
+          'Authorization': `Bearer ${session.access_token}`
+        }
+      });
       const data = await response.json();
       setTopics(data.topics || []);
     } catch (error) {
@@ -51,10 +59,15 @@ export function Quiz() {
   };
 
   const startQuiz = async (topic: string) => {
+    if (!session?.access_token) return;
     setLoading(true);
     setSelectedTopic(topic);
     try {
-      const response = await fetch(`${API_URL}/quiz/questions?topic=${encodeURIComponent(topic)}&limit=25`);
+      const response = await fetch(`${API_URL}/quiz/questions?topic=${encodeURIComponent(topic)}&limit=25`, {
+        headers: {
+          'Authorization': `Bearer ${session.access_token}`
+        }
+      });
       const data = await response.json();
       setQuestions(data.questions || []);
       setCurrentQuestionIndex(0);
@@ -73,7 +86,7 @@ export function Quiz() {
   };
 
   const checkAnswer = async () => {
-    if (!userAnswer.trim()) return;
+    if (!userAnswer.trim() || !session?.access_token) return;
 
     setLoading(true);
     const timeSpentMs = Date.now() - startTime;
@@ -81,7 +94,10 @@ export function Quiz() {
     try {
       const response = await fetch(`${API_URL}/quiz/check-answer`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`
+        },
         body: JSON.stringify({
           questionId: questions[currentQuestionIndex].id,
           userAnswer: userAnswer.trim(),
@@ -156,7 +172,7 @@ export function Quiz() {
         </div>
 
         <div className="max-w-7xl mx-auto p-3 sm:p-4 md:p-6">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {topics.map((topic, index) => (
               <button
                 key={topic}
@@ -319,7 +335,7 @@ export function Quiz() {
                 )}
               </div>
 
-              <div className="flex gap-3">
+              <div className="flex flex-col sm:flex-row gap-3">
                 <button
                   onClick={checkAnswer}
                   disabled={!userAnswer.trim() || loading}
@@ -364,8 +380,8 @@ export function Quiz() {
             <div>
               {/* Result Display */}
               <div className={`p-6 rounded-lg mb-6 ${result.isCorrect
-                  ? 'bg-green-50 dark:bg-green-900/30 border-2 border-green-500 success-bounce'
-                  : 'bg-red-50 dark:bg-red-900/30 border-2 border-red-500 shake'
+                ? 'bg-green-50 dark:bg-green-900/30 border-2 border-green-500 success-bounce'
+                : 'bg-red-50 dark:bg-red-900/30 border-2 border-red-500 shake'
                 }`}>
                 <div className="flex items-center gap-3 mb-3">
                   {result.isCorrect ? (
