@@ -41,34 +41,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const fetchSubscription = async (userId: string) => {
     try {
-      // Create a timeout promise to prevent hanging
-      const timeoutPromise = new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('Request timed out')), 4000)
+      // Create a timeout promise to prevent hanging (10s to handle cold starts)
+      const timeoutPromise = new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error('Request timed out')), 10000)
       );
 
+      // Use maybeSingle() instead of single() to avoid 406 errors when no subscription exists
       const dbQuery = supabase
         .from('subscriptions')
         .select('*')
         .eq('user_id', userId)
-        .single();
+        .maybeSingle();
 
-      // @ts-ignore
-      const { data, error } = await Promise.race([dbQuery, timeoutPromise])
-        .catch(err => ({ data: null, error: err }));
+      const { data, error } = await Promise.race([dbQuery, timeoutPromise]);
 
       if (error) {
-        // IMPORTANT: Do NOT clear existing subscription on transient errors (timeout/network)
-        // Only clear if we receive a specific "not found" error or if the user is explicitly null
-        if (error.code === 'PGRST116') { // JSON object requested, multiple (or no) rows returned
-          setSubscription(null);
-          localStorage.removeItem('subscription_status');
-        } else {
-          // For timeouts or network errors, keep the stale state to prevent UI flicker
-          console.warn('Subscription fetch warning (keeping stale state):', error);
+        // For any error, keep the stale state to prevent UI flicker
+        if (import.meta.env.DEV) {
+          console.warn('Subscription fetch error (keeping cached state):', error.message);
         }
         return;
       }
 
+      // data will be null if no subscription exists (this is expected, not an error)
       if (data) {
         setSubscription(data);
         localStorage.setItem('subscription_status', JSON.stringify(data));
@@ -77,8 +72,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         localStorage.removeItem('subscription_status');
       }
     } catch (error) {
-      // Keep stale state on crash
-      console.error('Error in fetchSubscription:', error);
+      // Keep stale state on timeout or network errors
+      if (import.meta.env.DEV) {
+        console.warn('Subscription fetch timeout (keeping cached state)');
+      }
     }
   };
 
