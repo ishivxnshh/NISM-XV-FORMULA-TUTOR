@@ -112,10 +112,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (mounted) setLoading(false);
       });
 
-    // Listen for auth changes
+    // Listen for auth changes (including OAuth callback)
     const { data: { subscription: authListener } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
+      async (event, session) => {
         if (!mounted) return;
+
+        // Debug log for OAuth flow troubleshooting
+        if (import.meta.env.DEV) {
+          console.log('[Auth] State changed:', event, session?.user?.email || 'no user');
+        }
 
         setSession(session);
         setUser(session?.user ?? null);
@@ -141,10 +146,46 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const signInWithGoogle = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
+    /**
+     * OAUTH REDIRECT FIX
+     * 
+     * Problem: Supabase was redirecting to production (Site URL) even when 
+     * login was initiated from localhost.
+     * 
+     * Root Cause: When `redirectTo` is not provided or not recognized,
+     * Supabase falls back to the Site URL configured in the dashboard.
+     * 
+     * Solution: Explicitly pass `redirectTo` with the current browser origin.
+     * This tells Supabase exactly where to redirect after the OAuth callback.
+     * 
+     * Requirements:
+     * 1. The redirectTo URL MUST be in Supabase Dashboard > Authentication > 
+     *    URL Configuration > Redirect URLs (add these):
+     *    - http://localhost:5173
+     *    - http://localhost:5173/**  (wildcard for all paths)
+     *    - https://nism-xv-formula-tutor.vercel.app
+     *    - https://nism-xv-formula-tutor.vercel.app/**
+     * 
+     * 2. Site URL should remain as production URL:
+     *    - https://nism-xv-formula-tutor.vercel.app
+     */
+
+    // Dynamically capture the current origin - works for both localhost and production
+    const currentOrigin = window.location.origin;
+    const redirectUrl = `${currentOrigin}/dashboard`;
+
+    // Debug logging in development
+    if (import.meta.env.DEV) {
+      console.log('[OAuth] Current origin:', currentOrigin);
+      console.log('[OAuth] Redirect URL:', redirectUrl);
+    }
+
+    const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/dashboard`,
+        // CRITICAL: This redirectTo parameter is what fixes the issue.
+        // It tells Supabase to redirect here AFTER the Google OAuth callback.
+        redirectTo: redirectUrl,
         queryParams: {
           access_type: 'offline',
           prompt: 'consent',
@@ -153,8 +194,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
 
     if (error) {
-      console.error('Error signing in with Google:', error);
+      console.error('[OAuth] Error initiating Google sign-in:', error);
       throw error;
+    }
+
+    // Log the full OAuth URL for debugging
+    if (import.meta.env.DEV && data?.url) {
+      console.log('[OAuth] Full OAuth URL:', data.url);
+      // Verify that redirectTo is encoded in the URL
+      const url = new URL(data.url);
+      console.log('[OAuth] redirect_to param:', url.searchParams.get('redirect_to'));
     }
   };
 

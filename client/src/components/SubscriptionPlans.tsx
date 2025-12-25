@@ -152,14 +152,17 @@ export function SubscriptionPlans() {
             <div className="max-w-6xl mx-auto">
                 {/* Header */}
                 <div className="text-center mb-12">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-2xl mb-4">
-                        <Crown className="w-8 h-8 text-white" />
+                    {/* Study Pro Badge */}
+                    <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-[length:200%_100%] animate-[gradient_3s_ease_infinite] px-4 py-1.5 rounded-full mb-6 shadow-lg shadow-blue-500/25">
+                        <Zap className="w-4 h-4 text-yellow-300" />
+                        <span className="text-white text-sm font-semibold tracking-wide">STUDY PRO</span>
                     </div>
+
                     <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
                         Choose Your Plan
                     </h1>
                     <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-                        Get unlimited access to all NISM Research Analyst formulas and practice tools
+                        Get unlimited access to all the formulas & one-liners of various NISM Series at one place.
                     </p>
                 </div>
 

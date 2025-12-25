@@ -1,5 +1,5 @@
-import { useNavigate, useLocation } from 'react-router-dom';
-import { Sun, Moon, Home, User, LogOut, ChevronDown, Crown } from 'lucide-react';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { Sun, Moon, LogOut, ChevronDown, User } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
 import { useState, useRef, useEffect } from 'react';
@@ -18,8 +18,6 @@ export function Navbar({ onOpenAuthModal }: NavbarProps = {}) {
   const [loggingOut, setLoggingOut] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const isHome = location.pathname === '/';
-
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -37,19 +35,13 @@ export function Navbar({ onOpenAuthModal }: NavbarProps = {}) {
     setLoggingOut(true);
 
     try {
-      // Sign out from Supabase (this will trigger state cleanup in AuthContext)
       await supabase.auth.signOut();
-
-      // Clear all storage
       localStorage.clear();
       sessionStorage.clear();
-
-      // Soft navigation using React Router (smoother, avoids Vite "module" errors)
       navigate('/');
     } catch (error) {
       console.error('Logout error:', error);
       setLoggingOut(false);
-      // Fallback if soft navigation fails
       window.location.href = '/';
     }
   };
@@ -64,72 +56,72 @@ export function Navbar({ onOpenAuthModal }: NavbarProps = {}) {
     return 'User';
   };
 
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'Formulas', path: '/formulas' },
+    { name: 'Quiz', path: '/quiz' },
+    { name: 'Subscribe', path: '/subscribe' },
+  ];
+
   return (
     <>
       {/* Top Banner */}
-      <div className="bg-gradient-pska py-3 px-6 text-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-white/5 animate-pulse"></div>
-        <div className="absolute inset-0 shimmer"></div>
-        <p className="text-white text-xs sm:text-sm font-medium relative z-10 pulse-subtle">
-          🎓 Prof. Sheetal Kunder Academy practice quiz and case studies are updated with Jan 2026 curriculum
+      <div className="bg-gradient-to-r from-blue-600 to-cyan-600 py-2 px-4 text-center">
+        <p className="text-white text-xs sm:text-sm font-medium">
+          🎓 Practice quiz and case studies updated with Jan 2026 curriculum
         </p>
       </div>
 
-      {/* Main Header */}
-      <header className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 shadow-lg sticky top-0 z-50 transition-colors duration-300">
-        <div className="max-w-full mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3 sm:gap-6">
-            {/* Logo */}
-            <a
-              href="https://www.profsheetalkunderacademy.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-shrink-0 hover:opacity-80 transition-all transform hover:scale-105"
-              aria-label="Prof. Sheetal Kunder Academy"
-            >
+      {/* Floating Pill Navbar */}
+      <div className="sticky top-4 z-50 px-4 mt-4">
+        <nav className="max-w-5xl mx-auto bg-gray-900 dark:bg-gray-800 rounded-full px-6 py-2.5 shadow-2xl shadow-black/20 flex items-center justify-between border border-gray-700/50">
+          {/* Left - Logo */}
+          <Link
+            to="/"
+            className="flex items-center gap-3"
+          >
+            <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center">
               <img
                 src="/logo.webp"
-                alt="Prof. Sheetal Kunder Academy"
-                className="w-10 h-10 sm:w-14 sm:h-14 rounded-lg shadow-md"
+                alt="Logo"
+                className="w-6 h-6 rounded-full"
               />
-            </a>
+            </div>
+            <span className="hidden sm:block text-white font-semibold">PSKA</span>
+          </Link>
 
-            {/* Navigation */}
-            <nav className="flex items-center gap-2 sm:gap-3" role="navigation" aria-label="Main Navigation">
-              <button
-                onClick={() => navigate('/')}
-                className={`px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium shadow-md hover:shadow-xl transition-all flex items-center gap-1.5 button-press ${isHome
-                  ? 'bg-gradient-pska text-white scale-105'
-                  : 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 border-2 border-blue-600 dark:border-blue-400 hover:scale-105'
+          {/* Center - Nav Links */}
+          <div className="hidden md:flex items-center gap-1">
+            {navLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                className={`px-4 py-2 text-sm font-medium rounded-full transition-colors ${location.pathname === link.path
+                  ? 'text-white bg-white/10'
+                  : 'text-gray-400 hover:text-white'
                   }`}
-                aria-current={isHome ? 'page' : undefined}
               >
-                <Home className="w-4 h-4" />
-                <span className="hidden sm:inline">Home</span>
-              </button>
-            </nav>
+                {link.name}
+              </Link>
+            ))}
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-4">
+          {/* Right - Actions */}
+          <div className="flex items-center gap-2">
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all theme-toggle button-press hover:shadow-md"
-              aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-              title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+              className="p-2.5 rounded-full text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+              aria-label="Toggle theme"
             >
-              {theme === 'light' ? (
-                <Moon className="w-5 h-5 text-gray-700 dark:text-gray-300 rotate-in" />
-              ) : (
-                <Sun className="w-5 h-5 text-gray-700 dark:text-gray-300 rotate-in" />
-              )}
+              {theme === 'light' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
             </button>
 
-            {/* Login Button or User Profile */}
+            {/* User Menu or Login */}
             {!user ? (
               <button
                 onClick={() => onOpenAuthModal?.('login')}
-                className="px-4 py-2 bg-gradient-pska text-white rounded-lg hover:shadow-xl transition-all font-medium button-press"
+                className="px-4 py-2 bg-white text-gray-900 rounded-full text-sm font-medium hover:bg-gray-100 transition-colors"
               >
                 Login
               </button>
@@ -137,60 +129,45 @@ export function Navbar({ onOpenAuthModal }: NavbarProps = {}) {
               <div className="relative" ref={dropdownRef}>
                 <button
                   onClick={() => setShowDropdown(!showDropdown)}
-                  className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all button-press"
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
                 >
-                  <div className="w-8 h-8 rounded-full bg-gradient-pska flex items-center justify-center text-white font-semibold">
+                  <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold text-xs">
                     {getUserDisplayName().charAt(0).toUpperCase()}
                   </div>
-                  <span className="hidden md:inline text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <span className="hidden sm:block text-sm text-white">
                     {getUserDisplayName()}
                   </span>
-                  <ChevronDown className={`w-4 h-4 text-gray-700 dark:text-gray-300 transition-transform ${showDropdown ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`w-3 h-3 text-gray-400 transition-transform ${showDropdown ? 'rotate-180' : ''}`} />
                 </button>
 
                 {/* Dropdown Menu */}
                 {showDropdown && (
-                  <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-50">
-                    {/* User Info */}
-                    <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
-                      <p className="text-sm font-medium text-gray-900 dark:text-white">
+                  <div className="absolute right-0 mt-3 w-56 bg-gray-900 rounded-xl shadow-2xl border border-gray-700 py-1 overflow-hidden">
+                    <div className="px-4 py-3 border-b border-gray-700">
+                      <p className="text-sm font-medium text-white">
                         {user.user_metadata?.full_name || 'User'}
                       </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                      <p className="text-xs text-gray-400 truncate">
                         {user.email}
                       </p>
                     </div>
 
-                    {/* Menu Items */}
-                    <button
-                      onClick={() => {
-                        setShowDropdown(false);
-                        navigate('/dashboard');
-                      }}
-                      className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2 transition-colors"
+                    <Link
+                      to="/dashboard"
+                      onClick={() => setShowDropdown(false)}
+                      className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors"
                     >
                       <User className="w-4 h-4" />
                       Dashboard
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        setShowDropdown(false);
-                        navigate('/subscribe');
-                      }}
-                      className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2 transition-colors"
-                    >
-                      <Crown className="w-4 h-4" />
-                      Subscription
-                    </button>
+                    </Link>
 
                     <button
                       onClick={handleLogout}
                       disabled={loggingOut}
-                      className={`w-full px-4 py-2 text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2 transition-colors ${loggingOut ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors disabled:opacity-50"
                     >
                       {loggingOut ? (
-                        <div className="w-4 h-4 border-2 border-red-600 dark:border-red-400 border-t-transparent rounded-full animate-spin"></div>
+                        <div className="w-4 h-4 border-2 border-red-400 border-t-transparent rounded-full animate-spin" />
                       ) : (
                         <LogOut className="w-4 h-4" />
                       )}
@@ -201,8 +178,8 @@ export function Navbar({ onOpenAuthModal }: NavbarProps = {}) {
               </div>
             )}
           </div>
-        </div>
-      </header>
+        </nav>
+      </div>
     </>
   );
 }

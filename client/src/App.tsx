@@ -13,15 +13,21 @@ const Quiz = lazy(() => import('./components/Quiz').then(module => ({ default: m
 const Login = lazy(() => import('./components/Login').then(module => ({ default: module.Login })));
 const SubscriptionPlans = lazy(() => import('./components/SubscriptionPlans').then(module => ({ default: module.SubscriptionPlans })));
 const DashboardHome = lazy(() => import('./components/DashboardHome').then(module => ({ default: module.DashboardHome })));
+const Terms = lazy(() => import('./components/Terms').then(module => ({ default: module.Terms })));
+const ShippingPolicy = lazy(() => import('./components/ShippingPolicy').then(module => ({ default: module.ShippingPolicy })));
+const RefundPolicy = lazy(() => import('./components/RefundPolicy').then(module => ({ default: module.RefundPolicy })));
+const PrivacyPolicy = lazy(() => import('./components/PrivacyPolicy').then(module => ({ default: module.PrivacyPolicy })));
 
 // Loading Component
 import { PageLoader } from './components/PageLoader';
+import { ScrollToTop } from './components/ScrollToTop';
 
 function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+          <ScrollToTop />
           <Suspense fallback={<PageLoader />}>
             <Routes>
               <Route path="/" element={<Homepage />} />
@@ -76,6 +82,38 @@ function App() {
                     <Footer />
                   </div>
                 </ProtectedRoute>
+              } />
+
+              {/* Terms & Conditions - Public page */}
+              <Route path="/terms" element={
+                <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900">
+                  <Terms />
+                  <Footer />
+                </div>
+              } />
+
+              {/* Privacy Policy - Public page */}
+              <Route path="/privacy" element={
+                <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900">
+                  <PrivacyPolicy />
+                  <Footer />
+                </div>
+              } />
+
+              {/* Shipping & Delivery Policy - Public page */}
+              <Route path="/shipping" element={
+                <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900">
+                  <ShippingPolicy />
+                  <Footer />
+                </div>
+              } />
+
+              {/* Refund & Cancellation Policy - Public page */}
+              <Route path="/refund" element={
+                <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900">
+                  <RefundPolicy />
+                  <Footer />
+                </div>
               } />
 
               <Route path="*" element={<Navigate to="/" replace />} />
