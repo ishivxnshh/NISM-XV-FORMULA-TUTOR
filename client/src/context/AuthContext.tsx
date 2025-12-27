@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, useRef, ReactNode } from 'react';
 import { supabase } from '../lib/supabase';
 import { User, Session } from '@supabase/supabase-js';
 
@@ -26,6 +26,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
+  const lastUserIdRef = useRef<string | null>(null);
 
   // Initialize subscription from localStorage (prevents flash of "Inactive")
   const [subscription, setSubscription] = useState<Subscription | null>(() => {
@@ -40,6 +41,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   const fetchSubscription = async (userId: string) => {
+    lastUserIdRef.current = userId;
     try {
       // Create a timeout promise to prevent hanging (10s to handle cold starts)
       const timeoutPromise = new Promise<never>((_, reject) =>
@@ -124,13 +126,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           console.log('[Auth] State changed:', event, session?.user?.email || 'no user');
         }
 
+        // Ignore token refresh events to prevent duplicate fetches
+        if (event === 'TOKEN_REFRESHED') {
+          return;
+        }
+
         setSession(session);
         setUser(session?.user ?? null);
 
         if (session?.user) {
-          // Fetch in background (don't set loading=true to prevent flicker)
-          await fetchSubscription(session.user.id);
+          // Only fetch if user changed or completely new session
+          // This prevents duplicate fetches on INITIAL_SESSION if getSession already ran
+          if (session.user.id !== lastUserIdRef.current) {
+            lastUserIdRef.current = session.user.id;
+            // Fetch in background (don't set loading=true to prevent flicker)
+            await fetchSubscription(session.user.id);
+          }
         } else {
+          lastUserIdRef.current = null;
           setSubscription(null);
           localStorage.removeItem('subscription_status');
         }
@@ -215,6 +228,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       console.error('Error signing out:', error);
       throw error;
     }
+    lastUserIdRef.current = null;
     setSubscription(null);
     localStorage.removeItem('subscription_status');
   };
