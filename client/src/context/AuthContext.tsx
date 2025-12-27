@@ -163,11 +163,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
      *    URL Configuration > Redirect URLs (add these):
      *    - http://localhost:5173
      *    - http://localhost:5173/**  (wildcard for all paths)
-     *    - https://nism-xv-formula-tutor.vercel.app
-     *    - https://nism-xv-formula-tutor.vercel.app/**
+     *    - https://nismsmartprep.in
+     *    - https://nismsmartprep.in/**
      * 
      * 2. Site URL should remain as production URL:
-     *    - https://nism-xv-formula-tutor.vercel.app
+     *    - https://nismsmartprep.in
      */
 
     // Dynamically capture the current origin - works for both localhost and production

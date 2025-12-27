@@ -36,8 +36,7 @@ export function Footer() {
                                 className="w-12 h-12 rounded-lg"
                             />
                             <div>
-                                <h3 className="font-bold text-white text-lg">PSKA</h3>
-                                <p className="text-sm text-gray-400">Formula Tutor</p>
+                                <h3 className="font-bold text-white text-lg">NISM Smart Prep</h3>
                             </div>
                         </div>
                         <p className="text-sm text-gray-400 leading-relaxed">
@@ -53,6 +52,7 @@ export function Footer() {
                                 <li key={link.path}>
                                     <Link
                                         to={link.path}
+                                        onClick={scrollToTop}
                                         className="text-sm text-gray-400 hover:text-white transition-colors"
                                     >
                                         {link.name}
@@ -70,6 +70,7 @@ export function Footer() {
                                 <li key={link.path}>
                                     <Link
                                         to={link.path}
+                                        onClick={scrollToTop}
                                         className="text-sm text-gray-400 hover:text-white transition-colors"
                                     >
                                         {link.name}
