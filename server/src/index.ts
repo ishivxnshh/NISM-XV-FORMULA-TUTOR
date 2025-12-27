@@ -26,7 +26,14 @@ export const supabase = createClient(
 app.use(helmet()); // Security headers
 app.use(compression()); // Gzip compression
 app.use(cors());
-app.use(express.json());
+// Use JSON parser for all routes except the webhook
+app.use((req, res, next) => {
+  if (req.originalUrl.startsWith('/api/subscriptions/webhook')) {
+    next();
+  } else {
+    express.json()(req, res, next);
+  }
+});
 
 // Rate Limiting (100 req per 15 min per IP)
 const limiter = rateLimit({
