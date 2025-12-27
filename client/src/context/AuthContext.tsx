@@ -51,6 +51,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         .from('subscriptions')
         .select('*')
         .eq('user_id', userId)
+        .order('created_at', { ascending: false })
+        .limit(1)
         .maybeSingle();
 
       const { data, error } = await Promise.race([dbQuery, timeoutPromise]);

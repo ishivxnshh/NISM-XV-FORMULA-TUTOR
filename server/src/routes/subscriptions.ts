@@ -6,10 +6,11 @@ import { authenticateUser } from '../middleware/auth.js';
 
 const router = express.Router();
 
-// Debug: Log Razorpay credentials to verify environment variable loading
-console.log('Razorpay Key:', process.env.RAZORPAY_KEY_ID);
-console.log('Razorpay Secret:', process.env.RAZORPAY_KEY_SECRET);
 // Initialize Razorpay with credentials from environment variables
+if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
+    console.warn('WARNING: Razorpay credentials missing in environment variables. Subscription features will fail.');
+}
+
 const razorpay = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID || 'rzp_test_placeholder_key_id',
     key_secret: process.env.RAZORPAY_KEY_SECRET || 'placeholder_secret_key_minimum_length'
@@ -68,9 +69,97 @@ router.get('/plans', (req, res) => {
  * POST /api/subscriptions/create
  * Create a new subscription
  */
+// Cache for Plan IDs to avoid repeated API calls
+const planCache: Record<string, string> = {};
+
+// Helper to get or create a Razorpay plan
+async function getOrCreatePlan(planId: string, planDetails: any) {
+    // Return in-memory cached ID if available
+    if (planCache[planId]) {
+        return planCache[planId];
+    }
+
+    // Check local cached property (legacy check)
+    if ((planDetails as any).razorpayId) {
+        planCache[planId] = (planDetails as any).razorpayId;
+        return (planDetails as any).razorpayId;
+    }
+
+    try {
+        // Fetch all plans to check if it already exists
+        // Note: Razorpay returns paginated results. For robust production use, 
+        // you should store the Razorpay Plan ID in your database or env config.
+        const allPlans = await razorpay.plans.all({ count: 100 });
+        const amountInPaise = planDetails.amount * 100;
+
+        const existingPlan = allPlans.items.find((p: any) =>
+            p.item.name === planDetails.name &&
+            p.item.amount === amountInPaise &&
+            p.item.currency === planDetails.currency &&
+            p.interval === (planId === 'quarterly' ? 3 : planId === 'semiannual' ? 6 : 1)
+        );
+
+        if (existingPlan) {
+            console.log(`Found existing plan for ${planId}: ${existingPlan.id}`);
+            (planDetails as any).razorpayId = existingPlan.id;
+            planCache[planId] = existingPlan.id;
+            return existingPlan.id;
+        }
+
+        // Determine period and interval for Razorpay
+        let period: 'daily' | 'weekly' | 'monthly' | 'yearly' = 'monthly';
+        let interval = 1;
+
+        switch (planId) {
+            case 'weekly':
+                period = 'weekly';
+                interval = 1;
+                break;
+            case 'monthly':
+                period = 'monthly';
+                interval = 1;
+                break;
+            case 'quarterly':
+                period = 'monthly';
+                interval = 3;
+                break;
+            case 'semiannual':
+                period = 'monthly';
+                interval = 6;
+                break;
+        }
+
+        console.log(`Creating new Razorpay plan for ${planId}...`);
+
+        // Create new plan
+        const newPlan = await razorpay.plans.create({
+            period,
+            interval,
+            item: {
+                name: planDetails.name,
+                amount: amountInPaise,
+                currency: planDetails.currency,
+                description: `${planDetails.name} - ${planDetails.amount} ${planDetails.currency}`
+            }
+        });
+
+        console.log(`Created new plan: ${newPlan.id}`);
+        (planDetails as any).razorpayId = newPlan.id;
+        planCache[planId] = newPlan.id;
+        return newPlan.id;
+    } catch (error) {
+        console.error('Error in getOrCreatePlan:', error);
+        throw error;
+    }
+}
+
+/**
+ * POST /api/subscriptions/create
+ * Create a new subscription
+ */
 router.post('/create', authenticateUser, async (req, res) => {
     try {
-        const { planId } = req.body;
+        const { planId, isUpgrade } = req.body;
         const userId = req.user.id;
 
         if (!planId || !PLANS[planId as keyof typeof PLANS]) {
@@ -85,30 +174,67 @@ router.post('/create', authenticateUser, async (req, res) => {
             .select('*')
             .eq('user_id', userId)
             .eq('status', 'active')
+            .order('current_end', { ascending: false })
+            .limit(1)
             .single();
 
-        if (existingSubscription) {
-            return res.status(400).json({
-                error: 'You already have an active subscription',
-                subscription: existingSubscription
-            });
+        // Handle existing subscription conflict
+        if (existingSubscription && !isUpgrade) {
+            // Check if it's actually valid (future date)
+            if (new Date(existingSubscription.current_end) > new Date()) {
+                return res.status(409).json({
+                    error: 'ACTIVE_SUBSCRIPTION_EXISTS',
+                    message: `You already have an active subscription ending on ${new Date(existingSubscription.current_end).toLocaleDateString()}`,
+                    subscription: existingSubscription
+                });
+            }
         }
+
+        // Handle Upgrade/Extension Logic
+        let previousEndDate = new Date();
+        if (existingSubscription && isUpgrade) {
+            // 1. Cancel the old subscription in Razorpay to prevent double billing
+            try {
+                if (existingSubscription.razorpay_subscription_id) {
+                    await razorpay.subscriptions.cancel(existingSubscription.razorpay_subscription_id);
+                    // Update old record to cancelled locally
+                    await supabase
+                        .from('subscriptions')
+                        .update({ status: 'cancelled' })
+                        .eq('id', existingSubscription.id);
+                }
+            } catch (err) {
+                console.warn('Failed to cancel old subscription:', err);
+                // Continue anyway to allow user to subscribe
+            }
+
+            // 2. Determine base date for "appending" duration
+            const oldEnd = new Date(existingSubscription.current_end);
+            if (oldEnd > new Date()) {
+                previousEndDate = oldEnd;
+            }
+        }
+
+        // Get verifiable Razorpay Plan ID
+        const razorpayPlanId = await getOrCreatePlan(planId, plan);
 
         // Create Razorpay subscription
         const razorpaySubscription = await razorpay.subscriptions.create({
-            plan_id: planId,
-            total_count: plan.period,
+            plan_id: razorpayPlanId,
+            total_count: planId === 'weekly' ? 520 : (planId === 'quarterly' ? 40 : (planId === 'semiannual' ? 20 : 120)), // Cap at ~10 years
             quantity: 1,
             customer_notify: 1,
             notes: {
                 user_id: userId,
-                plan_name: plan.name
+                plan_name: plan.name,
+                type: isUpgrade ? 'upgrade' : 'new'
             }
         });
 
-        // Calculate subscription period based on days
-        const currentStart = new Date();
-        const currentEnd = new Date();
+        // Calculate new end date (Appending duration)
+        // New End = (Max(Now, Old_End) + Plan Days)
+        const currentStart = new Date(); // Billing starts now
+        const currentEnd = new Date(previousEndDate);
         currentEnd.setDate(currentEnd.getDate() + plan.days);
 
         // Store in database
@@ -137,9 +263,14 @@ router.post('/create', authenticateUser, async (req, res) => {
             subscription: razorpaySubscription,
             dbSubscription: subscription
         });
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error creating subscription:', error);
-        res.status(500).json({ error: 'Failed to create subscription' });
+        // Return explicit error message for debugging
+        const errorMessage = error?.error?.description || error?.message || 'Failed to create subscription';
+        res.status(500).json({
+            error: errorMessage,
+            details: error
+        });
     }
 });
 

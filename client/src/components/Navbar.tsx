@@ -162,10 +162,22 @@ export function Navbar({ onOpenAuthModal }: NavbarProps = {}) {
                 <div className="hidden md:flex items-center gap-3">
                   <Link
                     to="/dashboard"
-                    className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                    className="flex items-center gap-2 pl-1 pr-3 py-1 rounded-full border border-transparent hover:border-gray-200 dark:hover:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all"
                   >
-                    <User className="w-4 h-4" />
-                    <span className="hidden lg:inline">Dashboard</span>
+                    {user.user_metadata?.avatar_url ? (
+                      <img
+                        src={user.user_metadata.avatar_url}
+                        alt="Profile"
+                        className="w-8 h-8 rounded-full border border-gray-200 dark:border-gray-700 object-cover"
+                      />
+                    ) : (
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center text-white text-sm font-bold shadow-sm">
+                        {getUserDisplayName().charAt(0).toUpperCase()}
+                      </div>
+                    )}
+                    <span className="hidden lg:block text-sm font-medium text-gray-700 dark:text-gray-200 max-w-[150px] truncate">
+                      {getUserDisplayName()}
+                    </span>
                   </Link>
                   <button
                     onClick={handleLogout}
@@ -265,7 +277,7 @@ export function Navbar({ onOpenAuthModal }: NavbarProps = {}) {
                   className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                 >
                   <User className="w-5 h-5" />
-                  <span>Dashboard</span>
+                  <span>Account</span>
                 </Link>
                 <button
                   onClick={handleLogout}

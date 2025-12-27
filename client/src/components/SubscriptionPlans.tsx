@@ -66,7 +66,7 @@ export function SubscriptionPlans() {
         }
     };
 
-    const handleSubscribe = async (planId: string) => {
+    const handleSubscribe = async (planId: string, isUpgrade = false) => {
         if (!user || !session) {
             navigate('/login');
             return;
@@ -82,10 +82,27 @@ export function SubscriptionPlans() {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${session.access_token}`
                 },
-                body: JSON.stringify({ planId })
+                body: JSON.stringify({ planId, isUpgrade })
             });
 
             const data = await response.json();
+
+            // Handle Existing Active Subscription (Conflict)
+            if (response.status === 409) {
+                const confirmUpgrade = window.confirm(
+                    `${data.message}\n\nDo you want to add this new plan to your account? The duration will be appended to your current plan.`
+                );
+
+                if (confirmUpgrade) {
+                    // Retry with upgrade flag
+                    await handleSubscribe(planId, true);
+                    return; // Exit current execution
+                } else {
+                    setLoading(false);
+                    setSelectedPlan(null);
+                    return;
+                }
+            }
 
             if (!response.ok) {
                 throw new Error(data.error || 'Failed to create subscription');
@@ -97,9 +114,10 @@ export function SubscriptionPlans() {
                 key: import.meta.env.VITE_RAZORPAY_KEY_ID,
                 subscription_id: subscription.id,
                 name: 'NISM XV Formula Tutor',
-                description: `${plans.find(p => p.id === planId)?.name} Subscription`,
                 handler: async function (response: any) {
                     try {
+                        console.log('Razorpay Payment Success Response:', response);
+
                         const verifyResponse = await fetch(`${API_URL}/subscriptions/verify-payment`, {
                             method: 'POST',
                             headers: {
@@ -136,8 +154,23 @@ export function SubscriptionPlans() {
                 }
             };
 
+            if (!options.key) {
+                throw new Error('Razorpay Key ID is missing in environment variables');
+            }
+
+            if (!window.Razorpay) {
+                throw new Error('Razorpay SDK failed to load. Please check your internet connection.');
+            }
+
             const razorpay = new window.Razorpay(options);
             razorpay.open();
+
+            razorpay.on('payment.failed', function (response: any) {
+                console.error('Payment failed:', response.error);
+                alert(`Payment failed: ${response.error.description || 'Unknown error'}`);
+                setLoading(false);
+                setSelectedPlan(null);
+            });
         } catch (error: any) {
             console.error('Subscription error:', error);
             alert(error.message || 'Failed to create subscription. Please try again.');
@@ -257,7 +290,7 @@ export function SubscriptionPlans() {
                                     {/* Subscribe Button */}
                                     <button
                                         onClick={() => handleSubscribe(plan.id)}
-                                        disabled={loading && selectedPlan === plan.id}
+                                        disabled={loading}
                                         className={`w-full py-3 rounded-lg font-semibold text-base transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${isPopular
                                             ? 'bg-blue-600 hover:bg-blue-700 text-white'
                                             : 'bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 text-white dark:text-black'

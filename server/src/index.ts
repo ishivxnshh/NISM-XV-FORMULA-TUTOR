@@ -1,6 +1,6 @@
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import helmet from 'helmet';
 import compression from 'compression';
 import rateLimit from 'express-rate-limit';
@@ -12,8 +12,6 @@ import quizRouter from './routes/quiz.js';
 import authRouter from './routes/auth.js';
 import subscriptionsRouter from './routes/subscriptions.js';
 import { authenticateUser, requireSubscription } from './middleware/auth.js';
-
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;

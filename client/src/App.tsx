@@ -87,6 +87,7 @@ function App() {
               {/* Terms & Conditions - Public page */}
               <Route path="/terms" element={
                 <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900">
+                  <Navbar />
                   <Terms />
                   <Footer />
                 </div>
@@ -95,6 +96,7 @@ function App() {
               {/* Privacy Policy - Public page */}
               <Route path="/privacy" element={
                 <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900">
+                  <Navbar />
                   <PrivacyPolicy />
                   <Footer />
                 </div>
@@ -103,6 +105,7 @@ function App() {
               {/* Shipping & Delivery Policy - Public page */}
               <Route path="/shipping" element={
                 <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900">
+                  <Navbar />
                   <ShippingPolicy />
                   <Footer />
                 </div>
@@ -111,6 +114,7 @@ function App() {
               {/* Refund & Cancellation Policy - Public page */}
               <Route path="/refund" element={
                 <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900">
+                  <Navbar />
                   <RefundPolicy />
                   <Footer />
                 </div>
