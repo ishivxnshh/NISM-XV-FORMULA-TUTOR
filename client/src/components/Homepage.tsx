@@ -106,7 +106,7 @@ export function Homepage() {
       </a>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-12 sm:py-20">
+      <section className="container mx-auto px-4 py-12 sm:py-20 pt-24">
         <div className="text-center mb-12 fade-in">
           <div className="relative inline-block mb-6">
             <div className="absolute inset-0 bg-gradient-pska rounded-full blur-2xl opacity-30 animate-pulse"></div>

@@ -6,8 +6,10 @@ import { authenticateUser } from '../middleware/auth.js';
 
 const router = express.Router();
 
-// Initialize Razorpay with placeholder credentials if not provided
-// Replace these with actual credentials from Razorpay dashboard
+// Debug: Log Razorpay credentials to verify environment variable loading
+console.log('Razorpay Key:', process.env.RAZORPAY_KEY_ID);
+console.log('Razorpay Secret:', process.env.RAZORPAY_KEY_SECRET);
+// Initialize Razorpay with credentials from environment variables
 const razorpay = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID || 'rzp_test_placeholder_key_id',
     key_secret: process.env.RAZORPAY_KEY_SECRET || 'placeholder_secret_key_minimum_length'
