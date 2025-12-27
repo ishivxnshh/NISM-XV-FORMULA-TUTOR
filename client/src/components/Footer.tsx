@@ -4,6 +4,10 @@ import { Mail, Phone, MapPin } from 'lucide-react';
 export function Footer() {
     const currentYear = new Date().getFullYear();
 
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
     const quickLinks = [
         { name: 'Home', path: '/' },
         { name: 'Formulas', path: '/formulas' },

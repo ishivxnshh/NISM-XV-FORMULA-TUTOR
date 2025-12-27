@@ -120,10 +120,10 @@ export function Terms() {
                             href="mailto:sheetal@profsheetalkunderacademy.com"
                             className="flex items-center gap-3 text-white hover:text-blue-200 transition-colors group"
                         >
-                            <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center group-hover:bg-white/30 transition-colors">
+                            <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-white/30 transition-colors">
                                 <Mail className="w-5 h-5" />
                             </div>
-                            <span className="text-lg">sheetal@profsheetalkunderacademy.com</span>
+                            <span className="text-sm sm:text-base md:text-lg break-all">sheetal@profsheetalkunderacademy.com</span>
                         </a>
 
                         <a

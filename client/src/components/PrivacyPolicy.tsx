@@ -170,8 +170,8 @@ export function PrivacyPolicy() {
                                 href="mailto:sheetal@profsheetalkunderacademy.com"
                                 className="inline-flex items-center gap-2 bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors"
                             >
-                                <Mail className="w-5 h-5" />
-                                <span>sheetal@profsheetalkunderacademy.com</span>
+                                <Mail className="w-5 h-5 flex-shrink-0" />
+                                <span className="text-sm sm:text-base break-all">sheetal@profsheetalkunderacademy.com</span>
                             </a>
                             <a
                                 href="tel:+917400121111"

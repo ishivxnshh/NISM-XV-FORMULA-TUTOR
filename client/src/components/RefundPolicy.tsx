@@ -88,15 +88,15 @@ export function RefundPolicy() {
                         <div
                             key={index}
                             className={`bg-gray-50 dark:bg-gray-800 rounded-xl p-6 border transition-all duration-300 hover:shadow-lg group ${item.highlight
-                                    ? 'border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-900/20'
-                                    : 'border-gray-200 dark:border-gray-700 hover:border-orange-500/50 dark:hover:border-orange-500/50'
+                                ? 'border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-900/20'
+                                : 'border-gray-200 dark:border-gray-700 hover:border-orange-500/50 dark:hover:border-orange-500/50'
                                 }`}
                         >
                             <div className="flex gap-4">
                                 <div className="flex-shrink-0">
                                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform ${item.highlight
-                                            ? 'bg-gradient-to-br from-red-500 to-red-600'
-                                            : 'bg-gradient-to-br from-orange-500 to-red-500'
+                                        ? 'bg-gradient-to-br from-red-500 to-red-600'
+                                        : 'bg-gradient-to-br from-orange-500 to-red-500'
                                         }`}>
                                         {item.icon}
                                     </div>
@@ -125,12 +125,12 @@ export function RefundPolicy() {
                         href="mailto:sheetal@profsheetalkunderacademy.com?subject=Refund Request"
                         className="inline-flex items-center gap-3 bg-white/20 hover:bg-white/30 px-6 py-4 rounded-xl transition-colors group"
                     >
-                        <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center group-hover:bg-white/30 transition-colors">
+                        <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-white/30 transition-colors">
                             <Mail className="w-6 h-6" />
                         </div>
                         <div className="text-left">
                             <div className="text-sm text-orange-100">Email us at</div>
-                            <div className="text-lg font-semibold">sheetal@profsheetalkunderacademy.com</div>
+                            <div className="text-sm sm:text-base md:text-lg font-semibold break-all">sheetal@profsheetalkunderacademy.com</div>
                         </div>
                     </a>
 
