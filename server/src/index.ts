@@ -14,6 +14,9 @@ import subscriptionsRouter from './routes/subscriptions.js';
 import { authenticateUser, requireSubscription } from './middleware/auth.js';
 
 const app = express();
+// Trust proxy (required for rate limiting behind ngrok/load balancers)
+app.set('trust proxy', 1);
+
 const PORT = process.env.PORT || 3000;
 
 // Supabase client

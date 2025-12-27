@@ -373,14 +373,6 @@ router.get('/status', authenticateUser, async (req, res) => {
 router.post('/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
     try {
         const signature = req.headers['x-razorpay-signature'] as string;
-
-        // Debug logging for webhook troubleshooting
-        console.log('--- Webhook Received ---');
-        console.log('Signature Header:', signature);
-        console.log('Secret Configured:', !!process.env.RAZORPAY_WEBHOOK_SECRET);
-        console.log('Body Type:', typeof req.body);
-        console.log('Body is Buffer:', Buffer.isBuffer(req.body));
-
         const body = req.body.toString();
 
         // Verify webhook signature
