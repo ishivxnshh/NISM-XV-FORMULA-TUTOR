@@ -45,6 +45,7 @@ export function Quiz() {
 
   const fetchTopics = async () => {
     if (!session?.access_token) return;
+    setLoading(true);
     try {
       const response = await fetch(`${API_URL}/quiz/topics`, {
         headers: {
@@ -55,6 +56,8 @@ export function Quiz() {
       setTopics(data.topics || []);
     } catch (error) {
       console.error('Error fetching topics:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -149,6 +152,22 @@ export function Quiz() {
   const currentQuestion = questions[currentQuestionIndex];
   const isLastQuestion = currentQuestionIndex === questions.length - 1;
   const quizCompleted = result && isLastQuestion;
+
+  if (loading && !selectedTopic) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="relative inline-block mb-6">
+            <div className="animate-spin rounded-full h-16 w-16 border-4 border-gray-200 border-t-blue-600 dark:border-gray-700 dark:border-t-cyan-400"></div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <BookOpen className="w-6 h-6 text-blue-600 dark:text-cyan-400 bounce-soft" />
+            </div>
+          </div>
+          <p className="text-gray-700 dark:text-gray-300 text-lg font-medium">Loading quiz topics...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!selectedTopic) {
     return (
