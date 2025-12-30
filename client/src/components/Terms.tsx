@@ -1,4 +1,4 @@
-import { Navbar } from './Navbar';
+import { type ReactNode } from 'react';
 import {
     BookOpen,
     MessageSquare,
@@ -14,7 +14,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 
 interface TermItem {
-    icon: React.ReactNode;
+    icon: ReactNode;
     title: string;
     description: string;
 }
@@ -57,7 +57,6 @@ export function Terms() {
 
     return (
         <div className="min-h-screen bg-white dark:bg-gray-900">
-            <Navbar />
 
             <div className="max-w-4xl mx-auto px-4 py-12">
                 {/* Back Button */}

@@ -1,4 +1,4 @@
-import { Navbar } from './Navbar';
+import { type ReactNode } from 'react';
 import {
     XCircle,
     AlertTriangle,
@@ -11,7 +11,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 
 interface PolicyItem {
-    icon: React.ReactNode;
+    icon: ReactNode;
     title: string;
     description: string;
     highlight?: boolean;
@@ -46,7 +46,6 @@ export function RefundPolicy() {
 
     return (
         <div className="min-h-screen bg-white dark:bg-gray-900">
-            <Navbar />
 
             <div className="max-w-4xl mx-auto px-4 py-12">
                 {/* Back Button */}
