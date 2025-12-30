@@ -293,34 +293,31 @@ router.post('/verify-payment', authenticateUser, async (req, res) => {
             return res.status(400).json({ error: 'Invalid payment signature' });
         }
 
-        // Update subscription status to active
-        const { error: updateError } = await supabase
+        // TRUST WEBHOOKS ONLY:
+        // We verified the signature so the payment is valid, but we will NOT update 
+        // the subscription status here. We let the asynchronous webhook handle 
+        // the state changes to ensure a single source of truth and idempotency.
+
+        console.log(`Payment confirmed for ${razorpay_subscription_id}, waiting for webhook to sync state.`);
+
+        // Fetch subscription UUID to link it properly
+        const { data: subData } = await supabase
             .from('subscriptions')
-            .update({ status: 'active' })
+            .select('id')
             .eq('razorpay_subscription_id', razorpay_subscription_id)
-            .eq('user_id', userId);
+            .single();
 
-        if (updateError) {
-            console.error('Error updating subscription:', updateError);
-            return res.status(500).json({ error: 'Failed to activate subscription' });
-        }
-
-        // Update user subscription status
-        await supabase
-            .from('users')
-            .update({ subscription_status: 'active' })
-            .eq('id', userId);
-
-        // Record payment transaction
+        // Record payment transaction (Preliminary)
         await supabase
             .from('payment_transactions')
-            .insert({
+            .upsert({
                 user_id: userId,
+                subscription_id: subData?.id, // UUID
                 razorpay_payment_id,
-                amount: 0, // Will be updated by webhook
+                amount: 0, // Preliminary, will be updated by webhook
                 currency: 'INR',
                 status: 'captured'
-            });
+            }, { onConflict: 'razorpay_payment_id' });
 
         res.json({ success: true, message: 'Payment verified and subscription activated' });
     } catch (error) {
@@ -392,10 +389,30 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
 
         console.log('Webhook event:', eventType, payload);
 
+        // Get user_id from notes (embedded in subscription entity)
+        const userId = payload.notes?.user_id;
+
+        // If userId is missing in notes, fallback to finding it via subscription ID in DB
+        let targetUserId = userId;
+        if (!targetUserId) {
+            const { data: sub } = await supabase
+                .from('subscriptions')
+                .select('user_id')
+                .eq('razorpay_subscription_id', payload.id)
+                .single();
+            if (sub) targetUserId = sub.user_id;
+        }
+
+        if (!targetUserId) {
+            console.error('Could not find user_id for subscription:', payload.id);
+            return res.json({ received: true, warning: 'User not found' });
+        }
+
         // Handle different webhook events
         switch (eventType) {
             case 'subscription.activated':
             case 'subscription.charged':
+                // 1. Update Subscription Table
                 await supabase
                     .from('subscriptions')
                     .update({
@@ -404,22 +421,77 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
                         current_end: new Date(payload.current_end * 1000).toISOString()
                     })
                     .eq('razorpay_subscription_id', payload.id);
+
+                // 2. Sync Users Table (Enable Access)
+                // Enforce only one active subscription ref per user ideally, 
+                // but here we just ensure this user is active.
+                await supabase
+                    .from('users')
+                    .update({
+                        subscription_status: 'active',
+                        subscription_id: payload.id,
+                        razorpay_customer_id: payload.customer_id
+                    })
+                    .eq('id', targetUserId);
+
+                // 3. Log Payment Transaction (Crucial for History)
+                if (event.payload.payment) {
+                    const payment = event.payload.payment.entity;
+
+                    // Resolve internal Subscription UUID
+                    // We need the UUID, not the razorpay string 'sub_...'
+                    const { data: subUUID } = await supabase
+                        .from('subscriptions')
+                        .select('id')
+                        .eq('razorpay_subscription_id', payload.id)
+                        .single();
+
+                    if (subUUID) {
+                        // UPSERT: If record exists (from verify-payment), update it. If not, create it.
+                        await supabase.from('payment_transactions').upsert({
+                            user_id: targetUserId,
+                            subscription_id: subUUID.id, // Correct UUID
+                            razorpay_payment_id: payment.id,
+                            razorpay_order_id: payment.order_id || null, // Map Order ID
+                            amount: payment.amount / 100, // Correct Amount
+                            currency: payment.currency,
+                            status: payment.status
+                        }, { onConflict: 'razorpay_payment_id' });
+                    } else {
+                        console.warn('Could not link payment to subscription UUID:', payload.id);
+                    }
+                }
                 break;
 
             case 'subscription.cancelled':
             case 'subscription.completed':
-                await supabase
-                    .from('subscriptions')
-                    .update({ status: payload.status })
-                    .eq('razorpay_subscription_id', payload.id);
-                break;
-
-            case 'subscription.paused':
             case 'subscription.halted':
+            case 'subscription.paused': // pause usually means inactive access? User said "cancelled/expired -> inactive"
+                const newStatus = payload.status; // cancelled, completed, halted, paused
+
+                // 1. Update Subscription Table
                 await supabase
                     .from('subscriptions')
-                    .update({ status: payload.status })
+                    .update({ status: newStatus })
                     .eq('razorpay_subscription_id', payload.id);
+
+                // 2. Sync Users Table (Revoke Access)
+                // Only revoke if the main subscription_id matches this one (avoid edge case of multiple subs)
+                // But simplified logic: If this sub is cancelling, set user to inactive.
+                // Robustness: Check if user has ANOTHER active sub? 
+                // For simplicity/performance and "One active sub per user" rule:
+                await supabase
+                    .from('users')
+                    .update({
+                        subscription_status: 'inactive',
+                        // We can keep the ID for record or clear it. 
+                        // Usually keeping the last ID is fine, but status determines access.
+                        // Let's NOT clear subscription_id to track last sub? 
+                        // Request: "update users table to inactive"
+                    })
+                    .eq('id', targetUserId)
+                    // only update if this was the active subscription
+                    .eq('subscription_id', payload.id);
                 break;
         }
 
