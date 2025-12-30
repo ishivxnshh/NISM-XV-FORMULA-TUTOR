@@ -36,7 +36,7 @@ function App() {
 
               {/* Subscription Plans - Public page with navbar */}
               <Route path="/subscribe" element={
-                <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900">
+                <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:bg-black">
                   <Navbar />
                   <main role="main" className="fade-in">
                     <SubscriptionPlans />
@@ -48,7 +48,7 @@ function App() {
               {/* Dashboard - Main landing page after login */}
               <Route path="/dashboard" element={
                 <ProtectedRoute requireSubscription={false}>
-                  <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900">
+                  <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:bg-black">
                     <Navbar />
                     <main role="main" className="fade-in">
                       <DashboardHome />
@@ -61,7 +61,7 @@ function App() {
               {/* Formulas - Requires subscription */}
               <Route path="/formulas" element={
                 <ProtectedRoute requireSubscription={true}>
-                  <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900">
+                  <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:bg-black">
                     <Navbar />
                     <main role="main" className="fade-in">
                       <Dashboard />
@@ -74,7 +74,7 @@ function App() {
               {/* Quiz - Requires subscription */}
               <Route path="/quiz" element={
                 <ProtectedRoute requireSubscription={true}>
-                  <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900">
+                  <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:bg-black">
                     <Navbar />
                     <main role="main" className="fade-in">
                       <Quiz />
@@ -86,7 +86,7 @@ function App() {
 
               {/* Terms & Conditions - Public page */}
               <Route path="/terms" element={
-                <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900">
+                <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:bg-black">
                   <Navbar />
                   <Terms />
                   <Footer />
@@ -95,7 +95,7 @@ function App() {
 
               {/* Privacy Policy - Public page */}
               <Route path="/privacy" element={
-                <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900">
+                <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:bg-black">
                   <Navbar />
                   <PrivacyPolicy />
                   <Footer />
@@ -104,7 +104,7 @@ function App() {
 
               {/* Shipping & Delivery Policy - Public page */}
               <Route path="/shipping" element={
-                <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900">
+                <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:bg-black">
                   <Navbar />
                   <ShippingPolicy />
                   <Footer />
@@ -113,7 +113,7 @@ function App() {
 
               {/* Refund & Cancellation Policy - Public page */}
               <Route path="/refund" element={
-                <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900">
+                <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:bg-black">
                   <Navbar />
                   <RefundPolicy />
                   <Footer />
