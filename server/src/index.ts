@@ -26,9 +26,24 @@ export const supabase = createClient(
 );
 
 // Middleware
-app.use(helmet()); // Security headers
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" }
+})); // Security headers
 app.use(compression()); // Gzip compression
-app.use(cors());
+
+// CORS configuration - allow requests from Vercel and localhost
+const corsOptions = {
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'https://nism-xv-formula-tutor.vercel.app',
+    /\.vercel\.app$/  // Allow all Vercel preview deployments
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+app.use(cors(corsOptions));
 // Use JSON parser for all routes except the webhook
 app.use((req, res, next) => {
   if (req.originalUrl.startsWith('/api/subscriptions/webhook')) {
