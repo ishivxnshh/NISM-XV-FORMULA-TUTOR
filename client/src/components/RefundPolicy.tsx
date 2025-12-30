@@ -45,7 +45,7 @@ export function RefundPolicy() {
     ];
 
     return (
-        <div className="min-h-screen bg-white dark:bg-gray-900">
+        <div className="min-h-screen bg-transparent">
 
             <div className="max-w-4xl mx-auto px-4 py-12">
                 {/* Back Button */}
@@ -71,7 +71,7 @@ export function RefundPolicy() {
                 </div>
 
                 {/* Important Notice */}
-                <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4 mb-10 flex items-start gap-3">
+                <div className="bg-amber-50 dark:bg-black border border-amber-200 dark:border-amber-900 rounded-xl p-4 mb-10 flex items-start gap-3">
                     <AlertTriangle className="w-6 h-6 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
                     <div>
                         <h3 className="font-semibold text-amber-800 dark:text-amber-300 mb-1">Important Notice</h3>
@@ -86,8 +86,8 @@ export function RefundPolicy() {
                     {policyItems.map((item, index) => (
                         <div
                             key={index}
-                            className={`bg-gray-50 dark:bg-gray-800 rounded-xl p-6 border transition-all duration-300 hover:shadow-lg group ${item.highlight
-                                ? 'border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-900/20'
+                            className={`bg-gray-50 dark:bg-black rounded-xl p-6 border transition-all duration-300 hover:shadow-lg group ${item.highlight
+                                ? 'border-red-300 dark:border-red-700 bg-red-50 dark:bg-black'
                                 : 'border-gray-200 dark:border-gray-700 hover:border-orange-500/50 dark:hover:border-orange-500/50'
                                 }`}
                         >

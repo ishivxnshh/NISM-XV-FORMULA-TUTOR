@@ -83,7 +83,7 @@ export function Homepage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900 flex flex-col">
+    <div className="min-h-screen bg-white dark:bg-black flex flex-col">
       <Navbar onOpenAuthModal={openAuthModal} />
 
       {/* Auth Modal */}
@@ -115,7 +115,7 @@ export function Homepage() {
             </div>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl font-extrabold mb-4 leading-tight">
+          <h1 className="text-3xl sm:text-6xl font-extrabold mb-4 leading-tight">
             <span className="text-gradient">Clear NISM Series in 1st Attempt</span>
             <br />
             <span className="text-2xl sm:text-4xl font-bold text-gray-700 dark:text-gray-300 mt-2 block">
@@ -186,7 +186,7 @@ export function Homepage() {
       </section>
 
       {/* About Prof. Sheetal Kunder */}
-      <section className="bg-white dark:bg-gray-800 py-16">
+      <section className="py-16">
         <div className="container mx-auto px-4 flex flex-col items-center">
           <div className="max-w-3xl w-full bg-white/80 dark:bg-gray-900/80 rounded-2xl shadow p-6 md:p-8 border border-yellow-200 text-gray-900 dark:text-gray-100 text-lg leading-relaxed flex flex-col items-center">
             <img
@@ -223,7 +223,7 @@ export function Homepage() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-16 bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900">
+      <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-extrabold text-gradient mb-4">
@@ -266,7 +266,7 @@ export function Homepage() {
       </section>
 
       {/* YouTube Videos Section */}
-      <section className="bg-white dark:bg-gray-800 py-16">
+      <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-12">

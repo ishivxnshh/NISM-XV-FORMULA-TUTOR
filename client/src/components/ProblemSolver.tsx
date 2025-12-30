@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Formula, GradeResponse } from '../types';
 import { API_URL } from '../lib/api';
+import { useAuth } from '../context/AuthContext';
 import { Shuffle, Calculator, Lightbulb } from 'lucide-react';
 
 interface ProblemSolverProps {
@@ -31,6 +32,7 @@ export function ProblemSolver({
   onGradeComplete,
   onNewProblem,
 }: ProblemSolverProps) {
+  const { session } = useAuth();
   const [inputs, setInputs] = useState<Record<string, number>>({});
   const [userAnswer, setUserAnswer] = useState('');
   const [hintsUsed, setHintsUsed] = useState(0);
@@ -93,7 +95,10 @@ export function ProblemSolver({
     try {
       const response = await fetch(`${API_URL}/grade-attempt`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': session ? `Bearer ${session.access_token}` : '',
+        },
         body: JSON.stringify({
           userId,
           formulaId: formula.id,

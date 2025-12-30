@@ -10,19 +10,24 @@ import {
   Target,
   Award,
   BookOpen,
+  RefreshCw,
 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 interface SessionManagerProps {
   userId: string;
   attemptIds: string[];
   onClose: () => void;
+  onReset?: () => void;
 }
 
 export function SessionManager({
   userId,
   attemptIds,
   onClose,
+  onReset,
 }: SessionManagerProps) {
+  const { session } = useAuth();
   const [report, setReport] = useState<SessionReport | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -34,7 +39,10 @@ export function SessionManager({
     try {
       const response = await fetch(`${API_URL}/session-report`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': session ? `Bearer ${session.access_token}` : '',
+        },
         body: JSON.stringify({
           userId,
           attemptIds,
@@ -115,12 +123,23 @@ export function SessionManager({
           <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
             NISM Readiness Assessment Report
           </h2>
-          <button
-            onClick={onClose}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-          >
-            <X className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-          </button>
+          <div className="flex items-center gap-2">
+            {onReset && (
+              <button
+                onClick={onReset}
+                className="flex items-center gap-2 px-4 py-2 bg-gradient-pska text-white rounded-lg hover:shadow-md transition-all text-sm font-bold glow-effect"
+              >
+                <RefreshCw className="w-4 h-4" />
+                <span>Try Again</span>
+              </button>
+            )}
+            <button
+              onClick={onClose}
+              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+            >
+              <X className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+            </button>
+          </div>
         </div>
 
         <div className="p-8">
@@ -219,13 +238,12 @@ export function SessionManager({
                     <div className="grid grid-cols-3 gap-4 text-sm">
                       <div>
                         <span className="text-gray-600 dark:text-gray-400">Accuracy:</span>
-                        <span className={`ml-2 font-semibold ${
-                          cat.accuracy >= 70
-                            ? 'text-green-600 dark:text-green-400'
-                            : cat.accuracy >= 50
+                        <span className={`ml-2 font-semibold ${cat.accuracy >= 70
+                          ? 'text-green-600 dark:text-green-400'
+                          : cat.accuracy >= 50
                             ? 'text-yellow-600 dark:text-yellow-400'
                             : 'text-red-600 dark:text-red-400'
-                        }`}>
+                          }`}>
                           {cat.accuracy.toFixed(1)}%
                         </span>
                       </div>

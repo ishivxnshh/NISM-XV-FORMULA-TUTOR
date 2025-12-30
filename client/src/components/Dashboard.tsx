@@ -38,7 +38,7 @@ export function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900 transition-colors duration-300">
+    <div className="min-h-screen bg-white dark:bg-black transition-colors duration-300">
       {/* Warning Banner */}
       {showWarning && (
         <div className="bg-yellow-50 dark:bg-yellow-900/30 border-l-4 border-yellow-400 dark:border-yellow-600 p-4 mx-6 mt-4 rounded-r-lg shadow-md slide-up">
@@ -69,7 +69,7 @@ export function Dashboard() {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-3">
             <div className="flex items-center gap-3 sm:gap-4">
               <div className="hidden sm:block h-1 w-8 sm:w-12 bg-gradient-pska rounded-full"></div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gradient text-center">
+              <h1 className="text-xl sm:text-3xl md:text-4xl font-extrabold text-gradient text-center">
                 NISM Research Analyst (XV) Formula Tutor
               </h1>
               <div className="hidden sm:block h-1 w-8 sm:w-12 bg-gradient-pska rounded-full"></div>
@@ -103,6 +103,13 @@ export function Dashboard() {
             userId="anonymous"
             attemptIds={sessionAttempts}
             onClose={() => setShowSessionReport(false)}
+            onReset={() => {
+              setSessionAttempts([]);
+              setShowSessionReport(false);
+              setGradeResult(null);
+              setSelectedFormula(null); // Optional: Reset formula selection to start fresh
+              setSelectedCategory(null); // Optional: Reset category selection
+            }}
           />
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">

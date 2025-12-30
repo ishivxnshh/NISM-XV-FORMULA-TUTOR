@@ -7,7 +7,7 @@ export function UserDashboard() {
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900">
+            <div className="min-h-screen flex items-center justify-center bg-white dark:bg-black">
                 <div className="text-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 dark:border-blue-400 mx-auto mb-4"></div>
                     <p className="text-gray-600 dark:text-gray-400">Loading your dashboard...</p>
@@ -19,7 +19,7 @@ export function UserDashboard() {
     // Show subscription plans if no active subscription
     if (!hasActiveSubscription) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900">
+            <div className="min-h-screen bg-white dark:bg-black">
                 <div className="container mx-auto px-4 py-8">
                     {/* Welcome Message */}
                     <div className="text-center mb-8">
@@ -40,7 +40,7 @@ export function UserDashboard() {
 
     // Show formula dashboard if has active subscription
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900">
+        <div className="min-h-screen bg-white dark:bg-black">
             <div className="container mx-auto px-4 py-8">
                 {/* Welcome Message with Subscription Info */}
                 <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6 border border-gray-200 dark:border-gray-700">

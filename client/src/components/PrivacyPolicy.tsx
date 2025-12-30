@@ -55,7 +55,7 @@ export function PrivacyPolicy() {
     ];
 
     return (
-        <div className="min-h-screen bg-white dark:bg-gray-900">
+        <div className="min-h-screen bg-transparent">
 
             <div className="max-w-4xl mx-auto px-4 py-12">
                 {/* Back Button */}
@@ -81,7 +81,7 @@ export function PrivacyPolicy() {
                 </div>
 
                 {/* Introduction */}
-                <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl p-6 mb-10">
+                <div className="bg-emerald-50 dark:bg-black border border-emerald-200 dark:border-gray-800 rounded-xl p-6 mb-10">
                     <div className="flex items-start gap-3">
                         <Shield className="w-6 h-6 text-emerald-600 dark:text-emerald-400 flex-shrink-0 mt-0.5" />
                         <p className="text-emerald-800 dark:text-emerald-300">
@@ -103,7 +103,7 @@ export function PrivacyPolicy() {
                         {infoCollected.map((item, index) => (
                             <div
                                 key={index}
-                                className="bg-gray-50 dark:bg-gray-800 rounded-xl p-5 border border-gray-200 dark:border-gray-700 hover:border-emerald-500/50 dark:hover:border-emerald-500/50 transition-all duration-300 hover:shadow-lg"
+                                className="bg-gray-50 dark:bg-black rounded-xl p-5 border border-gray-200 dark:border-gray-800 hover:border-emerald-500/50 dark:hover:border-emerald-500/50 transition-all duration-300 hover:shadow-lg"
                             >
                                 <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center text-white mb-4">
                                     {item.icon}
@@ -137,7 +137,7 @@ export function PrivacyPolicy() {
                         {howWeUse.map((item, index) => (
                             <div
                                 key={index}
-                                className="flex items-center gap-4 bg-gray-50 dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 hover:border-emerald-500/50 dark:hover:border-emerald-500/50 transition-all duration-300 group"
+                                className="flex items-center gap-4 bg-gray-50 dark:bg-black rounded-xl p-4 border border-gray-200 dark:border-gray-800 hover:border-emerald-500/50 dark:hover:border-emerald-500/50 transition-all duration-300 group"
                             >
                                 <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center text-white group-hover:scale-110 transition-transform">
                                     {item.icon}

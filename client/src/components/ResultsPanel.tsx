@@ -78,24 +78,21 @@ export function ResultsPanel({
           )}
         </div>
 
-        <div className={`p-4 rounded-lg mb-4 ${
-          isCorrect 
-            ? 'bg-green-50 dark:bg-green-900/30 border-2 border-green-500' 
-            : 'bg-red-50 dark:bg-red-900/30 border-2 border-red-500'
-        }`}>
-          <p className={`font-semibold text-lg ${
-            isCorrect 
-              ? 'text-green-900 dark:text-green-300' 
-              : 'text-red-900 dark:text-red-300'
+        <div className={`p-4 rounded-lg mb-4 ${isCorrect
+          ? 'bg-green-50 dark:bg-green-900/30 border-2 border-green-500'
+          : 'bg-red-50 dark:bg-red-900/30 border-2 border-red-500'
           }`}>
+          <p className={`font-semibold text-lg ${isCorrect
+            ? 'text-green-900 dark:text-green-300'
+            : 'text-red-900 dark:text-red-300'
+            }`}>
             {isCorrect ? '✓ Correct!' : '✗ Incorrect'}
           </p>
           {userAnswer !== undefined && (
-            <p className={`text-sm mt-1 ${
-              isCorrect 
-                ? 'text-green-700 dark:text-green-400' 
-                : 'text-red-700 dark:text-red-400'
-            }`}>
+            <p className={`text-sm mt-1 ${isCorrect
+              ? 'text-green-700 dark:text-green-400'
+              : 'text-red-700 dark:text-red-400'
+              }`}>
               Your answer: {userAnswer.toFixed(4)}
             </p>
           )}
@@ -140,21 +137,25 @@ export function ResultsPanel({
           Step-by-Step Solution
         </h3>
         <div className="space-y-4">
-          {stepByStep.map((step, index) => (
-            <div key={step.step} className="flex gap-3 fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
-              <div className="flex-shrink-0 w-7 h-7 bg-gradient-pska text-white rounded-full flex items-center justify-center text-xs font-bold shadow-md">
-                {step.step}
+          {stepByStep && stepByStep.length > 0 ? (
+            stepByStep.map((step, index) => (
+              <div key={step.step} className="flex gap-3 fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+                <div className="flex-shrink-0 w-7 h-7 bg-gradient-pska text-white rounded-full flex items-center justify-center text-xs font-bold shadow-md">
+                  {step.step}
+                </div>
+                <div className="flex-1 bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
+                  <p className="text-sm text-gray-700 dark:text-gray-300 font-medium">{step.description}</p>
+                  {step.value !== undefined && (
+                    <p className="text-sm font-mono text-blue-600 dark:text-cyan-400 mt-2 font-bold bg-white dark:bg-gray-800 px-2 py-1 rounded inline-block">
+                      = {step.value.toFixed(4)}
+                    </p>
+                  )}
+                </div>
               </div>
-              <div className="flex-1 bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
-                <p className="text-sm text-gray-700 dark:text-gray-300 font-medium">{step.description}</p>
-                {step.value !== undefined && (
-                  <p className="text-sm font-mono text-blue-600 dark:text-cyan-400 mt-2 font-bold bg-white dark:bg-gray-800 px-2 py-1 rounded inline-block">
-                    = {step.value.toFixed(4)}
-                  </p>
-                )}
-              </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p className="text-center text-gray-500 dark:text-gray-400 py-4">No detailed steps available.</p>
+          )}
         </div>
       </div>
 

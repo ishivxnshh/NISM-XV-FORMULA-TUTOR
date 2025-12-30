@@ -43,7 +43,7 @@ export function ShippingPolicy() {
     ];
 
     return (
-        <div className="min-h-screen bg-white dark:bg-gray-900">
+        <div className="min-h-screen bg-transparent">
 
             <div className="max-w-4xl mx-auto px-4 py-12">
                 {/* Back Button */}
@@ -81,7 +81,7 @@ export function ShippingPolicy() {
                     {policyItems.map((item, index) => (
                         <div
                             key={index}
-                            className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 hover:border-cyan-500/50 dark:hover:border-cyan-500/50 transition-all duration-300 hover:shadow-lg group"
+                            className="bg-gray-50 dark:bg-black rounded-xl p-6 border border-gray-200 dark:border-gray-800 hover:border-cyan-500/50 dark:hover:border-cyan-500/50 transition-all duration-300 hover:shadow-lg group"
                         >
                             <div className="flex flex-col items-center text-center">
                                 <div className="w-14 h-14 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform mb-4">

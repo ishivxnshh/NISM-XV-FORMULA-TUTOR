@@ -41,7 +41,7 @@ export function DashboardHome() {
     ];
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900 pt-24">
+        <div className="min-h-screen bg-white dark:bg-black pt-24">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
                 {/* Welcome Section */}
                 <div className="mb-8">

@@ -90,7 +90,7 @@ export function CategoryList({
         </p>
       </div>
 
-      <div className="divide-y divide-gray-100 dark:divide-gray-700 max-h-[500px] sm:max-h-[600px] overflow-y-auto">
+      <div className="divide-y divide-gray-100 dark:divide-gray-700 max-h-[300px] sm:max-h-[600px] overflow-y-auto">
         {categories.map((cat, index) => (
           <div key={cat.category} className="fade-in" style={{ animationDelay: `${index * 0.05}s` }}>
             <button
