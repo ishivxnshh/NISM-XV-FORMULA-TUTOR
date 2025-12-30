@@ -1,83 +1,82 @@
 import { useState, useEffect } from 'react';
-import { Lightbulb, RefreshCw } from 'lucide-react';
+import { Quote, RefreshCw } from 'lucide-react';
 
-interface FactData {
-    id: number;
-    category: string;
-    title: string;
-    fact: string;
-    source: string;
-}
+const QUOTES = [
+    "Clear NISM in your first attempt—not by luck, but by structured preparation and smart study strategies.",
+    "Every concept you master today is one less obstacle between you and your NISM certification.",
+    "The difference between NISM toppers and average scorers is not intelligence—it's consistency and mock test practice.",
+    "Mock tests aren't just practice; they're your roadmap to understanding what the actual exam expects from you.",
+    "Remember: NISM certification is not just a certificate—it's your competitive edge in the financial markets industry.",
+    "Master the one-liners, understand the concepts, and watch your NISM score transform.",
+    "Your first attempt is your best attempt. Prepare with dedication, and you'll clear it with confidence.",
+    "In NISM exams, time management is as crucial as concept clarity. Practice both in every mock test.",
+    "Don't fear negative marking—embrace it as a tool to make smarter choices in the actual exam.",
+    "Every question you solve today builds your financial acumen for tomorrow's market challenges.",
+    "NISM Series XIII, XV, or any series—the formula for success remains the same: structured learning + consistent practice + expert guidance.",
+    "Your NISM score reflects your dedication. Make every mock test count, and your final exam will speak volumes.",
+    "From derivatives to research analysis, every NISM series opens doors to new career opportunities. Prepare with that vision.",
+    "Smart preparation starts with understanding the exam pattern, and mastery comes through relentless mock test practice.",
+    "You're not just preparing for an exam; you're building expertise that will define your finance career. That's the NISM difference."
+];
+
+const AUTHOR = "Prof Sheetal Kunder";
 
 export function RandomFact() {
-    const [fact, setFact] = useState<FactData | null>(null);
-    const [loading, setLoading] = useState(true);
+    // Start with a random quote to avoid hydration mismatch if possible, 
+    // but for simple client-side rendering, picking one on mount is fine.
+    // To be safe with hydration/SSR if used later, we typically use useEffect to randomize,
+    // but initially we can show the first one or a loading state.
+    // Here we'll just pick randomly on state initialization for simplicity in SPA.
+    const [currentIndex, setCurrentIndex] = useState(() => Math.floor(Math.random() * QUOTES.length));
 
-    const fetchFact = async () => {
-        setLoading(true);
-        try {
-            const response = await fetch('https://f-api.ir/api/facts/random');
-            const data = await response.json();
-            setFact(data);
-        } catch (error) {
-            console.error('Error fetching fact:', error);
-            // Fallback fact if API fails
-            setFact({
-                id: 0,
-                category: 'Finance',
-                title: 'Compound Interest',
-                fact: 'Compound interest is the eighth wonder of the world. He who understands it, earns it... he who does not... pays it.',
-                source: 'Albert Einstein'
-            });
-        } finally {
-            setLoading(false);
-        }
+    // Animation state triggers fade effect
+    const [isAnimating, setIsAnimating] = useState(false);
+
+    const getNextQuote = () => {
+        setIsAnimating(true);
+        setTimeout(() => {
+            let nextIndex;
+            do {
+                nextIndex = Math.floor(Math.random() * QUOTES.length);
+            } while (nextIndex === currentIndex && QUOTES.length > 1);
+
+            setCurrentIndex(nextIndex);
+            setIsAnimating(false);
+        }, 300); // 300ms fade out before changing
     };
 
-    useEffect(() => {
-        fetchFact();
-    }, []);
-
     return (
-        <div className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl p-6 text-white text-center shadow-lg relative overflow-hidden group">
+        <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-xl p-6 text-white text-center shadow-lg relative overflow-hidden group">
             {/* Dynamic Background Effect */}
             <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-10 transition-opacity duration-500"></div>
 
-            <div className="relative z-10">
-                <div className="flex items-center justify-center gap-2 mb-3">
-                    <Lightbulb className="w-5 h-5 text-yellow-300" />
+            <div className="relative z-10 flex flex-col items-center">
+                <div className="flex items-center justify-center gap-2 mb-4">
+                    <Quote className="w-5 h-5 text-yellow-300" />
                     <h3 className="text-sm font-bold uppercase tracking-wider text-blue-100">
-                        Did You Know?
+                        Expert Insight
                     </h3>
                 </div>
 
-                {loading ? (
-                    <div className="h-20 flex items-center justify-center">
-                        <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    </div>
-                ) : (
-                    <div className="fade-in">
-                        {fact?.title && (
-                            <h4 className="text-xl font-bold mb-2">{fact.title}</h4>
-                        )}
-                        <p className="text-lg font-medium leading-relaxed mb-4">
-                            "{fact?.fact}"
+                <div className={`transition-opacity duration-300 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}>
+                    <p className="text-xl font-medium leading-relaxed mb-4 italic font-serif">
+                        "{QUOTES[currentIndex]}"
+                    </p>
+                    <div className="flex flex-col items-center gap-1">
+                        <div className="h-0.5 w-12 bg-yellow-300/50 mb-2"></div>
+                        <p className="text-sm font-semibold text-blue-100">
+                            {AUTHOR}
                         </p>
-                        {fact?.source && (
-                            <p className="text-sm text-blue-100 italic">
-                                Source: {fact.source}
-                            </p>
-                        )}
-
-                        <button
-                            onClick={fetchFact}
-                            className="mt-4 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors duration-300"
-                            title="Get another fact"
-                        >
-                            <RefreshCw className="w-5 h-5 text-white/80 hover:text-white" />
-                        </button>
                     </div>
-                )}
+                </div>
+
+                <button
+                    onClick={getNextQuote}
+                    className="mt-6 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-all duration-300 hover:rotate-180"
+                    title="Get another quote"
+                >
+                    <RefreshCw className="w-5 h-5 text-white/80 hover:text-white" />
+                </button>
             </div>
         </div>
     );
