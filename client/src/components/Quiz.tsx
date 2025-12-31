@@ -22,7 +22,7 @@ interface QuizResult {
 }
 
 export function Quiz() {
-  const { user, session } = useAuth();
+  const { user, session, loading: authLoading } = useAuth();
   const [topics, setTopics] = useState<string[]>([]);
   // ... (state variables remain same)
   const [selectedTopic, setSelectedTopic] = useState<string>('');
@@ -31,6 +31,7 @@ export function Quiz() {
   const [userAnswer, setUserAnswer] = useState('');
   const [result, setResult] = useState<QuizResult | null>(null);
   const [loading, setLoading] = useState(false);
+  const [hasFetched, setHasFetched] = useState(false);
   const [hintsUsed, setHintsUsed] = useState(0);
   const [showHint, setShowHint] = useState(false);
   const [startTime, setStartTime] = useState<number>(Date.now());
@@ -58,6 +59,7 @@ export function Quiz() {
       console.error('Error fetching topics:', error);
     } finally {
       setLoading(false);
+      setHasFetched(true);
     }
   };
 
@@ -153,21 +155,7 @@ export function Quiz() {
   const isLastQuestion = currentQuestionIndex === questions.length - 1;
   const quizCompleted = result && isLastQuestion;
 
-  if (loading && !selectedTopic) {
-    return (
-      <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
-        <div className="text-center">
-          <div className="relative inline-block mb-6">
-            <div className="animate-spin rounded-full h-16 w-16 border-4 border-gray-200 border-t-blue-600 dark:border-gray-700 dark:border-t-cyan-400"></div>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <BookOpen className="w-6 h-6 text-blue-600 dark:text-cyan-400 bounce-soft" />
-            </div>
-          </div>
-          <p className="text-gray-700 dark:text-gray-300 text-lg font-medium">Loading quiz topics...</p>
-        </div>
-      </div>
-    );
-  }
+
 
   if (!selectedTopic) {
     return (
@@ -198,7 +186,6 @@ export function Quiz() {
                 onClick={() => startQuiz(topic)}
                 disabled={loading}
                 className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all hover:scale-105 border-2 border-transparent hover:border-blue-500 card-hover group disabled:opacity-50 disabled:cursor-not-allowed fade-in button-press"
-                style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="text-left">
                   <div className="flex items-start justify-between mb-2">
@@ -224,10 +211,21 @@ export function Quiz() {
           </div>
 
           {topics.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-gray-600 dark:text-gray-400 text-lg">
-                No quiz topics available. Please run schema-quiz.sql and seed the database.
-              </p>
+            <div className="flex flex-col items-center justify-center py-12">
+              {hasFetched ? (
+                <div className="text-center">
+                  <p className="text-gray-600 dark:text-gray-400 text-lg">
+                    No quiz topics available. Please run schema-quiz.sql and seed the database.
+                  </p>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 dark:border-cyan-400 mb-4"></div>
+                  <p className="text-gray-600 dark:text-gray-400 text-lg animate-pulse">
+                    Loading quiz topics...
+                  </p>
+                </div>
+              )}
             </div>
           )}
         </div>
