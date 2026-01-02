@@ -33,10 +33,17 @@ app.use(compression()); // Gzip compression
 
 // CORS configuration - allow requests from Vercel and localhost
 const corsOptions = {
-  origin: true, // Allow all origins (reflects the request origin)
+  origin: [
+    'https://www.nismsmartprep.in',
+    'https://nismsmartprep.in',
+    'https://api.nismsmartprep.in',
+    'http://localhost:5173',
+    'http://localhost:4173',
+    'http://localhost:3000'
+  ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin']
 };
 app.use(cors(corsOptions));
 // Use JSON parser for all routes except the webhook
