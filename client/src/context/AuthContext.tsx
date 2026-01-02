@@ -75,7 +75,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setSubscription(null);
         localStorage.removeItem('subscription_status');
       }
-    } catch (error) {
+    } catch {
       // Keep stale state on timeout or network errors
       if (import.meta.env.DEV) {
         console.warn('Subscription fetch timeout (keeping cached state)');

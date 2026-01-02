@@ -68,7 +68,7 @@ export interface Session {
   correct_attempts: number;
   aggregated_score: number;
   confidence_level: number;
-  weak_categories: any[];
+  weak_categories: string[];
   recommendation: 'book_exam' | 'borderline' | 'not_ready';
   recommendation_rationale: string;
   top_improvements: string[];

@@ -33,12 +33,7 @@ app.use(compression()); // Gzip compression
 
 // CORS configuration - allow requests from Vercel and localhost
 const corsOptions = {
-  origin: [
-    'http://localhost:5173',
-    'http://localhost:3000',
-    'https://nism-xv-formula-tutor.vercel.app',
-    /\.vercel\.app$/  // Allow all Vercel preview deployments
-  ],
+  origin: true, // Allow all origins (reflects the request origin)
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']

@@ -43,8 +43,8 @@ export function AuthModal({ isOpen, onClose, defaultTab = 'login' }: AuthModalPr
             setIsGoogleLoading(true);
             await signInWithGoogle();
             // No need to close or navigate - browser will redirect to Google
-        } catch (error: any) {
-            console.error('Login failed:', error);
+        } catch (err: any) {
+            console.error('Login failed:', err);
             setError('Failed to sign in with Google. Please try again.');
             setIsGoogleLoading(false);
         }
@@ -92,9 +92,9 @@ export function AuthModal({ isOpen, onClose, defaultTab = 'login' }: AuthModalPr
                 setFormData({ email: '', password: '', confirmPassword: '', fullName: '' });
                 onClose();
             }
-        } catch (error: any) {
-            console.error('Sign up error:', error);
-            setError(error.message || 'Failed to create account');
+        } catch (err: any) {
+            console.error('Sign up error:', err);
+            setError(err.message || 'Failed to create account');
         } finally {
             setIsLoading(false);
         }
@@ -123,16 +123,16 @@ export function AuthModal({ isOpen, onClose, defaultTab = 'login' }: AuthModalPr
                 onClose();
                 navigate('/dashboard');
             }
-        } catch (error: any) {
-            console.error('Login error:', error);
-            setError(error.message || 'Invalid email or password');
+        } catch (err: any) {
+            console.error('Login error:', err);
+            setError(err.message || 'Invalid email or password');
         } finally {
             setIsLoading(false);
         }
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={onClose}>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={onClose}>
             <div
                 className="relative max-w-md w-full bg-white dark:bg-slate-800 rounded-xl shadow-2xl border border-gray-200 dark:border-slate-700 max-h-[90vh] overflow-y-auto"
                 onClick={(e) => e.stopPropagation()}

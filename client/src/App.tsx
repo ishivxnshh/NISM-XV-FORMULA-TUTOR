@@ -1,11 +1,12 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useState } from 'react';
 import { Homepage } from './components/Homepage';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
+import { AuthModal } from './components/AuthModal';
 
 // Lazy load heavy components for better performance
 const Dashboard = lazy(() => import('./components/Dashboard').then(module => ({ default: module.Dashboard })));
@@ -23,11 +24,24 @@ import { PageLoader } from './components/PageLoader';
 import { ScrollToTop } from './components/ScrollToTop';
 
 function App() {
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authModalTab, setAuthModalTab] = useState<'login' | 'signup'>('login');
+
+  const openAuthModal = (tab: 'login' | 'signup') => {
+    setAuthModalTab(tab);
+    setIsAuthModalOpen(true);
+  };
+
   return (
     <ThemeProvider>
       <AuthProvider>
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <ScrollToTop />
+          <AuthModal
+            isOpen={isAuthModalOpen}
+            onClose={() => setIsAuthModalOpen(false)}
+            defaultTab={authModalTab}
+          />
           <Suspense fallback={<PageLoader />}>
             <Routes>
               <Route path="/" element={<Homepage />} />
@@ -37,7 +51,7 @@ function App() {
               {/* Subscription Plans - Public page with navbar */}
               <Route path="/subscribe" element={
                 <div className="min-h-screen bg-white dark:bg-black">
-                  <Navbar />
+                  <Navbar onOpenAuthModal={openAuthModal} />
                   <main role="main" className="fade-in">
                     <SubscriptionPlans />
                   </main>
@@ -49,7 +63,7 @@ function App() {
               <Route path="/dashboard" element={
                 <ProtectedRoute requireSubscription={false}>
                   <div className="min-h-screen bg-white dark:bg-black">
-                    <Navbar />
+                    <Navbar onOpenAuthModal={openAuthModal} />
                     <main role="main" className="fade-in">
                       <DashboardHome />
                     </main>
@@ -62,7 +76,7 @@ function App() {
               <Route path="/formulas" element={
                 <ProtectedRoute requireSubscription={true}>
                   <div className="min-h-screen bg-white dark:bg-black">
-                    <Navbar />
+                    <Navbar onOpenAuthModal={openAuthModal} />
                     <main role="main" className="fade-in">
                       <Dashboard />
                     </main>
@@ -75,7 +89,7 @@ function App() {
               <Route path="/quiz" element={
                 <ProtectedRoute requireSubscription={true}>
                   <div className="min-h-screen bg-white dark:bg-black">
-                    <Navbar />
+                    <Navbar onOpenAuthModal={openAuthModal} />
                     <main role="main" className="fade-in">
                       <Quiz />
                     </main>
@@ -87,7 +101,7 @@ function App() {
               {/* Terms & Conditions - Public page */}
               <Route path="/terms" element={
                 <div className="min-h-screen bg-white dark:bg-black">
-                  <Navbar />
+                  <Navbar onOpenAuthModal={openAuthModal} />
                   <Terms />
                   <Footer />
                 </div>
@@ -96,7 +110,7 @@ function App() {
               {/* Privacy Policy - Public page */}
               <Route path="/privacy" element={
                 <div className="min-h-screen bg-white dark:bg-black">
-                  <Navbar />
+                  <Navbar onOpenAuthModal={openAuthModal} />
                   <PrivacyPolicy />
                   <Footer />
                 </div>
@@ -105,7 +119,7 @@ function App() {
               {/* Shipping & Delivery Policy - Public page */}
               <Route path="/shipping" element={
                 <div className="min-h-screen bg-white dark:bg-black">
-                  <Navbar />
+                  <Navbar onOpenAuthModal={openAuthModal} />
                   <ShippingPolicy />
                   <Footer />
                 </div>
@@ -114,7 +128,7 @@ function App() {
               {/* Refund & Cancellation Policy - Public page */}
               <Route path="/refund" element={
                 <div className="min-h-screen bg-white dark:bg-black">
-                  <Navbar />
+                  <Navbar onOpenAuthModal={openAuthModal} />
                   <RefundPolicy />
                   <Footer />
                 </div>

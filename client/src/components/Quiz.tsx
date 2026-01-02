@@ -22,7 +22,7 @@ interface QuizResult {
 }
 
 export function Quiz() {
-  const { user, session, loading: authLoading } = useAuth();
+  const { user, session } = useAuth();
   const [topics, setTopics] = useState<string[]>([]);
   // ... (state variables remain same)
   const [selectedTopic, setSelectedTopic] = useState<string>('');
@@ -180,7 +180,7 @@ export function Quiz() {
 
         <div className="max-w-7xl mx-auto p-3 sm:p-4 md:p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {topics.map((topic, index) => (
+            {topics.map((topic) => (
               <button
                 key={topic}
                 onClick={() => startQuiz(topic)}

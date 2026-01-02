@@ -134,7 +134,7 @@ export function ProblemSolver({
       setCalcDisplay('0');
     } else if (value === '=') {
       try {
-        const result = eval(calcDisplay.replace(/×/g, '*').replace(/÷/g, '/'));
+        const result = new Function('return ' + calcDisplay.replace(/×/g, '*').replace(/÷/g, '/'))();
         setCalcDisplay(String(result));
       } catch {
         setCalcDisplay('Error');
