@@ -1,7 +1,12 @@
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Mail, Phone, MapPin } from 'lucide-react';
 
-export function Footer() {
+interface FooterProps {
+    onProtectedAction?: () => boolean;
+}
+
+export function Footer({ onProtectedAction }: FooterProps = {}) {
+    const navigate = useNavigate();
     const currentYear = new Date().getFullYear();
 
     const scrollToTop = () => {
@@ -9,11 +14,21 @@ export function Footer() {
     };
 
     const quickLinks = [
-        { name: 'Home', path: '/' },
-        { name: 'Formulas', path: '/formulas' },
-        { name: 'Quiz Practice', path: '/quiz' },
-        { name: 'Subscribe', path: '/subscribe' },
+        { name: 'Home', path: '/', protected: false },
+        { name: 'Formulas', path: '/formulas', protected: true },
+        { name: 'Quiz Practice', path: '/quiz', protected: true },
+        { name: 'Subscribe', path: '/subscribe', protected: false },
     ];
+
+    const handleLinkClick = (path: string, isProtected: boolean) => {
+        if (isProtected) {
+            if (onProtectedAction && !onProtectedAction()) {
+                return;
+            }
+        }
+        navigate(path);
+        scrollToTop();
+    };
 
     const legalLinks = [
         { name: 'Terms & Conditions', path: '/terms' },
@@ -50,13 +65,12 @@ export function Footer() {
                         <ul className="space-y-2">
                             {quickLinks.map((link) => (
                                 <li key={link.path}>
-                                    <Link
-                                        to={link.path}
-                                        onClick={scrollToTop}
-                                        className="text-sm text-gray-400 hover:text-white transition-colors"
+                                    <button
+                                        onClick={() => handleLinkClick(link.path, !!link.protected)}
+                                        className="text-sm text-gray-400 hover:text-white transition-colors text-left"
                                     >
                                         {link.name}
-                                    </Link>
+                                    </button>
                                 </li>
                             ))}
                         </ul>

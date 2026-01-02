@@ -7,14 +7,16 @@ import { supabase } from '../lib/supabase';
 
 interface NavbarProps {
   onOpenAuthModal?: (tab: 'login' | 'signup') => void;
+  onProtectedAction?: () => boolean;
 }
 
-export function Navbar({ onOpenAuthModal }: NavbarProps = {}) {
+export function Navbar({ onOpenAuthModal, onProtectedAction }: NavbarProps = {}) {
   const navigate = useNavigate();
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
   const { user } = useAuth();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [imgError, setImgError] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 
@@ -66,14 +68,28 @@ export function Navbar({ onOpenAuthModal }: NavbarProps = {}) {
   };
 
   const navLinks = [
-    { name: 'Home', path: '/', icon: Home },
-    { name: 'Formulas', path: '/formulas', icon: BookOpen },
-    { name: 'Quiz', path: '/quiz', icon: Brain },
-    { name: 'Subscribe', path: '/subscribe', icon: CreditCard },
+    { name: 'Home', path: '/', icon: Home, protected: false },
+    { name: 'Formulas', path: '/formulas', icon: BookOpen, protected: true },
+    { name: 'Quiz', path: '/quiz', icon: Brain, protected: true },
+    { name: 'Subscribe', path: '/subscribe', icon: CreditCard, protected: false },
   ];
 
-  const handleNavClick = (path: string) => {
+  const handleNavClick = (path: string, isProtected: boolean) => {
     setShowMobileMenu(false);
+
+    if (isProtected) {
+      // If onProtectedAction is provided, check if action is allowed
+      if (onProtectedAction && !onProtectedAction()) {
+        return;
+      }
+
+      // Fallback if no handler provided but protection needed (should ideally be handled by parent)
+      if (!user) {
+        onOpenAuthModal?.('login');
+        return;
+      }
+    }
+
     navigate(path);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -121,7 +137,7 @@ export function Navbar({ onOpenAuthModal }: NavbarProps = {}) {
                 return (
                   <button
                     key={link.path}
-                    onClick={() => handleNavClick(link.path)}
+                    onClick={() => handleNavClick(link.path, !!link.protected)}
                     className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${isActive
                       ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg shadow-blue-500/25'
                       : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
@@ -164,11 +180,13 @@ export function Navbar({ onOpenAuthModal }: NavbarProps = {}) {
                     to="/dashboard"
                     className="flex items-center gap-2 pl-1 pr-3 py-1 rounded-full border border-transparent hover:border-gray-200 dark:hover:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all"
                   >
-                    {user.user_metadata?.avatar_url ? (
+
+                    {user.user_metadata?.avatar_url && !imgError ? (
                       <img
                         src={user.user_metadata.avatar_url}
                         alt="Profile"
                         className="w-8 h-8 rounded-full border border-gray-200 dark:border-gray-700 object-cover"
+                        onError={() => setImgError(true)}
                       />
                     ) : (
                       <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center text-white text-sm font-bold shadow-sm">
@@ -255,7 +273,7 @@ export function Navbar({ onOpenAuthModal }: NavbarProps = {}) {
                 return (
                   <button
                     key={link.path}
-                    onClick={() => handleNavClick(link.path)}
+                    onClick={() => handleNavClick(link.path, !!link.protected)}
                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${isActive
                       ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg shadow-blue-500/25'
                       : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'

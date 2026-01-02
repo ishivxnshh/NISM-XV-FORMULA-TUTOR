@@ -5,12 +5,14 @@ import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import { AuthModal } from './AuthModal';
 import { useAuth } from '../context/AuthContext';
+import { SubscriptionPopup } from './SubscriptionPopup';
 
 export function Homepage() {
   const navigate = useNavigate();
   const { user, hasActiveSubscription } = useAuth();
   const testimonialsRef = useRef<HTMLDivElement>(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isSubscriptionPopupOpen, setIsSubscriptionPopupOpen] = useState(false);
   const [authModalTab, setAuthModalTab] = useState<'login' | 'signup'>('login');
 
   const testimonials = [
@@ -56,41 +58,44 @@ export function Homepage() {
     setIsAuthModalOpen(true);
   };
 
-  const handleFormulaTutorClick = () => {
+  const handleProtectedAction = () => {
     if (!user) {
-      // Not logged in - show login modal
       openAuthModal('login');
-    } else if (!hasActiveSubscription) {
-      // Logged in but no subscription - go to subscription page
-      navigate('/subscribe');
-    } else {
-      // Logged in with subscription - go to formulas
+      return false;
+    }
+    if (!hasActiveSubscription) {
+      setIsSubscriptionPopupOpen(true);
+      return false;
+    }
+    return true;
+  };
+
+  const handleFormulaTutorClick = () => {
+    if (handleProtectedAction()) {
       navigate('/formulas');
     }
   };
 
   const handleQuizPracticeClick = () => {
-    if (!user) {
-      // Not logged in - show login modal
-      openAuthModal('login');
-    } else if (!hasActiveSubscription) {
-      // Logged in but no subscription - go to subscription page
-      navigate('/subscribe');
-    } else {
-      // Logged in with subscription - go to quiz
+    if (handleProtectedAction()) {
       navigate('/quiz');
     }
   };
 
   return (
     <div className="min-h-screen bg-white dark:bg-black flex flex-col">
-      <Navbar onOpenAuthModal={openAuthModal} />
+      <Navbar onOpenAuthModal={openAuthModal} onProtectedAction={handleProtectedAction} />
 
       {/* Auth Modal */}
       <AuthModal
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}
         defaultTab={authModalTab}
+      />
+
+      <SubscriptionPopup
+        isOpen={isSubscriptionPopupOpen}
+        onClose={() => setIsSubscriptionPopupOpen(false)}
       />
 
       {/* Floating WhatsApp Chat Button */}
@@ -298,7 +303,7 @@ export function Homepage() {
         </div>
       </section>
 
-      <Footer />
+      <Footer onProtectedAction={handleProtectedAction} />
     </div>
   );
 }
