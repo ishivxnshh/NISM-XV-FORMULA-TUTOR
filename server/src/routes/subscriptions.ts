@@ -6,6 +6,20 @@ import { authenticateUser } from '../middleware/auth.js';
 
 const router = express.Router();
 
+// Helper function to get current time in IST
+function getISTDate(date?: Date): Date {
+    const d = date || new Date();
+    // Add 5 hours 30 minutes for IST
+    return new Date(d.getTime() + (5.5 * 60 * 60 * 1000));
+}
+
+// Helper function to convert Unix timestamp to IST
+function unixToIST(unixTimestamp: number): string {
+    const date = new Date(unixTimestamp * 1000);
+    const istDate = new Date(date.getTime() + (5.5 * 60 * 60 * 1000));
+    return istDate.toISOString();
+}
+
 // Initialize Razorpay with credentials from environment variables
 if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
     console.warn('WARNING: Razorpay credentials missing in environment variables. Subscription features will fail.');
@@ -267,10 +281,10 @@ router.post('/create', authenticateUser, async (req, res) => {
         });
         console.log('Razorpay subscription created:', razorpaySubscription.id);
 
-        // Calculate new end date (Appending duration)
+        // Calculate new end date (Appending duration) in IST
         // New End = (Max(Now, Old_End) + Plan Days)
-        const currentStart = new Date(); // Billing starts now
-        const currentEnd = new Date(previousEndDate);
+        const currentStart = getISTDate(); // Billing starts now in IST
+        const currentEnd = getISTDate(previousEndDate);
         currentEnd.setDate(currentEnd.getDate() + plan.days);
 
         // Store in database
@@ -363,16 +377,16 @@ router.post('/verify-payment', authenticateUser, async (req, res) => {
         console.log('Database subscription found:', subData);
 
         // ACTIVATE SUBSCRIPTION IMMEDIATELY
-        // Update subscription status to active
+        // Update subscription status to active (using IST)
         const { error: updateError } = await supabase
             .from('subscriptions')
             .update({
                 status: 'active',
                 current_start: razorpaySubscription.current_start 
-                    ? new Date(razorpaySubscription.current_start * 1000).toISOString()
+                    ? unixToIST(razorpaySubscription.current_start)
                     : subData.current_start,
                 current_end: razorpaySubscription.current_end
-                    ? new Date(razorpaySubscription.current_end * 1000).toISOString()
+                    ? unixToIST(razorpaySubscription.current_end)
                     : subData.current_end
             })
             .eq('id', subData.id);
@@ -385,27 +399,32 @@ router.post('/verify-payment', authenticateUser, async (req, res) => {
         console.log('Subscription activated in database');
 
         // Update users table to reflect active subscription
+        // customer_id might be at root level or nested
+        const customerId = razorpaySubscription.customer_id || (razorpaySubscription as any).customer?.id || null;
+        
         const { error: userUpdateError } = await supabase
             .from('users')
             .update({
                 subscription_status: 'active',
                 subscription_id: razorpay_subscription_id,
-                razorpay_customer_id: razorpaySubscription.customer_id
+                razorpay_customer_id: customerId
             })
             .eq('id', userId);
 
         if (userUpdateError) {
             console.error('Failed to update user subscription status:', userUpdateError);
         } else {
-            console.log('User subscription status updated to active');
+            console.log('User subscription status updated to active, customer_id:', customerId);
         }
 
         // Fetch payment details from Razorpay
         let paymentAmount = 0;
+        let razorpayOrderId = null;
         try {
             const payment = await razorpay.payments.fetch(razorpay_payment_id);
             paymentAmount = payment.amount / 100; // Convert paise to rupees
-            console.log('Payment details fetched:', { amount: paymentAmount, currency: payment.currency });
+            razorpayOrderId = payment.order_id || null;
+            console.log('Payment details fetched:', { amount: paymentAmount, currency: payment.currency, order_id: razorpayOrderId });
         } catch (paymentError) {
             console.error('Failed to fetch payment details:', paymentError);
             paymentAmount = subData.amount; // Fallback to plan amount
@@ -418,6 +437,7 @@ router.post('/verify-payment', authenticateUser, async (req, res) => {
                 user_id: userId,
                 subscription_id: subData.id,
                 razorpay_payment_id,
+                razorpay_order_id: razorpayOrderId,
                 amount: paymentAmount,
                 currency: 'INR',
                 status: 'captured'
