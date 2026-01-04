@@ -162,11 +162,21 @@ router.post('/create', authenticateUser, async (req, res) => {
         const { planId, isUpgrade } = req.body;
         const userId = req.user.id;
 
+        console.log('Subscription creation started:', { userId, planId, isUpgrade });
+
         if (!planId || !PLANS[planId as keyof typeof PLANS]) {
+            console.error('Invalid plan ID:', planId);
             return res.status(400).json({ error: 'Invalid plan ID' });
         }
 
         const plan = PLANS[planId as keyof typeof PLANS];
+        console.log('Plan selected:', plan);
+
+        // Verify Razorpay credentials
+        if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
+            console.error('Razorpay credentials missing!');
+            return res.status(500).json({ error: 'Payment gateway not configured. Please contact support.' });
+        }
 
         // Check if user already has an active subscription
         const { data: existingSubscription } = await supabase
@@ -216,9 +226,12 @@ router.post('/create', authenticateUser, async (req, res) => {
         }
 
         // Get verifiable Razorpay Plan ID
+        console.log('Getting or creating Razorpay plan...');
         const razorpayPlanId = await getOrCreatePlan(planId, plan);
+        console.log('Razorpay plan ID:', razorpayPlanId);
 
         // Create Razorpay subscription
+        console.log('Creating Razorpay subscription...');
         const razorpaySubscription = await razorpay.subscriptions.create({
             plan_id: razorpayPlanId,
             total_count: planId === 'weekly' ? 520 : (planId === 'quarterly' ? 40 : (planId === 'semiannual' ? 20 : 120)), // Cap at ~10 years
@@ -230,6 +243,7 @@ router.post('/create', authenticateUser, async (req, res) => {
                 type: isUpgrade ? 'upgrade' : 'new'
             }
         });
+        console.log('Razorpay subscription created:', razorpaySubscription.id);
 
         // Calculate new end date (Appending duration)
         // New End = (Max(Now, Old_End) + Plan Days)
@@ -265,11 +279,17 @@ router.post('/create', authenticateUser, async (req, res) => {
         });
     } catch (error: any) {
         console.error('Error creating subscription:', error);
+        console.error('Error details:', {
+            message: error?.message,
+            description: error?.error?.description,
+            code: error?.error?.code,
+            stack: error?.stack
+        });
         // Return explicit error message for debugging
         const errorMessage = error?.error?.description || error?.message || 'Failed to create subscription';
         res.status(500).json({
             error: errorMessage,
-            details: error
+            details: process.env.NODE_ENV === 'development' ? error : undefined
         });
     }
 });
