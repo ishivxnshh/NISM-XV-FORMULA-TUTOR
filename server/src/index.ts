@@ -31,26 +31,9 @@ app.use(helmet({
 })); // Security headers
 app.use(compression()); // Gzip compression
 
-// CORS configuration - allow requests from Vercel, Render, and localhost
+// CORS configuration - allow all origins
 const corsOptions = {
-  origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
-    const allowedOrigins = [
-      'https://www.nismsmartprep.in',
-      'https://nismsmartprep.in',
-      'https://api.nismsmartprep.in',
-      'https://nism-xv-formula-tutor.vercel.app',
-      'https://nism-xv-formula-tutor-1.onrender.com',
-      'http://localhost:5173',
-      'http://localhost:4173',
-      'http://localhost:3000'
-    ];
-    // Allow requests with no origin (like mobile apps, curl, Postman)
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: true, // Allow all origins
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin']
