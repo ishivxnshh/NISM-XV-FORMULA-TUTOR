@@ -37,6 +37,7 @@ const corsOptions = {
     'https://www.nismsmartprep.in',
     'https://nismsmartprep.in',
     'https://api.nismsmartprep.in',
+    'https://nism-xv-formula-tutor.vercel.app',
     'http://localhost:5173',
     'http://localhost:4173',
     'http://localhost:3000'
