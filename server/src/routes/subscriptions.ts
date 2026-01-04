@@ -88,7 +88,7 @@ router.get('/health', (req, res) => {
             keySecret: hasKeySecret ? 'configured' : 'missing',
             webhookSecret: hasWebhookSecret ? 'configured' : 'missing'
         },
-        timestamp: new Date().toISOString()
+        timestamp: getISTDate().toISOString()
     });
 });
 
@@ -227,17 +227,17 @@ router.post('/create', authenticateUser, async (req, res) => {
         // Handle existing subscription conflict
         if (existingSubscription && !isUpgrade) {
             // Check if it's actually valid (future date)
-            if (new Date(existingSubscription.current_end) > new Date()) {
+            if (new Date(existingSubscription.current_end) > getISTDate()) {
                 return res.status(409).json({
                     error: 'ACTIVE_SUBSCRIPTION_EXISTS',
-                    message: `You already have an active subscription ending on ${new Date(existingSubscription.current_end).toLocaleDateString()}`,
+                    message: `You already have an active subscription ending on ${new Date(existingSubscription.current_end).toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' })}`,
                     subscription: existingSubscription
                 });
             }
         }
 
         // Handle Upgrade/Extension Logic
-        let previousEndDate = new Date();
+        let previousEndDate = getISTDate();
         if (existingSubscription && isUpgrade) {
             // 1. Cancel the old subscription in Razorpay to prevent double billing
             try {
@@ -256,7 +256,7 @@ router.post('/create', authenticateUser, async (req, res) => {
 
             // 2. Determine base date for "appending" duration
             const oldEnd = new Date(existingSubscription.current_end);
-            if (oldEnd > new Date()) {
+            if (oldEnd > getISTDate()) {
                 previousEndDate = oldEnd;
             }
         }
@@ -281,10 +281,10 @@ router.post('/create', authenticateUser, async (req, res) => {
         });
         console.log('Razorpay subscription created:', razorpaySubscription.id);
 
-        // Calculate new end date (Appending duration) in IST
-        // New End = (Max(Now, Old_End) + Plan Days)
+        // Calculate new end date (Appending duration)
+        // previousEndDate is already in IST (from DB), so don't convert again
         const currentStart = getISTDate(); // Billing starts now in IST
-        const currentEnd = getISTDate(previousEndDate);
+        const currentEnd = new Date(previousEndDate); // Use date as-is from DB
         currentEnd.setDate(currentEnd.getDate() + plan.days);
 
         // Store in database
@@ -451,7 +451,7 @@ router.post('/verify-payment', authenticateUser, async (req, res) => {
             subscription: {
                 status: 'active',
                 current_end: razorpaySubscription.current_end
-                    ? new Date(razorpaySubscription.current_end * 1000).toISOString()
+                    ? unixToIST(razorpaySubscription.current_end)
                     : subData.current_end
             }
         });
@@ -488,7 +488,7 @@ router.get('/status', authenticateUser, async (req, res) => {
         }
 
         const isActive = subscription.status === 'active' &&
-            new Date(subscription.current_end) > new Date();
+            new Date(subscription.current_end) > getISTDate();
 
         res.json({
             hasSubscription: true,
@@ -550,13 +550,13 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
         switch (eventType) {
             case 'subscription.activated':
             case 'subscription.charged':
-                // 1. Update Subscription Table
+                // 1. Update Subscription Table (using IST)
                 await supabase
                     .from('subscriptions')
                     .update({
                         status: 'active',
-                        current_start: new Date(payload.current_start * 1000).toISOString(),
-                        current_end: new Date(payload.current_end * 1000).toISOString()
+                        current_start: unixToIST(payload.current_start),
+                        current_end: unixToIST(payload.current_end)
                     })
                     .eq('razorpay_subscription_id', payload.id);
 

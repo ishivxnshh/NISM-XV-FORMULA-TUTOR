@@ -1,6 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import { supabase } from '../index.js';
 
+// Helper function to get current time in IST
+function getISTDate(): Date {
+  const d = new Date();
+  return new Date(d.getTime() + (5.5 * 60 * 60 * 1000));
+}
+
 // Extend Express Request type to include user and subscription
 declare global {
   namespace Express {
@@ -68,7 +74,7 @@ export async function requireSubscription(req: Request, res: Response, next: Nex
     }
 
     // Check if subscription has expired and auto-expire it
-    if (subscription.current_end && new Date(subscription.current_end) < new Date()) {
+    if (subscription.current_end && new Date(subscription.current_end) < getISTDate()) {
       // Update subscription status to expired
       await supabase
         .from('subscriptions')
@@ -114,7 +120,7 @@ export async function optionalSubscription(req: Request, res: Response, next: Ne
         .eq('status', 'active')
         .single();
 
-      if (subscription && new Date(subscription.current_end) > new Date()) {
+      if (subscription && new Date(subscription.current_end) > getISTDate()) {
         req.subscription = subscription;
       }
     }

@@ -25,6 +25,12 @@ export const supabase = createClient(
   process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_ANON_KEY || ''
 );
 
+// Helper function to get current time in IST
+function getISTDate(): Date {
+  const d = new Date();
+  return new Date(d.getTime() + (5.5 * 60 * 60 * 1000));
+}
+
 // Middleware
 app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" }
@@ -59,7 +65,7 @@ app.use('/api', limiter);
 
 // Health check
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  res.json({ status: 'ok', timestamp: getISTDate().toISOString() });
 });
 
 // Public routes
