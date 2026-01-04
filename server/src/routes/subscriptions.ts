@@ -57,6 +57,28 @@ const PLANS = {
 };
 
 /**
+ * GET /api/subscriptions/health
+ * Check if Razorpay is configured correctly
+ */
+router.get('/health', (req, res) => {
+    const hasKeyId = !!process.env.RAZORPAY_KEY_ID;
+    const hasKeySecret = !!process.env.RAZORPAY_KEY_SECRET;
+    const hasWebhookSecret = !!process.env.RAZORPAY_WEBHOOK_SECRET;
+    
+    const status = hasKeyId && hasKeySecret ? 'ok' : 'error';
+    
+    res.json({
+        status,
+        razorpay: {
+            keyId: hasKeyId ? 'configured' : 'missing',
+            keySecret: hasKeySecret ? 'configured' : 'missing',
+            webhookSecret: hasWebhookSecret ? 'configured' : 'missing'
+        },
+        timestamp: new Date().toISOString()
+    });
+});
+
+/**
  * GET /api/subscriptions/plans
  * Get available subscription plans
  */

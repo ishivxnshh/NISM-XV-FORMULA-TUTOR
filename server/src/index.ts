@@ -19,10 +19,10 @@ app.set('trust proxy', 1);
 
 const PORT = process.env.PORT || 3000;
 
-// Supabase client
+// Supabase client - use service role key for backend operations
 export const supabase = createClient(
   process.env.SUPABASE_URL || '',
-  process.env.SUPABASE_ANON_KEY || ''
+  process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_ANON_KEY || ''
 );
 
 // Middleware
