@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS users (
   full_name TEXT,
   avatar_url TEXT,
   subscription_status TEXT DEFAULT 'inactive' CHECK (subscription_status IN ('active', 'inactive', 'cancelled', 'expired')),
-  subscription_id UUID,
+  subscription_id TEXT,
   razorpay_customer_id TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
