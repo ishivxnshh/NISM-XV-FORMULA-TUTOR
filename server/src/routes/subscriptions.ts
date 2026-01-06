@@ -591,7 +591,7 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
                             subscription_id: subUUID.id, // Correct UUID
                             razorpay_payment_id: payment.id,
                             razorpay_order_id: payment.order_id || null, // Map Order ID
-                            amount: payment.amount / 100, // Correct Amount
+                            amount: Number(payment.amount) / 100, // Correct Amount
                             currency: payment.currency,
                             status: payment.status
                         }, { onConflict: 'razorpay_payment_id' });
