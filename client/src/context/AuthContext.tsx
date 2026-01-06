@@ -48,7 +48,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setTimeout(() => reject(new Error('Request timed out')), 10000)
       );
 
-      // Use maybeSingle() instead of single() to avoid 406 errors when no subscription exists
+      // First, try to get an active subscription
+      const activeQuery = supabase
+        .from('subscriptions')
+        .select('*')
+        .eq('user_id', userId)
+        .eq('status', 'active')
+        .order('current_end', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      const { data: activeData, error: activeError } = await Promise.race([activeQuery, timeoutPromise]);
+
+      if (activeError) {
+        if (import.meta.env.DEV) {
+          console.warn('Subscription fetch error (keeping cached state):', activeError.message);
+        }
+        return;
+      }
+
+      // If we found an active subscription, use it
+      if (activeData) {
+        setSubscription(activeData);
+        localStorage.setItem('subscription_status', JSON.stringify(activeData));
+        return;
+      }
+
+      // Fallback: get the most recent subscription (for showing history/expired status)
       const dbQuery = supabase
         .from('subscriptions')
         .select('*')
