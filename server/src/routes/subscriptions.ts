@@ -422,7 +422,7 @@ router.post('/verify-payment', authenticateUser, async (req, res) => {
         let razorpayOrderId = null;
         try {
             const payment = await razorpay.payments.fetch(razorpay_payment_id);
-            paymentAmount = payment.amount / 100; // Convert paise to rupees
+            paymentAmount = Number(payment.amount) / 100; // Convert paise to rupees
             razorpayOrderId = payment.order_id || null;
             console.log('Payment details fetched:', { amount: paymentAmount, currency: payment.currency, order_id: razorpayOrderId });
         } catch (paymentError) {
