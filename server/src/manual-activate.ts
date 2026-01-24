@@ -215,17 +215,167 @@ async function manuallyActivateSubscription(
     }
 }
 
+async function activateOfflineSubscription(
+    email: string,
+    durationDays: number = 7,
+    planName: string = '1 Week Plan (Offline)',
+    amount: number = 0
+) {
+    console.log(`\n🔧 Activating offline subscription for: ${email}\n`);
+
+    try {
+        // 1. Find user by email in auth.users
+        const { data: authUsers, error: authSearchError } = await supabase.auth.admin.listUsers();
+        
+        if (authSearchError) {
+            console.error('❌ Error searching users:', authSearchError);
+            return;
+        }
+
+        const authUser = authUsers.users.find(u => u.email?.toLowerCase() === email.toLowerCase());
+        
+        if (!authUser) {
+            console.error(`❌ No user found with email: ${email}`);
+            console.log('Please ensure the user has registered on the platform first.');
+            return;
+        }
+
+        const userId = authUser.id;
+        console.log(`✅ Found user: ${authUser.email} (ID: ${userId})`);
+
+        // 2. Check/Create user in public.users
+        const { data: existingUser } = await supabase
+            .from('users')
+            .select('*')
+            .eq('id', userId)
+            .single();
+
+        if (!existingUser) {
+            console.log('Creating user record in public.users...');
+            const { error: createUserError } = await supabase
+                .from('users')
+                .insert({
+                    id: userId,
+                    email: email,
+                    full_name: authUser.user_metadata?.full_name || authUser.email?.split('@')[0] || 'User',
+                    avatar_url: authUser.user_metadata?.avatar_url || null,
+                    subscription_status: 'inactive',
+                    subscription_id: null,
+                    razorpay_customer_id: null
+                });
+
+            if (createUserError) {
+                console.error('❌ Failed to create user:', createUserError);
+                return;
+            }
+            console.log('✅ User record created');
+        } else {
+            console.log('✅ User exists in public.users');
+        }
+
+        // 3. Calculate subscription dates
+        const startDate = new Date();
+        const endDate = new Date(Date.now() + durationDays * 24 * 60 * 60 * 1000);
+
+        console.log(`Subscription period: ${startDate.toLocaleString('en-IN')} to ${endDate.toLocaleString('en-IN')}`);
+
+        // 4. Create offline subscription ID
+        const offlineSubId = `offline_${Date.now()}_${userId.substring(0, 8)}`;
+
+        // 5. Create or update subscription record
+        const { data: existingSub } = await supabase
+            .from('subscriptions')
+            .select('*')
+            .eq('user_id', userId)
+            .eq('status', 'active')
+            .single();
+
+        if (existingSub) {
+            console.log('Found existing active subscription. Extending it...');
+            const currentEnd = new Date(existingSub.current_end);
+            const newEndDate = new Date(Math.max(currentEnd.getTime(), startDate.getTime()) + durationDays * 24 * 60 * 60 * 1000);
+            
+            const { error: updateSubError } = await supabase
+                .from('subscriptions')
+                .update({
+                    current_end: newEndDate.toISOString(),
+                    plan_name: planName,
+                    amount: amount
+                })
+                .eq('id', existingSub.id);
+
+            if (updateSubError) {
+                console.error('❌ Failed to update subscription:', updateSubError);
+                return;
+            }
+            console.log(`✅ Extended subscription until: ${newEndDate.toLocaleString('en-IN')}`);
+        } else {
+            console.log('Creating new subscription record...');
+            const { data: subscription, error: subError } = await supabase
+                .from('subscriptions')
+                .insert({
+                    user_id: userId,
+                    razorpay_subscription_id: offlineSubId,
+                    plan_id: `${durationDays}day`,
+                    plan_name: planName,
+                    status: 'active',
+                    current_start: startDate.toISOString(),
+                    current_end: endDate.toISOString(),
+                    amount: amount,
+                    currency: 'INR'
+                })
+                .select()
+                .single();
+
+            if (subError) {
+                console.error('❌ Failed to create subscription:', subError);
+                return;
+            }
+            console.log('✅ Subscription record created');
+        }
+
+        // 6. Update user status to active
+        console.log('Updating user subscription status...');
+        const { error: updateError } = await supabase
+            .from('users')
+            .update({
+                subscription_status: 'active',
+                subscription_id: offlineSubId
+            })
+            .eq('id', userId);
+
+        if (updateError) {
+            console.error('❌ Failed to update user:', updateError);
+            return;
+        }
+        console.log('✅ User status updated to ACTIVE');
+
+        console.log('\n✨ Subscription activated successfully!');
+        console.log(`   Email: ${email}`);
+        console.log(`   Plan: ${planName}`);
+        console.log(`   Duration: ${durationDays} days`);
+        console.log(`   Ends: ${endDate.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}`);
+        
+    } catch (error: any) {
+        console.error('❌ Error:', error.message);
+        if (error.stack) console.error(error.stack);
+    }
+}
+
 // Main
 const args = process.argv.slice(2);
 const command = args[0];
 
 if (!command) {
     console.log('Usage:');
-    console.log('  npm run manual-activate search <email>                               - Search Razorpay for subscriptions');
-    console.log('  npm run manual-activate activate <userId> <email> <razorpay_sub_id>  - Activate subscription manually\n');
-    console.log('Example:');
+    console.log('  npm run manual-activate search <email>                                     - Search Razorpay for subscriptions');
+    console.log('  npm run manual-activate activate <userId> <email> <razorpay_sub_id>        - Activate subscription via Razorpay');
+    console.log('  npm run manual-activate offline <email> [days]                             - Activate offline subscription (no Razorpay)\n');
+    console.log('Examples:');
     console.log('  npm run manual-activate search yogeshaggarwal@hotmail.com');
     console.log('  npm run manual-activate activate 4c4821b3-98ca-41dd-a047-fc25a895c90e yogeshaggarwal@hotmail.com sub_P1a2B3c4D5e6');
+    console.log('  npm run manual-activate offline user@example.com 7');
+    console.log('  npm run manual-activate offline user@example.com 30');
     process.exit(1);
 }
 
@@ -250,7 +400,19 @@ if (command === 'search') {
     }
     
     manuallyActivateSubscription(userId, email, razorpaySubId, planId, planName, amount).catch(console.error);
+} else if (command === 'offline') {
+    const email = args[1];
+    const days = args[2] ? parseInt(args[2]) : 7;
+    
+    if (!email) {
+        console.error('❌ Email required');
+        console.log('Usage: npm run manual-activate offline <email> [days]');
+        process.exit(1);
+    }
+    
+    activateOfflineSubscription(email, days).catch(console.error);
 } else {
     console.error('Unknown command:', command);
+    console.log('Valid commands: search, activate, offline');
     process.exit(1);
 }

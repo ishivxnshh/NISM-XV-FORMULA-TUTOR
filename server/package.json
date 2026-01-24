@@ -7,7 +7,8 @@
     "dev:tsx": "tsx watch src/index.ts",
     "build": "tsc && echo Build completed successfully",
     "start": "node dist/index.js",
-    "postbuild": "ls -la dist || dir dist"
+    "postbuild": "ls -la dist || dir dist",
+    "manual-activate": "tsx src/manual-activate.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.57.4",
